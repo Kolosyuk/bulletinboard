@@ -1,0 +1,65 @@
+.card {
+    display: flex;
+    flex-direction: column;
+
+    width: 306px;
+    height: 336px;
+    margin-bottom: 32px;
+
+    &:hover {
+        .card-image {
+            scale: 1.1;
+        }
+
+        .card-title {
+            color: #0EA5E9;
+        }
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .card-imgContainer {
+        width: 306px;
+        height: 240px;
+        margin-bottom: 8px;
+        overflow: hidden;
+    }
+
+    .card-title {
+        color: #3B82F6;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    .card-price {
+        color: #1E293B;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    .card-address {
+        color: #64748B;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .card-date {
+        color: #64748B;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+    }
+}
