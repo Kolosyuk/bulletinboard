@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Cards } from '../model/card.interface';
-import data from '../data/advirtisents.json';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardsService {
-  constructor() { }
+  constructor(private _httpClient: HttpClient) { }
 
-  cards: Cards = data;
-
-  getCards(): Cards {
-    return this.cards;
-  }
+  getCards(): Observable<Cards> {
+    return this._httpClient.get<Cards>('../../assets/data/advirtisents.json')
+;  }
 
 }

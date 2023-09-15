@@ -1,24 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {AppRoutingModule} from "./app.routing.module";
+import { RouterOutlet } from '@angular/router';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { CardListComponent } from './components/card-list/card-list.component';
-import { CardComponent } from './components/card/card.component';
-import { ButtonComponent } from './components/button/button.component';
-import { MainComponent } from './components/main/main.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    CardListComponent,
-    CardComponent,
-    ButtonComponent,
-    MainComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    RouterOutlet,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

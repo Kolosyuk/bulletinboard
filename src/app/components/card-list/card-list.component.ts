@@ -1,11 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CardsService } from '../../services/cards.service';
 import { Cards } from 'src/app/model/card.interface';
+import { CardComponent } from '../card/card.component';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-card-list',
   templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss']
+  styleUrls: ['./card-list.component.scss'],
+  standalone: true,
+  imports: [
+    CardComponent,
+    NgForOf,
+  ]
 })
 export class CardListComponent implements OnInit {
 
@@ -15,8 +22,8 @@ export class CardListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cards = this._cardService.getCards();
-    console.log(this.cards);
+    this._cardService.getCards().subscribe((data: Cards) => {
+      this.cards = data;
+    });
   }
-
 }
