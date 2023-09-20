@@ -10,7 +10,17 @@ const routes: Routes = [
   {
     path: 'personal',
     title: 'Личный кабинет',
-    loadChildren: () => import('./pages/lk/lk.module').then(m => m.LkModule)  
+    loadChildren: () => import('./pages/lk/lk-routing.module').then(m => m.LkRoutingModule)  
+  },
+  {
+    path: `login`,
+    title: 'Вход',
+    loadChildren: () => import('./pages/login/login-routing.module').then(m => m.LoginRoutingModule)  
+  },
+  {
+    path: `:id`,
+    title: 'Card',
+    loadChildren: () => import('./pages/advirtisment/advirtisment-routing.module').then(m => m.AdvirtismentRoutingModule)  
   },
 ];
 

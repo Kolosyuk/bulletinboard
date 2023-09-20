@@ -25,5 +25,5 @@ export class CardListComponent implements OnInit {
     this._cardService.getCards().subscribe((data: Cards) => {
       this.cards = data;
     });
-  }
+  };
 }
