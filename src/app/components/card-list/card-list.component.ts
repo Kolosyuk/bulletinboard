@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CardsService } from '../../services/cards.service';
 import { Cards } from 'src/app/model/card.interface';
 import { CardComponent } from '../card/card.component';
@@ -9,10 +9,11 @@ import { NgForOf } from '@angular/common';
   templateUrl: './card-list.component.html',
   styleUrls: ['./card-list.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CardComponent,
     NgForOf,
-  ]
+  ],
 })
 export class CardListComponent implements OnInit {
 

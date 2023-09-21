@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CardsService } from '../../services/cards.service';
 import { Card } from 'src/app/model/card.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-advirtisment',
   templateUrl: './advirtisment.component.html',
-  styleUrls: ['./advirtisment.component.scss']
+  styleUrls: ['./advirtisment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdvirtismentComponent implements OnInit {
 

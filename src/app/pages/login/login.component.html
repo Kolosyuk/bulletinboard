@@ -1,25 +1,28 @@
-<div class="container">
+<div class="container flex justify-content-center align-items-center">
   <div class="login">
-    <div class="login-header">
+    <div class="login-header flex justify-content-between align-items-center">
       <h1>Авторизация</h1>
       <a routerLink="/"><i class="pi pi-times"></i></a>
     </div>
-    <form class="login-body" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <form class="login-body w-full" [formGroup]="loginForm" (ngSubmit)="submit()">
       <p-inputMask 
         mask="+9-999-999-99-99" 
-        class="ng-invalid ng-dirty p-inputtext-lg mb-1 w-full" 
+        class="ng-invalid ng-dirty p-inputtext-lg mb-4 block w-full"
+        styleClass="w-full p-component p-inputwrapper"
         formControlName="userPhone"
         placeholder="+7-800-123-45-67">
       </p-inputMask>
       <div
-        class="alert alert-danger mt-1 mb-1"
+        class="alert alert-danger mt-1 mb-1 w-full"
           *ngIf="loginForm.controls['userPhone'].invalid
           && loginForm.controls['userPhone'].touched">
             Некорректный формат телефона
       </div>
       <p-password 
-        class="p-inputtext-lg mt-1 mb-1 w-full"
+        class="p-inputtext-lg"
         formControlName="userPass"
+        styleClass="w-full p-component p-inputwrapper  p-password"
+        inputStyleClass="w-full"
         [feedback]="false"
         [toggleMask]="true"></p-password>
       <div
@@ -28,12 +31,16 @@
         && loginForm.controls['userPass'].touched">
           Минимальная длинна пароля 7 символов
       </div>
-      <div class="form-footer">
-        <p-checkbox formControlName="rememberMe" value="rememberMe" inputId="rememberMe"></p-checkbox>
-        <label for="rememberMe">Запомнить меня</label>
+      <div class="form-footer flex justify-content-between">
+        <div>
+          <p-checkbox formControlName="rememberMe" 
+          class="mr-2"
+          value="rememberMe" inputId="rememberMe"></p-checkbox>
+        <label for="rememberMe flex-grow-1">Запомнить меня</label>
+        </div>
         <a class="forgetPass" href="#">Забыли пароль?</a>
       </div>
-      <p-button label="Submit" (click)="submit()"></p-button>
+      <p-button class="m-auto" label="Войти" (click)="submit()"></p-button>
     </form>
   </div>
 </div>

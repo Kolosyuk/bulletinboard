@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Card } from '../../model/card.interface';
 import { RouterModule } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterModule,
   ]
