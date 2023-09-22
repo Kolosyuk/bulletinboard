@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AdvirtismentRoutingModule } from './advirtisment-routing.module';
 import { AdvirtismentComponent } from './advirtisment.component';
-
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   declarations: [
@@ -11,7 +10,8 @@ import { AdvirtismentComponent } from './advirtisment.component';
   ],
   imports: [
     CommonModule,
-    AdvirtismentRoutingModule
-  ]
+    AdvirtismentRoutingModule,
+    GalleriaModule
+  ],
 })
-export class AdvirtismentModule { }
+export class AdvirtismentModule {}
