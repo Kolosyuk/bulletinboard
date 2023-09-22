@@ -1,10 +1,9 @@
 .card {
-    display: flex;
-    flex-direction: column;
-
     width: 306px;
     height: 336px;
     margin-bottom: 32px;
+
+    text-decoration: none;
 
     &:hover {
         .card-image {
@@ -14,10 +13,6 @@
         .card-title {
             color: #0EA5E9;
         }
-    }
-
-    a {
-        text-decoration: none;
     }
 
     .card-imgContainer {
