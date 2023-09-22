@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CardsService } from '../../services/cards.service';
 
 @Component({
@@ -6,7 +6,6 @@ import { CardsService } from '../../services/cards.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
   providers: [CardsService],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent {
 

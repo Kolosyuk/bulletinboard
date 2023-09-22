@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Cards, Card } from '../model/card.interface';
+import { Cards } from '../model/card.interface';
 import { HttpClient } from '@angular/common/http';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 
 @Injectable({

@@ -5,7 +5,8 @@ export interface Card {
     title: string;
     price: number;
     image: string;
+    images: Array<string>;
     adress: string;
     date: string;
-    description?: string;
+    description: string;
 }
