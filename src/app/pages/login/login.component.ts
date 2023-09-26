@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(
-    private _authService : AuthService,
+    private _authenticationService : AuthenticationService,
     private _router: Router
     ) {
   };
@@ -42,7 +42,12 @@ export class LoginComponent implements OnInit {
   };
 
   submit() {
-    this._authService.logIn();
-    this._router.navigate(['/'])
+    //TODO crutch - server "login" -- design maket "phone number"
+    const login = this.loginForm.value.userPhone.replaceAll('-',"").replace('+','');
+    this._authenticationService.login({
+      login: login,
+      password: this.loginForm.value.userPass
+    }).subscribe();
+
   };
 }

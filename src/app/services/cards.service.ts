@@ -16,7 +16,7 @@ export class CardsService {
 
   getCardById(id: number): Observable<Cards> {
         
-    //TODO clutch, change when API will be ready
+    //TODO crutch, change when API will be ready
     return this._httpClient.get<Cards>('../../assets/data/advirtisents.json').pipe(
       map(cards => cards.filter(card => card.id === id))
     );
