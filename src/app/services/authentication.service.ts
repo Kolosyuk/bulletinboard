@@ -20,7 +20,7 @@ export class AuthenticationService {
     private _router: Router
   ) {
       this.token = JSON.parse(localStorage.getItem('auth-token') || '{}');
-    }
+    };
 
   login(form: LoginForm){
 
@@ -34,28 +34,30 @@ export class AuthenticationService {
         //   this.redirectUrl = '';
         // }
       }
-    ))
-  }
+    ));
+  };
 
 
   logout(): void {
     localStorage.removeItem('auth-token');
     this.isLoggedIn = false;
-  }
-
-  async registrationNewUser(form: RegistrationForm){
-    const resp = await this._http.post(
-      'http://194.87.237.48:5000/auth/register',
-      form
-      );
   };
 
-  async getCurrentUser() {
-    await this._http.get(
+  registrationNewUser(form: RegistrationForm){
+    return this._http.post(
+      'http://194.87.237.48:5000/auth/register',
+      form
+      ).pipe(
+        map(res => console.log(res))
+      )
+  };
+
+  getCurrentUser() {
+    return this._http.get(
       'http://194.87.237.48:5000/users/current',
       { 
         headers: new HttpHeaders({'Authorization': 'Bearer ' + this.token})
       }
     )
-  }
-}
+  };
+};

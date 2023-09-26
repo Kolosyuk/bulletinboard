@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   };
 
   submit() {
-    //TODO crutch - server "login" -- design maket "phone number"
+    //TODO crutch - server "login" -- design layout "phone number"
     const login = this.loginForm.value.userPhone.replaceAll('-',"").replace('+','');
     this._authenticationService.login({
       login: login,
