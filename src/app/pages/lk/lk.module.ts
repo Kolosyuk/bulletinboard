@@ -11,7 +11,7 @@ import { LkComponent } from './lk.component';
   ],
   imports: [
     CommonModule,
-    LkRoutingModule
+    LkRoutingModule,
   ]
 })
 export class LkModule { }

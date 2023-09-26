@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {AppRoutingModule} from "./app.routing.module";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from "./app.routing.module";
 import { RouterOutlet } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MenuModule } from 'primeng/menu';
+import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   declarations: [
@@ -12,12 +18,18 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    RouterOutlet,
+    BrowserModule,
+    BrowserAnimationsModule,
+    ButtonModule,
     HttpClientModule,
+    MenuModule,
+    MessageModule,
+    MessagesModule,
+    RouterOutlet,
+    ToastModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
