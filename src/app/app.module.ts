@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app.routing.module";
 import { RouterOutlet } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard'
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -29,7 +30,7 @@ import { MessagesModule } from 'primeng/messages';
     RouterOutlet,
     ToastModule,
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

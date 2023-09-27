@@ -1,13 +1,13 @@
 <header>
     <div class="header-top">
         <div class="container">
-            <a *ngIf="!authenticationService.isLoggedIn" class="header-login" routerLink="/login">
+            <a *ngIf="!userService.isLogined" class="header-login" routerLink="/login">
                 <svg width="20" height="20">
                     <use xlink:href="./assets/icons.svg#login"></use>
                 </svg>
                 <span>Войти</span>
             </a>
-            <div *ngIf="authenticationService.isLoggedIn">
+            <div *ngIf="userService.isLogined">
                 <p-toast></p-toast>
                 <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active"></p-menu>
                 <button 
@@ -15,7 +15,7 @@
                     type="button"
                     (click)="menu.toggle($event)"
                     icon="pi pi-angle-down"
-                    [label]="'Boris'">
+                    [label]="userService.getName()">
                 </button>
             </div>
             <button class="header-addAdvirtisment">

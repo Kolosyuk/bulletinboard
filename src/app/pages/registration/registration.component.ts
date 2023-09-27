@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { InputTextModule } from 'primeng/inputtext';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,7 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 export class RegistrationComponent {
 
   constructor (
-    private _authenticationService: AuthenticationService
+    private _userService: UserService
   ) {}
 
 
@@ -33,11 +32,10 @@ export class RegistrationComponent {
   submit() {
     //TODO crutch - server "login" -- design layout "phone number"
     const login = this.registrationForm.value.userPhone.replaceAll('-',"").replace('+','');
-    this._authenticationService.registrationNewUser({
+    this._userService.registrationNewUser({
       login: login,
       name: this.registrationForm.value.name,
       password: this.registrationForm.value.userPass
     }).subscribe();
   };
-
 }
