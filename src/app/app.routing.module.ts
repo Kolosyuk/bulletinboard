@@ -34,9 +34,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)  
   },
   {
-    path: `:id`,
-    title: 'Card',
-    loadChildren: () => import('./pages/advirtisment/advirtisment-routing.module').then(m => m.AdvirtismentRoutingModule)  
+    path: 'advert',
+    children: [
+      {
+        path: `:id`,
+        title: 'Card',
+        loadChildren: () => import('./pages/advirtisment/advirtisment-routing.module').then(m => m.AdvirtismentRoutingModule)  
+      }
+    ],
   },
 ];
 

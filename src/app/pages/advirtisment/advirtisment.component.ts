@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdvertsService } from '../../services/advert.service';
 import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 
 
@@ -38,20 +38,23 @@ export class AdvirtismentComponent implements OnInit {
     private _router: Router
     ) {
       this._router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() =>
-      this._id = +this._activatedRoute.snapshot.params['id']
-        )
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        tap( event => {
+          this._id = this._activatedRoute.snapshot.params['id'];
+        })
+      )
+      .subscribe();
   };
 
   ngOnInit(): void {
-   this._advertsService.getAdvertById(this._id)
-   .subscribe(advert => {
-    this.advert = advert;
-     this.images = this.advert.imagesIds;
-     console.log(this.images);
-    }
-   );
+   this._advertsService.getAdvertById(this._id).pipe(
+    tap(advert => {
+      this.advert = advert;
+      this.images = this.advert.imagesIds;
+    })
+   )
+   .subscribe();
   }
 }
 

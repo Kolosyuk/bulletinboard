@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Advert } from '../../model/advert.interface';
 import { RouterModule } from '@angular/router';
 
@@ -12,7 +12,11 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ]
 })
-export class CardComponent {
+export class CardComponent implements OnInit {
   @Input() data: Advert
- 
+  public link: string;
+
+  ngOnInit() {
+    this.link = `/advert/${this.data.id}`
+  }
 }
