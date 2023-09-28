@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AdvertsService } from '../../services/advert.service';
 import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, tap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
+import { ImageService } from 'src/app/services/image.service';
+import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 
 
 @Component({
@@ -14,7 +16,9 @@ import { GalleriaResponsiveOptions } from 'primeng/galleria';
 export class AdvirtismentComponent implements OnInit {
   public advert: Advert;
   private _id: number;
-  public images: Array<string>;
+  public imageIds: Array<string>
+  public mainImageId: string;
+  public imageSrc: string;
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -34,6 +38,7 @@ export class AdvirtismentComponent implements OnInit {
   
   constructor(
     private _advertsService: AdvertsService,
+    private _imageService: ImageService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router
     ) {
@@ -51,8 +56,11 @@ export class AdvirtismentComponent implements OnInit {
    this._advertsService.getAdvertById(this._id).pipe(
     tap(advert => {
       this.advert = advert;
-      this.images = this.advert.imagesIds;
-    })
+      this.imageIds = this.advert.imagesIds;
+      this.mainImageId = this.imageIds[0];
+    }),
+    switchMap(advert => this._imageService.getImage(this.mainImageId)),
+    tap(image => this.imageSrc = imageSrcCreator(image.content))
    )
    .subscribe();
   }
