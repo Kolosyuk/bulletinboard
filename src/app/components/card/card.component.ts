@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Card } from '../../model/card.interface';
+import { Advert } from '../../model/advert.interface';
 import { RouterModule } from '@angular/router';
 
 
@@ -13,6 +13,6 @@ import { RouterModule } from '@angular/router';
   ]
 })
 export class CardComponent {
-  @Input() data: Card
+  @Input() data: Advert
  
 }

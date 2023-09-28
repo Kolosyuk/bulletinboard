@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CardsService } from '../../services/cards.service';
-import { Card } from 'src/app/model/card.interface';
+import { AdvertsService } from '../../services/advert.service';
+import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
@@ -12,7 +12,7 @@ import { GalleriaResponsiveOptions } from 'primeng/galleria';
   styleUrls: ['./advirtisment.component.scss'],
 })
 export class AdvirtismentComponent implements OnInit {
-  public card: Card;
+  public advert: Advert;
   private _id: number;
   public images: Array<string>;
 
@@ -33,7 +33,7 @@ export class AdvirtismentComponent implements OnInit {
 
   
   constructor(
-    private _cardsService: CardsService,
+    private _advertsService: AdvertsService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router
     ) {
@@ -45,10 +45,10 @@ export class AdvirtismentComponent implements OnInit {
   };
 
   ngOnInit(): void {
-   this._cardsService.getCardById(this._id)
-   .subscribe(card => {
-     this.card = card[0];
-     this.images = this.card.images;
+   this._advertsService.getAdvertById(this._id)
+   .subscribe(advert => {
+    this.advert = advert;
+     this.images = this.advert.imagesIds;
      console.log(this.images);
     }
    );

@@ -1,9 +1,10 @@
 <a class="card" routerLink="{{ data.id  }}">
     <div class="card-imgContainer">
-        <img [src]="data.image" class="card-image" alt="advirtisment image">
+        <img [src]="" class="card-image" alt="advirtisment image">
+        пока Айди картинок - переделать {{ data.imagesIds }}
     </div>
-    <h3 class="card-title">{{ data.title }}</h3>
-    <p class="card-price">{{ data.price }}</p>
-    <p class="card-address">{{ data.adress }}</p>
-    <p class="card-date">{{ data.date }}</p>
+    <h3 class="card-title">{{ data.name }}</h3>
+    <p class="card-price">{{ data.cost }}</p>
+    <p class="card-address">{{ data.location }}</p>
+    <p class="card-date">{{ data.created }}</p>
 </a>

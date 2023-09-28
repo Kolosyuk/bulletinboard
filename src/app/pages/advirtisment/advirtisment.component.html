@@ -2,8 +2,8 @@
   <div class="container">
       <h2 class="breadcrumbs">breadcrumbs</h2>
       <div class="advirtisment-container grid">
-        <div class="cell-title col-8">{{ card.title }}</div>
-        <div class="cell-price col-4">{{ card.price }}</div>
+        <div class="cell-title col-8">{{ advert.name }}</div>
+        <div class="cell-price col-4">{{ advert.cost }}</div>
         <!-- <p-galleria class="cell-images col-8" [value]="images" [containerStyle]="{ 'max-width': '856px' }" [numVisible]="5">
           <ng-template pTemplate="item" let-item>
               <img [src]="item.image" style="width: 100%;" />
@@ -16,15 +16,16 @@
       </p-galleria> -->
         <div class="cell-images col-8"  >
           
-          <img src={{card.image}}></div>
+          <img src="">{{ advert.imagesIds }}
+        </div>
         <div class="col-4">
           <div class=""> Показать номер телефона </div>
           <div class="adress-title"> Адрес</div>
-          <div class="cell-adress"> {{ card.adress }}</div>
+          <div class="cell-adress"> {{ advert.location }}</div>
           <div class=""> Показать на карте</div>
           <div class=""> пункь</div>
           <div class="cell-description-title"> Описание</div>
-          <div class="cell-description">{{ card.description }}</div>
+          <div class="cell-description">{{ advert.description }}</div>
         </div>
       </div>
   </div>
