@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service'
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -9,7 +9,7 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./header.component.scss'],
   providers: [MessageService],
 })
-export class HeaderComponent{
+export class HeaderComponent implements OnInit{
   
   public menuItems: MenuItem[] = [
     {
@@ -22,7 +22,7 @@ export class HeaderComponent{
     },
     {
       label: "Выйти",
-      command: this.loginService.logout,
+      command: () => this.loginService.logout(),
       routerLink: '/'
     },
   ]
@@ -32,4 +32,8 @@ export class HeaderComponent{
     public messageService: MessageService,
     public userService: UserService
     ) {}
+
+    ngOnInit(): void {
+      this.loginService.isAuthenticated.subscribe()
+    }
 }

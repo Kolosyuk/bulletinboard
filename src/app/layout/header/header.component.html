@@ -1,23 +1,28 @@
 <header>
     <div class="header-top">
         <div class="container">
-            <a *ngIf="!userService.isLogined" class="header-login" routerLink="/login">
-                <svg width="20" height="20">
-                    <use xlink:href="./assets/icons.svg#login"></use>
-                </svg>
-                <span>Войти</span>
-            </a>
-            <div *ngIf="userService.isLogined">
-                <p-toast></p-toast>
-                <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active"></p-menu>
-                <button 
-                    pButton
-                    type="button"
-                    (click)="menu.toggle($event)"
-                    icon="pi pi-angle-down"
-                    [label]="userService.getName()">
-                </button>
-            </div>
+            <ng-template [ngIf]="loginService.isAuthenticated | async" [ngIfElse]="noUser">
+                <div >
+                    <p-toast></p-toast>
+                    <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active"></p-menu>
+                    <button 
+                        pButton
+                        type="button"
+                        (click)="menu.toggle($event)"
+                        icon="pi pi-angle-down"
+                        [label]="userService.getName()!">
+                    </button>
+                </div>
+              </ng-template>
+              
+              <ng-template #noUser>
+                <a class="header-login" routerLink="/login">
+                    <svg width="20" height="20">
+                        <use xlink:href="./assets/icons.svg#login"></use>
+                    </svg>
+                    <span>Войти</span>
+                </a>
+              </ng-template>
             <button class="header-addAdvirtisment">
                 <span>Новое объявление</span>
                 <svg width="20" height="20">

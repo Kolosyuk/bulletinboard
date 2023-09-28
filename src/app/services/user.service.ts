@@ -8,20 +8,16 @@ import { map } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  public isLogined = false;
 
-  private user: User;
+  private user: User | null;
 
   constructor(
     private _http: HttpClient
   ) { }
 
-  checkAuth() {
-    return this.isLogined
-  };
 
-  setStatus(value : boolean) {
-    this.isLogined = value;
+  clearUser(value : null) {
+    this.user = value;
   };
 
   getCurrentUser(token: string) {
@@ -49,23 +45,38 @@ export class UserService {
   };
 
   getId() {
-    return this.user.id;
+    if(this.user) {
+      return this.user.id;
+    }
+    return null
   };
 
 
   getName() {
-    return this.user.name;
+    if(this.user) {
+      return this.user.name;
+    }
+    return null
   };
 
   getPhone() {
-    return this.user.phone;
+    if(this.user) {
+      return this.user.phone;
+    }
+    return null
   };
 
   getAdress() {
-    return this.user.adress;
+    if(this.user) {
+      return this.user.adress;
+    }
+    return null
   };
 
   getAdvertisments() {
-    return this.user.advertisments;
+    if(this.user) {
+      return this.user.advertisments;
+    }
+    return null
   };
 };
