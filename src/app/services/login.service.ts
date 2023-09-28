@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { API_BASE } from '../../environment';
 import { LoginForm } from '../model/login.interface';
 import { BehaviorSubject, tap } from 'rxjs';
 
@@ -23,7 +24,7 @@ export class LoginService {
   }
 
   login(form: LoginForm){
-    return this._http.post<string>('http://194.87.237.48:5000/auth/login', form).pipe(
+    return this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
       tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);

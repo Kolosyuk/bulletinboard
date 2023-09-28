@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.interface';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { API_BASE } from '../../environment';
 import { RegistrationForm } from '../model/registration.interface';
 import { map } from 'rxjs';
 
@@ -22,7 +23,7 @@ export class UserService {
 
   getCurrentUser(token: string) {
     return this._http.get<User>(
-      'http://194.87.237.48:5000/users/current',
+      `${API_BASE}/users/current`,
       { 
         headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
       }
@@ -31,7 +32,7 @@ export class UserService {
 
   registrationNewUser(form: RegistrationForm){
     return this._http.post(
-      'http://194.87.237.48:5000/auth/register',
+      `${API_BASE}/auth/register`,
       form
       ).pipe(
         map(res => {
