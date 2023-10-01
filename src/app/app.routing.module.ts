@@ -19,6 +19,7 @@ const routes: Routes = [
       },
       {
         path: 'settings',
+        title: 'Настройки',
         loadChildren: () => import('./pages/lk/settings/settings.module').then(m => m.SettingsModule) 
       },
     ] 
@@ -37,10 +38,15 @@ const routes: Routes = [
     path: 'advert',
     children: [
       {
+        path: `add`,
+        title: 'Добавить объявление',
+        loadChildren: () => import('./pages/add-advert/add-advert.module').then(m => m.AddAdvertModule)  
+      },
+      {
         path: `:id`,
-        title: 'Card',
-        loadChildren: () => import('./pages/advirtisment/advirtisment-routing.module').then(m => m.AdvirtismentRoutingModule)  
-      }
+        title: 'Объявление',
+        loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)  
+      },
     ],
   },
 ];

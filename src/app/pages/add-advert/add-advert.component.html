@@ -1,0 +1,25 @@
+<div>
+  <div class="container">
+    <h2 class="addAdvert-title">Новое объявление</h2>
+    <form class="addAdvert-body w-full" [formGroup]="newAdvertForm" (ngSubmit)="submit()">
+      <p> Выберите категорию</p>
+      <p-dropdown class="w-full" formControlName="category" [options]="(dropDownOptions | async)!" optionLabel="name" optionValue="value" [editable]="true" formControlName="categoryId"></p-dropdown>
+      <input class="w-full" type="text" pInputText formControlName="name"/>
+      <textarea class="w-full" rows="5" cols="30" pInputTextarea formControlName="description"></textarea>
+      <input class="w-full" type="text" pInputText formControlName="location"/>
+      <p>Введите номер телефона</p>
+      <p-inputMask 
+        mask="+9-999-999-99-99" 
+        class="ng-invalid ng-dirty p-inputtext-lg mb-4 block w-full"
+        styleClass="w-full p-component p-inputwrapper"
+        formControlName="phone"
+        placeholder="+7-800-123-45-67">
+      </p-inputMask>
+      <p>Введите номер почту</p>
+      <input class="w-full" type="text" pInputText formControlName="email"/>
+      <p-fileUpload class="w-full" mode="basic" chooseLabel="Choose" name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*" (onUpload)="onUpload($event)"></p-fileUpload>
+      <p-inputNumber class="w-full" mode="currency" currency="RUB" locale="en-US" formControlName="cost"> </p-inputNumber>
+      <p-button class="m-auto" label="Разместить объявление" (click)="submit()"></p-button>
+    </form>
+  </div>
+</div>
