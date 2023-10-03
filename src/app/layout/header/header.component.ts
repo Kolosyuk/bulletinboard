@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service'
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
@@ -9,7 +9,7 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./header.component.scss'],
   providers: [MessageService],
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit, OnDestroy{
   
   public menuItems: MenuItem[] = [
     {
@@ -32,8 +32,12 @@ export class HeaderComponent implements OnInit{
     public messageService: MessageService,
     public userService: UserService
     ) {}
-
+    
     ngOnInit(): void {
       this.loginService.isAuthenticated.subscribe()
     }
-}
+    
+    ngOnDestroy(): void {
+      this.loginService.isAuthenticated.unsubscribe()
+    }    
+  }

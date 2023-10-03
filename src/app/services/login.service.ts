@@ -12,7 +12,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 export class LoginService {
   public token: string | null;
   public redirectUrl: string;
-  isAuthenticated = new BehaviorSubject(false);
+  public isAuthenticated = new BehaviorSubject(false);
 
   constructor(
     private _http: HttpClient,
@@ -24,20 +24,24 @@ export class LoginService {
   }
 
   login(form: LoginForm){
-    return this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
+    this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
       tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);
         if (this.redirectUrl) {
           this._router.navigate([this.redirectUrl]);
           this.redirectUrl = '';
+        } else {
+          this._router.navigate(["/"]);
+         
         }
       }
-    ));
+    )).subscribe();
   };
 
 
   logout(): void {
     this.isAuthenticated.next(false);
+    this.setToken(null);
   };
 };

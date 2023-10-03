@@ -36,6 +36,6 @@ export class RegistrationComponent {
       login: login,
       name: this.registrationForm.value.name,
       password: this.registrationForm.value.userPass
-    }).subscribe();
+    });
   };
 }

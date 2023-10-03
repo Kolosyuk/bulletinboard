@@ -1,9 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -35,8 +32,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _loginService : LoginService,
-    private _userService: UserService,
-    private _router: Router
     ) {
   };
 
@@ -51,11 +46,6 @@ export class LoginComponent implements OnInit {
     this._loginService.login({
       login: login,
       password: this.loginForm.value.userPass
-    }).pipe(
-      switchMap( token => this._userService.getCurrentUser(token))
-    ).subscribe( user => {
-      this._userService.setUser(user);
-      this._router.navigate(['/personal']);
-  })
+    });
   };
-}
+};
