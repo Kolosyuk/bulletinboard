@@ -1,0 +1,30 @@
+.addAdvert-title {
+  color: #1E293B;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.addAdvert-body {
+  color: #1E293B;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+
+  .addAdvert-agreement {
+    color: #64748B;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+
+    span {
+      color: #3B82F6;
+    }
+  }
+}
