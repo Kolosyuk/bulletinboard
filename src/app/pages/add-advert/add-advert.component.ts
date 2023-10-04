@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { Category } from 'src/app/model/category.interface';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
@@ -17,8 +17,6 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public dropDownOptions : DropDownOption = {};
   public menuLevel = new BehaviorSubject(1);
   
-  // private uploaderContainer: HTMLElement;
-
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
@@ -48,6 +46,10 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     });
   };
 
+  public get categoryIds() {
+    return <FormArray>this.newAdvertForm.get('categoryIds');
+  };
+
   calculateLevel(level: number): string {
     return `level${level}`;
  };
@@ -64,36 +66,35 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
       newOptionsList[key] = this.dropDownOptions[key]
     };
     return newOptionsList;
-  };
-
-  public get categoryIds() {
-    return <FormArray>this.newAdvertForm.get('categoryIds');
-  };
+  }; 
 
   ngOnInit(): void {    
-    this._categoryService.categories.pipe(
-      map(categories => categories.map(category => {
-        return {name: category.name, value: category.id}
-      }))
+    this._categoryService.rootCategory.pipe(
+      map(category => {
+        if(category && category.childs) {
+          return category.childs.map(childCategory => {
+            return {name: childCategory.name, value: childCategory.id}
+          })
+        } else return null
+      })
     ).subscribe( options => {
-      this._setDropdown(this.menuLevel.getValue(), options)
+      if (options) {
+        this._setDropdown(this.menuLevel.getValue(), options)
+      }
     });
   };
 
   ngAfterViewInit() {
-    // this.uploaderContainer = this.elRef.nativeElement.querySelector(`.p-fileupload-buttonbar`);
-
-    // this.uploaderContainer.insertAdjacentHTML('beforeend', "<p class='upload-title'>Максимум 10 картинок в формате jpeg, png или heic</p>") 
   };
 
   ngOnDestroy(): void {
-    this._categoryService.categories.unsubscribe();
+    this._categoryService.rootCategory.unsubscribe();
   };
 
   onSelectCategory(event: DropdownChangeEvent, checkedLevel: number) {
-    let sumLevels = this.elRef.nativeElement.querySelectorAll(`[data-level]`).length;
-    const diff = sumLevels - checkedLevel;
-    const categoryId = event.value;
+    let sumLevels : number = this.elRef.nativeElement.querySelectorAll(`[data-level]`).length;
+    const diff : number = sumLevels - checkedLevel;
+    const categoryId : string = event.value;
     if (diff >= 1) {
       for (let index = 1; index <= diff; index++) {
         this.categoryIds.removeAt(-1);

@@ -2,33 +2,24 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE } from 'src/environment';
 import { Category } from '../model/category.interface';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  public categories = new BehaviorSubject<Category[]>([]);
+  public rootCategory = new BehaviorSubject<Category|null>(null);
 
   constructor(
     private _http: HttpClient
   ) {
-    this.getRootCategories();  
+    this.getCategory().subscribe(categories => {
+            this.rootCategory.next(categories);
+  });  
   }
 
-  getRootCategories() {
-    this._http.get<Category[]>(`${API_BASE}/Categories`).pipe(
-      map <Category[], Category[]>(categories => {
-        categories = categories.filter(cat => cat.parentId === "00000000-0000-0000-0000-000000000000")
-        return categories
-      })      
-      ).subscribe(categories => {
-      this.categories.next(categories);
-    })
-  };
-
-  getCategory(id : string) {
+  getCategory(id:string = "00000000-0000-0000-0000-000000000000"):Observable<Category> {
     return this._http.get<Category>(`${API_BASE}/Categories/${id}`)
   };
 };

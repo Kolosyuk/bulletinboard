@@ -1,4 +1,6 @@
-export function imageSrcCreator(base64:string) : string {
-  let src = `data:image/jpg;base64,${base64}`;
+import { API_BASE } from 'src/environment';
+
+export function imageSrcCreator(id:string) : string {
+  let src = `${API_BASE}/images/${id}`;
   return src
 }
