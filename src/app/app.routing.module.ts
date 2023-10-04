@@ -5,16 +5,21 @@ import { AuthGuard } from './guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'main',
+    pathMatch: 'full'
+  },
+  {
+    path: 'main',
     title: 'Главная страница',
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)  
   },
   {
     path: 'personal',
-    title: 'Личный кабинет',
     canActivate: [ AuthGuard ],
     children: [
       {
         path: '',
+        title: 'Мои объявления',
         loadChildren: () => import('./pages/lk/lk.module').then(m => m.LkModule) 
       },
       {
@@ -48,6 +53,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)  
       },
     ],
+  },
+  {
+    path: '**',
+    redirectTo: 'main',
   },
 ];
 

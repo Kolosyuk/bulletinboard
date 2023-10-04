@@ -12,11 +12,14 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
+import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    BreadcrumbsComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -29,6 +32,7 @@ import { MessagesModule } from 'primeng/messages';
     MessagesModule,
     RouterOutlet,
     ToastModule,
+    BreadcrumbModule
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
