@@ -1,0 +1,64 @@
+<div>
+  <div class="container">
+    <h2 class="addAdvert-title">Новое объявление</h2>
+    <form *ngIf="dropDownOptions" class="addAdvert-body w-full" [formGroup]="newAdvertForm" (ngSubmit)="submit()">
+      <p class="mt-2 mb-2"> Выберите категорию</p>
+      <div class="mt-2 mb-2" formArrayName="categoryIds" id="category-dynamic">
+        <div #menuSet *ngFor="let category of categoryIds.controls; let i = index" [formGroupName]="i" [attr.data-level]="i+1">
+          <p-dropdown
+          class=" p-inputtext-lg"
+          styleClass="w-4 mt-2 mb-2"
+          formControlName="category" 
+          [options]="dropDownOptions[calculateLevel(i+1)]" 
+          optionLabel="name"
+          optionValue="value"
+          (onChange)="onSelectCategory($event, i+1)"
+          ></p-dropdown>
+        </div>
+      </div>
+      <p class="mt-2 mb-2"> Название объявления</p>
+      <input 
+        class="w-9 p-inputtext-lg"
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="Что хотите продать?"/>
+      <p class="mt-2 mb-2"> Описание</p>
+      <textarea
+        class="w-9 p-inputtext-lg"
+        rows="5"
+        cols="30"
+        pInputTextarea
+        formControlName="description"
+        placeholder="Расскажите подробнее о товаре или услуге"></textarea>
+      <p class="mt-2 mb-2">Адрес (место проведения сделки) *</p>
+      <input class="w-9 p-inputtext-lg" type="text" pInputText formControlName="location"/>
+      <p class="mt-2 mb-2">Введите номер телефона</p>
+      <p-inputMask 
+        mask="+9-999-999-99-99" 
+        class="ng-invalid ng-dirty p-inputtext-lg mb-4 block w-9"
+        styleClass="w-full p-component p-inputwrapper"
+        formControlName="phone"
+        placeholder="+7-800-123-45-67">
+      </p-inputMask>
+      <p class="mt-2 mb-2">Введите Ваш email</p>
+      <input class="w-9 mt-2 mb-2 p-inputtext-lg" type="text" pInputText formControlName="email"/>
+      <p-fileUpload 
+        class="w-9 mt-2 mb-2 block" 
+        mode="advanced"
+        [fileLimit]="10" 
+        [multiple]="true"
+        chooseIcon="pi pi-images"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        [previewWidth]="50"
+        chooseLabel="Добавить картинки"
+        accept="image/*" 
+        (onSelect)="onImageSelect($event)"></p-fileUpload>
+      <p-inputNumber class=" p-inputtext-lg" styleClass="w-3 block mt-2 mb-2" mode="currency" currency="RUB" locale="en-US" formControlName="cost"> </p-inputNumber>
+      <p-button class="block mt-2 mb-2" label="Разместить объявление" (click)="submit()"></p-button>
+      <p class="addAdvert-agreement">Нажимая кнопку «Разместить объявление»</p>
+      <p class="addAdvert-agreement">Вы соглашаетесь с <span>правилами площадки</span></p>
+    </form>
+  </div>
+</div>

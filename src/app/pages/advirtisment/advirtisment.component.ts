@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CardsService } from '../../services/cards.service';
-import { Card } from 'src/app/model/card.interface';
+import { AdvertsService } from '../../services/advert.service';
+import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
+import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 
 
 @Component({
@@ -12,9 +13,11 @@ import { GalleriaResponsiveOptions } from 'primeng/galleria';
   styleUrls: ['./advirtisment.component.scss'],
 })
 export class AdvirtismentComponent implements OnInit {
-  public card: Card;
+  public advert: Advert;
   private _id: number;
-  public images: Array<string>;
+  public imageIds: Array<string>
+  public mainImageId: string;
+  public imageSrc: string;
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -33,25 +36,30 @@ export class AdvirtismentComponent implements OnInit {
 
   
   constructor(
-    private _cardsService: CardsService,
+    private _advertsService: AdvertsService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router
     ) {
       this._router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() =>
-      this._id = +this._activatedRoute.snapshot.params['id']
-        )
+      .pipe(
+        filter(e => e instanceof NavigationEnd),
+        tap( event => {
+          this._id = this._activatedRoute.snapshot.params['id'];
+        })
+      )
+      .subscribe();
   };
 
   ngOnInit(): void {
-   this._cardsService.getCardById(this._id)
-   .subscribe(card => {
-     this.card = card[0];
-     this.images = this.card.images;
-     console.log(this.images);
-    }
-   );
+   this._advertsService.getAdvertById(this._id).pipe(
+    tap(advert => {
+      this.advert = advert;
+      this.imageIds = this.advert.imagesIds;
+      this.mainImageId = this.imageIds[0];
+      this.imageSrc = imageSrcCreator(this.mainImageId)
+    }),
+   )
+   .subscribe();
   }
 }
 

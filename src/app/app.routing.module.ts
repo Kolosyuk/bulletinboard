@@ -1,22 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'main',
+    pathMatch: 'full'
+  },
+  {
+    path: 'main',
     title: 'Главная страница',
     loadChildren: () => import('./pages/main/main.module').then(m => m.MainModule)  
   },
   {
     path: 'personal',
-    title: 'Личный кабинет',
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: '',
+        title: 'Мои объявления',
         loadChildren: () => import('./pages/lk/lk.module').then(m => m.LkModule) 
       },
       {
         path: 'settings',
+        title: 'Настройки',
         loadChildren: () => import('./pages/lk/settings/settings.module').then(m => m.SettingsModule) 
       },
     ] 
@@ -32,9 +40,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)  
   },
   {
-    path: `:id`,
-    title: 'Card',
-    loadChildren: () => import('./pages/advirtisment/advirtisment-routing.module').then(m => m.AdvirtismentRoutingModule)  
+    path: 'advert',
+    children: [
+      {
+        path: `add`,
+        canActivate: [ AuthGuard ],
+        title: 'Добавить объявление',
+        loadChildren: () => import('./pages/add-advert/add-advert.module').then(m => m.AddAdvertModule)  
+      },
+      {
+        path: `:id`,
+        title: 'Объявление',
+        loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)  
+      },
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: 'main',
   },
 ];
 

@@ -1,58 +1,90 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from '../model/user.interface';
-import { Cards } from '../model/card.interface';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { API_BASE } from '../../environment';
+import { RegistrationForm } from '../model/registration.interface';
+import { BehaviorSubject, map, tap } from 'rxjs';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private user: User;
+  private user = new BehaviorSubject<User|null>(null);;
 
-  constructor() { }
+  constructor(
+    private _http: HttpClient,
+    private _loginService: LoginService,
+  ) { 
+    this._loginService.isAuthenticated.pipe(
+      tap(isAuth => {
+        if(isAuth && this._loginService.token) {
+          this.getCurrentUser(this._loginService.token);
+        }
+      })
+    ).subscribe()
+  };
+
+
+  clearUser() {
+    this.user.next(null);
+  };
+
+  getCurrentUser(token: string) {
+    this._http.get<User>(
+      `${API_BASE}/users/current`,
+      { 
+        headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
+      }
+    ).subscribe( user => this.setUser(user))
+  };
+
+  registrationNewUser(form: RegistrationForm){
+    this._http.post(
+      `${API_BASE}/auth/register`,
+      form
+      ).subscribe(id => {
+        this._loginService.login(form);
+      })
+  };
 
   setUser(user : User) {
-    this.user = user;
-  }
+    this.user.next(user)
+  };
 
   getId() {
-    return this.user.id;
-  }
-
-  setId(id : string) {
-    this.user.id = id;
-  }
+    if(this.user) {
+      return this.user.getValue()?.id;
+    }
+    return null
+  };
 
   getName() {
-    return this.user.name;
-  }
-
-  setName(name : string) {
-    this.user.name = name;
-  }
+    if(this.user) {
+      return this.user.getValue()?.name;
+    }
+    return ''
+  };
 
   getPhone() {
-    return this.user.phone;
-  }
-  
-  setPhone(phone : number) {
-    this.user.phone = phone;
-  }
-
+    if(this.user) {
+      return this.user.getValue()?.phone;
+    }
+    return null
+  };
 
   getAdress() {
-    return this.user.adress;
-  }
-
-  setAdress(adress : string) {
-    this.user.adress = adress;
-  }
+    if(this.user) {
+      return this.user.getValue()?.adress;
+    }
+    return null
+  };
 
   getAdvertisments() {
-    return this.user.advertisments;
-  }
-
-  setAdvertisments(advertisments : Cards) {
-    this.user.advertisments = advertisments;
-  }
-}
+    if(this.user) {
+      return this.user.getValue()?.advertisments;
+    }
+    return null
+  };
+};

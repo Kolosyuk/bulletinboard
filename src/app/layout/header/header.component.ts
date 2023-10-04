@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication.service'
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { LoginService } from '../../services/login.service'
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
 
@@ -7,10 +7,10 @@ import { MenuItem, MessageService } from 'primeng/api';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent implements OnInit, OnDestroy{
+  
   public menuItems: MenuItem[] = [
     {
       label: "Мои объявления",
@@ -22,18 +22,22 @@ export class HeaderComponent implements OnInit {
     },
     {
       label: "Выйти",
-      command: this.authenticationService.logout,
+      command: () => this.loginService.logout(),
       routerLink: '/'
     },
   ]
 
   constructor (
-    public authenticationService: AuthenticationService,
+    public loginService: LoginService,
     public messageService: MessageService,
     public userService: UserService
     ) {}
-
-  ngOnInit(){
-    // this.authenticationService.getLoggedInName.subscribe((name) => this.userName = name);
- }
-}
+    
+    ngOnInit(): void {
+      this.loginService.isAuthenticated.subscribe()
+    }
+    
+    ngOnDestroy(): void {
+      this.loginService.isAuthenticated.unsubscribe()
+    }    
+  }
