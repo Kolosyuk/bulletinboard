@@ -44,6 +44,7 @@ const routes: Routes = [
     children: [
       {
         path: `add`,
+        canActivate: [ AuthGuard ],
         title: 'Добавить объявление',
         loadChildren: () => import('./pages/add-advert/add-advert.module').then(m => m.AddAdvertModule)  
       },

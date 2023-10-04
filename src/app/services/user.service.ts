@@ -61,8 +61,6 @@ export class UserService {
   };
 
   getName() {
-    console.log(this.user.getValue());
-    
     if(this.user) {
       return this.user.getValue()?.name;
     }
