@@ -14,6 +14,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { httpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,10 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     ToastModule,
     BreadcrumbModule
   ],
-  providers: [AuthGuard],
+  providers: [
+    AuthGuard,
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

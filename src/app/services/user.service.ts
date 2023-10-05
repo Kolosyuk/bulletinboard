@@ -17,36 +17,21 @@ export class UserService {
     private _http: HttpClient,
     private _loginService: LoginService,
   ) { 
-    this._loginService.isAuthenticated.pipe(
-      tap(isAuth => {
-        if(isAuth && this._loginService.token) {
-          this.getCurrentUser(this._loginService.token);
-        }
-      })
-    ).subscribe()
+    this._loginService.isAuthenticated.subscribe(() =>this.getCurrentUser())
   };
-
 
   clearUser() {
     this.user.next(null);
   };
 
-  getCurrentUser(token: string) {
-    this._http.get<User>(
-      `${API_BASE}/users/current`,
-      { 
-        headers: new HttpHeaders({'Authorization': 'Bearer ' + token})
-      }
-    ).subscribe( user => this.setUser(user))
+  getCurrentUser() {
+    this._http.get<User>(`${API_BASE}/users/current`)
+      .subscribe( user => this.setUser(user))
   };
 
   registrationNewUser(form: RegistrationForm){
-    this._http.post(
-      `${API_BASE}/auth/register`,
-      form
-      ).subscribe(id => {
-        this._loginService.login(form);
-      })
+    this._http.post(`${API_BASE}/auth/register`, form)
+    .subscribe(() => this._loginService.login(form));
   };
 
   setUser(user : User) {
