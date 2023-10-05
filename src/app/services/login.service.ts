@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { API_BASE } from '../../environment';
 import { LoginForm } from '../model/login.interface';
@@ -10,12 +10,12 @@ import { BehaviorSubject, tap } from 'rxjs';
 })
 
 export class LoginService {
-  public redirectUrl: string;
   public isAuthenticated = new BehaviorSubject(false);
 
   constructor(
     private _http: HttpClient,
-    private _router: Router
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
   ) {};
 
   setToken(token: string) {
@@ -28,16 +28,15 @@ export class LoginService {
   };
 
   login(form: LoginForm){
+    const redirection = this._activatedRoute.snapshot.queryParams['redirectTo'];
     this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
       tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);
-        if (this.redirectUrl) {
-          this._router.navigate([this.redirectUrl]);
-          this.redirectUrl = '';
+        if (redirection) {
+          this._router.navigate([`${redirection}`]);
         } else {
           this._router.navigate(["/"]);
-         
         }
       }
     )).subscribe();

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'personal',
-    canActivate: [ AuthGuard ],
+    canActivate: [ authGuard ],
     children: [
       {
         path: '',
@@ -44,7 +44,7 @@ const routes: Routes = [
     children: [
       {
         path: `add`,
-        canActivate: [ AuthGuard ],
+        canActivate: [ authGuard ],
         title: 'Добавить объявление',
         loadChildren: () => import('./pages/add-advert/add-advert.module').then(m => m.AddAdvertModule)  
       },
