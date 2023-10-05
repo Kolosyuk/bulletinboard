@@ -29,8 +29,6 @@ export class AdvertsService {
   };
 
   postNewAdvet(form: AdvertDTO) {
-    this._httpClient.post(`${API_BASE}/advert`, form, { 
-      headers: new HttpHeaders({'Authorization': 'Bearer ' + this._loginService.token})
-    });
+    this._httpClient.post(`${API_BASE}/advert`, form);
   }; 
 };

@@ -4,7 +4,7 @@
       <h1>Авторизация</h1>
       <a routerLink="/"><i class="pi pi-times"></i></a>
     </div>
-    <form class="login-body w-full" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <form class="login-body w-full text-center" [formGroup]="loginForm" (ngSubmit)="submit()">
       <p-inputMask 
         mask="+9-999-999-99-99" 
         class="ng-invalid ng-dirty p-inputtext-lg mb-4 block w-full"
@@ -38,9 +38,10 @@
           value="rememberMe" inputId="rememberMe"></p-checkbox>
         <label for="rememberMe flex-grow-1">Запомнить меня</label>
         </div>
-        <a class="forgetPass" href="#">Забыли пароль?</a>
+        <a class="forgetPass" routerLink="#">Забыли пароль?</a>
       </div>
-      <p-button class="m-auto" label="Войти" (click)="submit()"></p-button>
+      <a class="registration block w-full" routerLink="/registration">Еще не зарегистрированы?</a>
+      <p-button label="Войти" (click)="submit()"></p-button>
     </form>
   </div>
 </div>

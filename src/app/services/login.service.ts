@@ -10,7 +10,6 @@ import { BehaviorSubject, tap } from 'rxjs';
 })
 
 export class LoginService {
-  public token: string | null;
   public redirectUrl: string;
   public isAuthenticated = new BehaviorSubject(false);
 
@@ -19,9 +18,14 @@ export class LoginService {
     private _router: Router
   ) {};
 
-  setToken(token: string | null) {
-    this.token = token
-  }
+  setToken(token: string) {
+    sessionStorage.setItem('auth-token', token)
+  };
+
+  getAuthorizationToken():string {
+    const token = sessionStorage.getItem('auth-token') || '';
+    return token
+  };
 
   login(form: LoginForm){
     this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
@@ -42,6 +46,6 @@ export class LoginService {
 
   logout(): void {
     this.isAuthenticated.next(false);
-    this.setToken(null);
+    sessionStorage.clear();
   };
 };
