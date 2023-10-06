@@ -28,5 +28,6 @@ export class AdvertsService {
 
   postNewAdvert(form: FormData) {
     return this._httpClient.post(`${API_BASE}/advert`, form);
+
   }; 
 };

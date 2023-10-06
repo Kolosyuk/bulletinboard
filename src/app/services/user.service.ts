@@ -17,6 +17,7 @@ export class UserService {
     private _http: HttpClient,
     private _loginService: LoginService,
   ) { 
+
     this._loginService.isAuthenticated.subscribe((status) => {
       if (status) {
         this.getCurrentUser();
@@ -24,6 +25,7 @@ export class UserService {
         this.clearUser()
       }
     })
+
   };
 
   clearUser() {
