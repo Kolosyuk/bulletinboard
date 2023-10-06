@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -32,11 +33,15 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _loginService : LoginService,
+    private _router: Router
     ) {
   };
 
   ngOnInit(): void {
     this.getScreenSize();
+    if (this._loginService.isAuthenticated.getValue()) {
+      this._router.navigate(['/']);
+    }
   };
 
   submit() {

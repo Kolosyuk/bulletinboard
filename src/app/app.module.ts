@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app.routing.module";
 import { RouterOutlet } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard'
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,7 +35,6 @@ import { httpInterceptorProviders } from './http-interceptors';
     BreadcrumbModule
   ],
   providers: [
-    AuthGuard,
     httpInterceptorProviders
   ],
   bootstrap: [AppComponent],
