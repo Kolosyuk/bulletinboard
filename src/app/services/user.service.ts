@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user.interface';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { API_BASE } from '../../environment';
 import { RegistrationForm } from '../model/registration.interface';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { LoginService } from './login.service';
 
 @Injectable({
@@ -17,7 +17,13 @@ export class UserService {
     private _http: HttpClient,
     private _loginService: LoginService,
   ) { 
-    this._loginService.isAuthenticated.subscribe(() =>this.getCurrentUser())
+    this._loginService.isAuthenticated.subscribe((status) => {
+      if (status) {
+        this.getCurrentUser();
+      } else {
+        this.clearUser()
+      }
+    })
   };
 
   clearUser() {

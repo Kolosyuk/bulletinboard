@@ -15,3 +15,14 @@ export interface Advert {
     created: string;
     category: Category;
 }
+
+export interface PostAdvertForm {
+    name: string;
+    description: string;
+    images: any[];
+    cost: number;
+    email: string;
+    phone: string;
+    location: string;
+    category: Category;
+}

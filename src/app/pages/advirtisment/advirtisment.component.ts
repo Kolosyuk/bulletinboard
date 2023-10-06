@@ -15,9 +15,11 @@ import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 export class AdvirtismentComponent implements OnInit {
   public advert: Advert;
   private _id: number;
+  public visible: boolean = true;
   public imageIds: Array<string>
   public mainImageId: string;
   public imageSrc: string;
+  public images: string[];
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -57,9 +59,20 @@ export class AdvirtismentComponent implements OnInit {
       this.imageIds = this.advert.imagesIds;
       this.mainImageId = this.imageIds[0];
       this.imageSrc = imageSrcCreator(this.mainImageId)
+      this.images = this.advert.imagesIds.map(imageSrcCreator);
+      console.log(this.images)
     }),
    )
    .subscribe();
+  }
+
+  showDialog(): void {
+    this.visible = true
+  }
+
+  valueChange(event: any) {
+    console.log(event);
+    
   }
 }
 

@@ -3,22 +3,33 @@
       <div class="advirtisment-container grid">
         <div class="cell-title col-8">{{ advert && advert.name }}</div>
         <div class="cell-price col-4">{{ advert && advert.cost }}</div>
-        <!-- <p-galleria class="cell-images col-8" [value]="images" [containerStyle]="{ 'max-width': '856px' }" [numVisible]="5">
-          <ng-template pTemplate="item" let-item>
-              <img [src]="item.image" style="width: 100%;" />
-          </ng-template>
-          <ng-template pTemplate="thumbnail" let-item>
-              <div class="grid grid-nogutter justify-content-center">
-                  <img [src]="item.image" />
-              </div>
-          </ng-template>
-      </p-galleria> -->
+       
         <div class="cell-images col-8"  >
-          
-          <img [src]="imageSrc" alt="ads image">
+          <p-galleria class="cell-images col-8" [value]="images" [containerStyle]="{ 'max-width': '856px' }" [numVisible]="5">
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item" style="width: 100%;" />
+            </ng-template>
+            <ng-template pTemplate="thumbnail" let-item >
+                <div class="grid grid-nogutter justify-content-left">
+                    <img [src]="item" class="my-thumbnail"/>
+                </div>
+            </ng-template>
+          </p-galleria>
         </div>
         <div class="col-4">
-          <div class=""> Показать номер телефона </div>
+          <div class="">
+            <p-button (click)="showDialog()" icon="pi pi-phone" label="Показать номер телефона"></p-button>
+            <p-dialog [header]="advert && advert.user.name" [(visible)]="visible" [modal]="true" class="advert-dialog">
+              <p class="phone">{{ advert && advert.phone }}</p>
+              <p-divider></p-divider>
+              <p class="security-rules">Правила безопасных сделок</p>
+              <ul class="security-rules-list">
+                <li>Храните в тайне почту, данные паспорта и код с карты</li>
+                <li>Игнорируйте ссылки на оплату, которые присылает собеседник</li>
+                <li>Никому не говорите коды из смс и пуш-уведомлений</li>
+              </ul>
+            </p-dialog>
+          </div>
           <div class="adress-title"> Адрес</div>
           <div class="cell-adress"> {{ advert && advert.location }}</div>
           <div class=""> Показать на карте</div>

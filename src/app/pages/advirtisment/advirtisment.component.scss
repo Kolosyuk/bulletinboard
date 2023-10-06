@@ -15,12 +15,6 @@
   font-weight: 600;
   line-height: 32px;
 }
-.cell-images{
-
-  img {
-    max-width: 100%;
-  }
-}
 
 .cell-description, .cell-adress{
   color: #1E293B;
@@ -31,12 +25,43 @@
   line-height: 24px; 
 }
 
-
-.p-galleria-thumbnail-items {
-  background-color: #FFF;
+.my-thumbnail{
+    max-width: 120px;
+    max-height: 84px;
 }
 
-.galleria-thumbnail {
-  max-width: 120px;
-  max-height: 84px;
+.advert-dialog {
+  padding: 32px;
 }
+
+.title  {
+    color: #1E293B;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+  }
+
+  .phone {
+    color:#3B82F6;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 36px;
+  }
+
+  .security-rules,.security-rules-list {
+    color: var(--light-text-default-text, #1E293B);
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .security-rules-list{
+    list-style-type: disc;
+    list-style-position: inside;
+  }

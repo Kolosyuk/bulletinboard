@@ -16,7 +16,11 @@ export class LoginService {
     private _http: HttpClient,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-  ) {};
+  ) {
+    if (!!sessionStorage.getItem('auth-token')) {
+      this.isAuthenticated.next(true);
+    }
+  };
 
   setToken(token: string) {
     sessionStorage.setItem('auth-token', token)

@@ -6,6 +6,7 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 import { Category } from 'src/app/model/category.interface';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
+import { AdvertsService } from 'src/app/services/advert.service';
 
 @Component({
   selector: 'app-add-advert',
@@ -20,7 +21,8 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   constructor(
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    private _advertService: AdvertsService
   ) {
     this._createForm();   
   };
@@ -32,7 +34,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
       images: '',
       cost: [0, [Validators.required]],
       email: '',
-      phone: '',
+      phone: ['', [Validators.required]],
       location: ['', [Validators.required]],
       categoryIds: this._fb.array([
         this._getCategoryControl(),
@@ -42,7 +44,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   
   _getCategoryControl(): FormGroup {
     return this._fb.group({
-      category: ''
+      category: ['', [Validators.required]]
     });
   };
 
@@ -117,19 +119,26 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   };
 
   submit() {
-    console.log(this.newAdvertForm.getRawValue());
+    const categoryId = [...this.newAdvertForm.get('categoryIds')?.value].pop().category;
+
+    const fd: FormData = new FormData();
+    fd.append('Name', this.newAdvertForm.get('name')?.value);
+    fd.append('Description', this.newAdvertForm.get('description')?.value);
+    fd.append('Category', categoryId);
+    fd.append('Location', this.newAdvertForm.get('location')?.value);
+    fd.append('Phone', this.newAdvertForm.get('phone')?.value);
+    fd.append('Email', this.newAdvertForm.get('email')?.value);
+    fd.append('Cost', this.newAdvertForm.get('cost')?.value);
+    fd.append('Images', this.newAdvertForm.get('images')?.value)
+
+    this._advertService.postNewAdvert(fd).subscribe(res => console.log(res))
   };
 
-  onImageSelect(event: FileSelectEvent) {
-    console.log("image files", event.currentFiles);
-
-    let file = event.files[0];
-    let reader = new FileReader();
-
-    reader.onloadend = function() {
-        console.log('RESULT', reader.result)
+  onFileChange(event: FileSelectEvent) {  
+    if (event.files.length >= 0) {
+      this.newAdvertForm.patchValue({
+        images: [...event.currentFiles]
+      });
     }
-    // reader.readAsArrayBuffer(file);
-    console.log(reader.readAsArrayBuffer(file));
-  };
+  }
 };

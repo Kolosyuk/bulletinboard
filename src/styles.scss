@@ -13,3 +13,13 @@
         padding: 0 1%;
     }
 }
+
+/** crutch TODO find out how theming p-galleria PRIMENG   */
+
+.p-galleria .p-galleria-thumbnail-container {
+    background-color: white !important;
+}
+
+.p-galleria .p-galleria-thumbnail-item {
+    justify-content: flex-start;
+  }
