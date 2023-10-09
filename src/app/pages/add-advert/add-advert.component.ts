@@ -1,12 +1,12 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
-import { FileSelectEvent, FileUploadEvent } from 'primeng/fileupload';
-import { BehaviorSubject, map, tap } from 'rxjs';
-import { Category } from 'src/app/model/category.interface';
+import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
+import { BehaviorSubject, map } from 'rxjs';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
 import { AdvertsService } from 'src/app/services/advert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-advert',
@@ -19,6 +19,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public menuLevel = new BehaviorSubject(1);
   
   constructor(
+    private _router: Router,
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private elRef: ElementRef,
@@ -119,26 +120,51 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   };
 
   submit() {
-    const categoryId = [...this.newAdvertForm.get('categoryIds')?.value].pop().category;
+    const formData : FormData = this._buildFormData();
 
+    this._advertService.postNewAdvert(formData).subscribe(() => {
+      this._router.navigate(['/personal'])
+    })
+  };
+
+  onAddFile(event: FileSelectEvent) {  
+    this.newAdvertForm.patchValue({
+      images: [...event.currentFiles]
+    });
+  }
+
+  onDeleteFile(event: FileRemoveEvent) {
+    let images: File[] = this.newAdvertForm.get('images')?.value
+    images = images.filter((image) => image.name !== event.file.name)
+
+    this.newAdvertForm.patchValue({
+      images: [...images]
+    });
+  }
+
+  _buildFormData(): FormData {
     const fd: FormData = new FormData();
+    let categoryId;
+    const menuLevelDeep = this.newAdvertForm.get('categoryIds')?.value.length;
+    const lastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-1];
+    const preLastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-2];
+       
+    if (lastCategory['category']) {
+      categoryId = lastCategory['category'];
+    } else {
+      categoryId = preLastCategory['category'];
+    }
     fd.append('Name', this.newAdvertForm.get('name')?.value);
     fd.append('Description', this.newAdvertForm.get('description')?.value);
-    fd.append('Category', categoryId);
+    fd.append('CategoryId', categoryId);
     fd.append('Location', this.newAdvertForm.get('location')?.value);
     fd.append('Phone', this.newAdvertForm.get('phone')?.value);
     fd.append('Email', this.newAdvertForm.get('email')?.value);
     fd.append('Cost', this.newAdvertForm.get('cost')?.value);
-    fd.append('Images', this.newAdvertForm.get('images')?.value)
-
-    this._advertService.postNewAdvert(fd).subscribe(res => console.log(res))
-  };
-
-  onFileChange(event: FileSelectEvent) {  
-    if (event.files.length >= 0) {
-      this.newAdvertForm.patchValue({
-        images: [...event.currentFiles]
-      });
+    const files = this.newAdvertForm.get('images')?.value;
+    for (let file of files) {
+      fd.append('Images', file);
     }
+    return fd;
   }
 };
