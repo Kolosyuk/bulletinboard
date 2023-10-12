@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { API_BASE } from '../../environment';
-import { LoginForm } from '../model/login.interface';
+import { LoginForm } from '../model/forms.interface';
 import { BehaviorSubject, tap } from 'rxjs';
 
 @Injectable({
@@ -12,6 +12,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 export class LoginService {
 
   public isAuthenticated = new BehaviorSubject(false);
+  public rememberMe: boolean = false;
 
   constructor(
     private _http: HttpClient,
@@ -34,6 +35,13 @@ export class LoginService {
 
   login(form: LoginForm){
     const redirection = this._activatedRoute.snapshot.queryParams['redirectTo'];
+
+    if(this.rememberMe) {
+      localStorage.setItem('credentials', JSON.stringify(form));
+    } else {
+      sessionStorage.setItem('credentials', JSON.stringify(form));
+    }
+    
     this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
       tap((token) => {
         this.setToken(token);
@@ -47,9 +55,13 @@ export class LoginService {
     )).subscribe();
   };
 
+  setRememberMe(status: boolean) {
+    this.rememberMe = status;
+  }
 
   logout(): void {
     this.isAuthenticated.next(false);
     sessionStorage.clear();
+    localStorage.clear();
   };
 };

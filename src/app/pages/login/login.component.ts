@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.minLength(7)
     ]),
-    rememberMe: new FormControl()
+    rememberMe: new FormControl(false)
   });
 
   @HostListener('window:resize', ['$event'])
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
   submit() {
     //TODO crutch - server "login" -- design layout "phone number"
     const login = this.loginForm.value.userPhone.replaceAll('-',"").replace('+','');
+    this._loginService.setRememberMe(this.loginForm.value.rememberMe);
 
     this._loginService.login({
       login: login,
