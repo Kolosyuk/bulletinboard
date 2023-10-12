@@ -3,7 +3,6 @@ import { AdvertsService } from '../../services/advert.service';
 import { Advert } from 'src/app/model/advert.interface';
 import { CardComponent } from '../card/card.component';
 import { NgForOf } from '@angular/common';
-import { mergeMap, forkJoin, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-card-list',
@@ -22,10 +21,6 @@ export class CardListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._advertService.getAdverts().pipe(
-      map(ads => ads.map(ad => ad.id)),  
-      map((arr) => arr.map(id => this._advertService.getAdvertById(id))),
-      mergeMap((adverts: Observable<Advert>[]) => forkJoin(adverts))
-    ).subscribe(adverts => this.adverts = adverts) 
+    this._advertService.getAdverts().subscribe(adverts => this.adverts = adverts) 
   };
 }
