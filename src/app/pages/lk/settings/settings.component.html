@@ -1,3 +1,68 @@
-<div class="container">
-  <p>settings works!</p>
+<div class="container pt-4 pb-4">
+  <h2 class="settings-title"> Настройки</h2>
+  <form class="settings-form pt-2 pb-2 mb-4" [formGroup]="settingsForm" (ngSubmit)="saveSettings()">
+    <div class="inline-block w-5">
+      <p class="settings-name mt-2 mb-2">Имя</p>
+      <input 
+        class="p-inputtext-lg w-11"
+        type="text"
+        pInputText
+        formControlName="name"
+        placeholder="Имя"/>
+    </div>
+    <div class="inline-block w-5">
+      <p class="settings-phone mt-2 mb-2">Номер телефона</p>
+      <p-inputMask 
+        mask="+9-999-999-99-99" 
+        class="p-inputtext-lg w-full"
+        styleClass=" p-component p-inputwrapper w-full"
+        formControlName="phone"
+        placeholder="+7-800-123-45-67">
+      </p-inputMask>
+    </div>
+    <p class="settings-location mt-3 mb-2"> Адрес <span>(будет указываться в объявлениях по умолчанию)</span></p>
+    <input 
+      class="w-10 p-inputtext-lg mb-4"
+      type="text"
+      pInputText
+      formControlName="location"
+      placeholder="Не указан"/>
+      <div class="flex ">
+        <p-button class="mr-4" label="Сохранить" type="submit"></p-button>
+        <p *ngIf="isVisibleConformation"
+        class="confirmation flex align-items-center"       
+        > <span class="pi pi-check-circle mr-2" style="font-size: 1.8em"></span> Изменения сохранены</p>
+      </div>
+  </form>
+
+  <H2 class="change-password-title">Смена пароля</H2>
+  <form class="change-password pt-2 pb-2" [formGroup]="newPasswordForm" (ngSubmit)="saveNewPassword()">
+    <p class="password-old mt-2 mb-2"> Текущий пароль </p>
+    <p-password 
+    class="p-inputtext-lg"
+    formControlName="oldPassword"
+    styleClass="w-5 p-component p-inputwrapper  p-password block"
+    inputStyleClass="w-full"
+    placeholder="Введите текущий пароль"
+    [feedback]="false"
+    [toggleMask]="true"></p-password>
+    <p class="password-new mt-2 mb-2"> Новый пароль <span>(минимум 8 символов)</span></p>
+    <p-password 
+    class="p-inputtext-lg block mb-4"
+    formControlName="newPassword"
+    styleClass="w-5 p-component p-inputwrapper  p-password"
+    inputStyleClass="w-full"
+    placeholder="Введите новый пароль"
+    [feedback]="false"
+    [toggleMask]="true"></p-password>
+    <div class="flex ">
+      <p-button class="block mr-4" label="Изменить пароль" type="submit"></p-button>
+      <p *ngIf="isVisiblePassConformation"
+      class="confirmation flex align-items-center"       
+      > <span class="pi pi-check-circle mr-2" style="font-size: 1.8em"></span> Изменения сохранены</p>
+      <p *ngIf="isVisiblePassError"
+      class="password-error flex align-items-center"       
+      > <span class="pi pi-ban mr-2" style="font-size: 1.8em"></span> Ошибка пароля</p>
+    </div>
+  </form>
 </div>

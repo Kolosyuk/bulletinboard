@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AdvertsService } from '../../services/advert.service';
+import { Component, Input } from '@angular/core';
 import { Advert } from 'src/app/model/advert.interface';
 import { CardComponent } from '../card/card.component';
-import { NgForOf } from '@angular/common';
-import { mergeMap, forkJoin, map, Observable } from 'rxjs';
+import { CardNewAdvComponent } from '../card-new-adv/card-new-adv.component';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-card-list',
@@ -12,20 +11,12 @@ import { mergeMap, forkJoin, map, Observable } from 'rxjs';
   standalone: true,
   imports: [
     CardComponent,
+    CardNewAdvComponent,
     NgForOf,
+    NgIf
   ],
 })
-export class CardListComponent implements OnInit {
-  public adverts: Advert[];
-  
-  constructor(private _advertService: AdvertsService) {
-  }
-
-  ngOnInit(): void {
-    this._advertService.getAdverts().pipe(
-      map(ads => ads.map(ad => ad.id)),  
-      map((arr) => arr.map(id => this._advertService.getAdvertById(id))),
-      mergeMap((adverts: Observable<Advert>[]) => forkJoin(adverts))
-    ).subscribe(adverts => this.adverts = adverts) 
-  };
+export class CardListComponent{
+  @Input()adverts: Advert[];
+  @Input()personal: boolean;
 }

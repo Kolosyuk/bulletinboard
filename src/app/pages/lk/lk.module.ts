@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LkRoutingModule } from './lk-routing.module';
 import { LkComponent } from './lk.component';
+import { CardListComponent } from 'src/app/components/card-list/card-list.component';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { LkComponent } from './lk.component';
   imports: [
     CommonModule,
     LkRoutingModule,
+    CardListComponent
   ]
 })
 export class LkModule { }

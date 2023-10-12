@@ -1,5 +1,8 @@
-<ul class="card-table" >
-    <li *ngFor="let advert of adverts" class="mb-4">
+<ul class="card-table flex flex-wrap" >
+    <li *ngIf="personal" class="mb-4 mr-4 border-round-sm">
+        <app-card-new-adv>link to new</app-card-new-adv>
+    </li>
+    <li *ngFor="let advert of adverts" class="mb-4 mr-3 border-round-sm">
         <app-card [data]="advert"></app-card>
     </li>
 </ul>

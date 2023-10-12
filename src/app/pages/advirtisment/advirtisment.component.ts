@@ -6,7 +6,6 @@ import { filter, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 
-
 @Component({
   selector: 'app-advirtisment',
   templateUrl: './advirtisment.component.html',
@@ -15,7 +14,7 @@ import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 export class AdvirtismentComponent implements OnInit {
   public advert: Advert;
   private _id: number;
-  public visible: boolean = true;
+  public visible: boolean = false;
   public imageIds: Array<string>
   public mainImageId: string;
   public imageSrc: string;
@@ -34,8 +33,7 @@ export class AdvirtismentComponent implements OnInit {
       breakpoint: '560px',
       numVisible: 1
   }
-  ]
-
+  ];
   
   constructor(
     private _advertsService: AdvertsService,
@@ -60,19 +58,13 @@ export class AdvirtismentComponent implements OnInit {
       this.mainImageId = this.imageIds[0];
       this.imageSrc = imageSrcCreator(this.mainImageId)
       this.images = this.advert.imagesIds.map(imageSrcCreator);
-      console.log(this.images)
     }),
    )
    .subscribe();
-  }
+  };
 
   showDialog(): void {
     this.visible = true
-  }
-
-  valueChange(event: any) {
-    console.log(event);
-    
-  }
-}
+  };
+};
 

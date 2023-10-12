@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE } from '../../environment';
-import { RegistrationForm } from '../model/registration.interface';
+import { RegistrationForm } from '../model/forms.interface';
 import { BehaviorSubject } from 'rxjs';
 import { LoginService } from './login.service';
 
@@ -11,7 +11,7 @@ import { LoginService } from './login.service';
 })
 export class UserService {
 
-  private user = new BehaviorSubject<User|null>(null);;
+  public user = new BehaviorSubject<User|null>(null);;
 
   constructor(
     private _http: HttpClient,
@@ -25,7 +25,6 @@ export class UserService {
         this.clearUser()
       }
     })
-
   };
 
   clearUser() {
@@ -34,12 +33,19 @@ export class UserService {
 
   getCurrentUser() {
     this._http.get<User>(`${API_BASE}/users/current`)
-      .subscribe( user => this.setUser(user))
+      .subscribe( user => {
+        this.setUser(user);
+      })
   };
 
   registrationNewUser(form: RegistrationForm){
     this._http.post(`${API_BASE}/auth/register`, form)
     .subscribe(() => this._loginService.login(form));
+  };
+
+  updateUserPassword(form: FormData) {
+    this._http.put(`${API_BASE}/Users/${this.getId()}`, form)
+    .subscribe((data) => console.log(data));
   };
 
   setUser(user : User) {
@@ -50,7 +56,7 @@ export class UserService {
     if(this.user) {
       return this.user.getValue()?.id;
     }
-    return null
+    return undefined
   };
 
   getName() {
@@ -64,20 +70,20 @@ export class UserService {
     if(this.user) {
       return this.user.getValue()?.phone;
     }
-    return null
+    return undefined
   };
 
   getAdress() {
     if(this.user) {
       return this.user.getValue()?.adress;
     }
-    return null
+    return undefined
   };
 
   getAdvertisments() {
     if(this.user) {
-      return this.user.getValue()?.advertisments;
+      return this.user.getValue()?.adverts;
     }
-    return null
+    return undefined
   };
 };

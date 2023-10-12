@@ -1,32 +1,16 @@
 .header-top {
     background: #1E293B;
-    padding-top: 8px;
-    padding-bottom: 8px;
-
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        column-gap: 24px;
-    }
 
     .header-login {
         height: 44px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        column-gap: 8px;
-
         color: #FFF;
         font-family: Inter;
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
         line-height: 20px;
-        padding: 8px 10px;
+
         background: transparent;
-        border: none;
-        border-radius: 4px;
         text-decoration: none;
         cursor: pointer;
 
@@ -35,21 +19,9 @@
         }
     }
 
-    .active {
-        background-color: red;
-    }
-
     .header-addAdvirtisment {
         height: 44px;
-        display: flex;
-        padding: 6px 12px;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        border-radius: 4px;
         background: #3B82F6;
-        border: none;
-        border-radius: 4px;
         text-decoration: none;
 
         span {
@@ -68,16 +40,7 @@
 }
 
 .header-bottom {
-
     .container {
-        display: flex;
-        flex-flow: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        width: 100%;
-        padding-bottom: 24px;
-        padding-top: 24px;
-
         @media screen and (max-width: 800px) {
             padding-bottom: 0px;
         }
@@ -89,8 +52,7 @@
         font-size: 30px;
         font-style: normal;
         font-weight: 700;
-        line-height: 36px;
-        margin-right: 12px;
+        line-height: 36px;       
 
         @media screen and (max-width: 800px) {
             flex-basis: 100%;
@@ -99,15 +61,6 @@
     }
 
     .header-categories {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-
-        margin-left: 12px;
-        margin-right: 12px;
-        padding: 8px 12px;
-        border-radius: 4px;
         color: #3B82F6;
         border: 1px solid #3B82F6;
         cursor: pointer;
@@ -141,9 +94,6 @@
     }
 
     .header-searchBtn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         gap: 8px;
         color: #eee;
         padding: 8px 12px;
