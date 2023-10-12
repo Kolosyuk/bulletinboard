@@ -15,7 +15,7 @@ import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 export class AdvirtismentComponent implements OnInit {
   public advert: Advert;
   private _id: number;
-  public visible: boolean = true;
+  public visible: boolean = false;
   public imageIds: Array<string>
   public mainImageId: string;
   public imageSrc: string;
