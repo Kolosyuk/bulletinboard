@@ -26,5 +26,7 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     this.link = `/advert/${this.data.id}`;
     this.mainImgSrc = imageSrcCreator(this.data.imagesIds[0])
+    console.log(this.data.id, this.mainImgSrc);
+    
   }
 }
