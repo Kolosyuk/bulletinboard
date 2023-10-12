@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AdvertsService } from '../../services/advert.service';
+import { Component, Input } from '@angular/core';
 import { Advert } from 'src/app/model/advert.interface';
 import { CardComponent } from '../card/card.component';
-import { NgForOf } from '@angular/common';
+import { CardNewAdvComponent } from '../card-new-adv/card-new-adv.component';
+import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-card-list',
@@ -11,16 +11,12 @@ import { NgForOf } from '@angular/common';
   standalone: true,
   imports: [
     CardComponent,
+    CardNewAdvComponent,
     NgForOf,
+    NgIf
   ],
 })
-export class CardListComponent implements OnInit {
-  public adverts: Advert[];
-  
-  constructor(private _advertService: AdvertsService) {
-  }
-
-  ngOnInit(): void {
-    this._advertService.getAdverts().subscribe(adverts => this.adverts = adverts) 
-  };
+export class CardListComponent{
+  @Input()adverts: Advert[];
+  @Input()personal: boolean;
 }

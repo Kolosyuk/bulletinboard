@@ -1,4 +1,7 @@
 <ul class="card-table" >
+    <li *ngIf="personal" class="mb-4">
+        <app-card-new-adv>link to new</app-card-new-adv>
+    </li>
     <li *ngFor="let advert of adverts" class="mb-4">
         <app-card [data]="advert"></app-card>
     </li>

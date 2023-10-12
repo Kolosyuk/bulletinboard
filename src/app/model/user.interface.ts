@@ -5,5 +5,5 @@ export interface User {
   name: string;
   phone: number;
   adress: string;
-  advertisments: Advert[];
+  adverts: Advert[];
 }

@@ -2,12 +2,15 @@
     width: 306px;
     height: 336px;
     margin-bottom: 32px;
-
+    margin-right: 24px;
+    
     text-decoration: none;
+    transition: all 1s linear;
 
     &:hover {
         .card-image {
             scale: 1.1;
+            transition: all 1s linear;
         }
 
         .card-title {
@@ -18,13 +21,12 @@
     .card-imgContainer {
         width: 306px;
         height: 240px;
+        margin-bottom: 8px;
 
         display: flex;
         justify-content: center;
         align-items: center;
-
         
-        margin-bottom: 8px;
         overflow: hidden;
 
         .card-image {

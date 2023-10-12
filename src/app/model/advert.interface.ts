@@ -12,7 +12,7 @@ export interface Advert {
     email: string;
     phone: string;
     location: string;
-    created: string;
+    createdAt: string;
     category: Category;
 }
 

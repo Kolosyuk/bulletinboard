@@ -11,7 +11,7 @@ import { LoginService } from './login.service';
 })
 export class UserService {
 
-  private user = new BehaviorSubject<User|null>(null);;
+  public user = new BehaviorSubject<User|null>(null);;
 
   constructor(
     private _http: HttpClient,
@@ -25,7 +25,6 @@ export class UserService {
         this.clearUser()
       }
     })
-
   };
 
   clearUser() {
@@ -57,7 +56,7 @@ export class UserService {
     if(this.user) {
       return this.user.getValue()?.id;
     }
-    return null
+    return undefined
   };
 
   getName() {
@@ -71,20 +70,20 @@ export class UserService {
     if(this.user) {
       return this.user.getValue()?.phone;
     }
-    return null
+    return undefined
   };
 
   getAdress() {
     if(this.user) {
       return this.user.getValue()?.adress;
     }
-    return null
+    return undefined
   };
 
   getAdvertisments() {
     if(this.user) {
-      return this.user.getValue()?.advertisments;
+      return this.user.getValue()?.adverts;
     }
-    return null
+    return undefined
   };
 };

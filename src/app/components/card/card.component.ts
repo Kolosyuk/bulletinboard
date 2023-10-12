@@ -2,8 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Advert } from '../../model/advert.interface';
 import { RouterModule } from '@angular/router';
 import { imageSrcCreator } from '../../helpers/image-src-creator';
-import { ImageService } from '../../services/image.service';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 
 @Component({
@@ -13,7 +12,8 @@ import { DatePipe } from '@angular/common';
   standalone: true,
   imports: [
     RouterModule,
-    DatePipe
+    DatePipe,
+    CurrencyPipe
   ]
 })
 export class CardComponent implements OnInit {
@@ -21,9 +21,7 @@ export class CardComponent implements OnInit {
   public link: string;
   public mainImgSrc: string
 
-  constructor(
-    private _imageService: ImageService
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.link = `/advert/${this.data.id}`;
