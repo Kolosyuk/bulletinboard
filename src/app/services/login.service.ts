@@ -13,15 +13,13 @@ export class LoginService {
 
   public isAuthenticated = new BehaviorSubject(false);
   public rememberMe: boolean = false;
+  public credentials : LoginForm;
 
   constructor(
     private _http: HttpClient,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
   ) {
-    if (!!sessionStorage.getItem('auth-token')) {
-      this.isAuthenticated.next(true);
-    }
   };
 
   setToken(token: string) {
@@ -35,17 +33,12 @@ export class LoginService {
 
   login(form: LoginForm){
     const redirection = this._activatedRoute.snapshot.queryParams['redirectTo'];
-
-    if(this.rememberMe) {
-      localStorage.setItem('credentials', JSON.stringify(form));
-    } else {
-      sessionStorage.setItem('credentials', JSON.stringify(form));
-    }
     
     this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
       tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);
+        this.setCredentials(form);
         if (redirection) {
           this._router.navigate([`${redirection}`]);
         } else {
@@ -57,7 +50,17 @@ export class LoginService {
 
   setRememberMe(status: boolean) {
     this.rememberMe = status;
-  }
+  };
+
+  setCredentials(form: LoginForm): void {
+    this.credentials = form;  
+    if(this.rememberMe) {
+      localStorage.setItem('remember-me', 'true');
+      localStorage.setItem('credentials', JSON.stringify(form));
+    } else {
+      sessionStorage.setItem('credentials', JSON.stringify(form));
+    }
+  };
 
   logout(): void {
     this.isAuthenticated.next(false);

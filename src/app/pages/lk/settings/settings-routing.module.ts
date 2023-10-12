@@ -5,6 +5,7 @@ import { SettingsComponent } from './settings.component';
 const routes: Routes = [
   {
     path: '',
+    title: 'Настройки',
     component: SettingsComponent
   }
 ];

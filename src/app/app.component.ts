@@ -13,7 +13,9 @@ export class AppComponent implements OnInit{
   constructor(
     private _loginService: LoginService
   ) {
-    this.credentials = JSON.parse(localStorage.getItem('credentials') || '{}');
+    if (!!localStorage.getItem('remember-me')) {
+      this.credentials = JSON.parse(localStorage.getItem('credentials')!);
+    }
   }
 
   ngOnInit() {
