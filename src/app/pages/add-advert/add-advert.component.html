@@ -56,7 +56,11 @@
         chooseLabel="Добавить картинки"
         accept="image/*" 
         (onRemove)="onDeleteFile($event)"
-        (onSelect)="onAddFile($event)"></p-fileUpload>
+        (onSelect)="onAddFile($event)">
+        <ng-template pTemplate="toolbar">
+          <div class="inline-block pt-2 pb-2 ml-2 mb-1">Максимум 10 картинок в формате jpeg, png или heic</div>
+      </ng-template>
+      </p-fileUpload>
       <p-inputNumber class=" p-inputtext-lg" styleClass="w-3 block mt-2 mb-2" mode="currency" currency="RUB" locale="en-US" formControlName="cost"> </p-inputNumber>
       <p-button class="block mt-2 mb-2" label="Разместить объявление" (click)="submit()"></p-button>
       <p class="addAdvert-agreement">Нажимая кнопку «Разместить объявление»</p>
