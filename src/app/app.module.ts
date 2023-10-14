@@ -14,6 +14,7 @@ import { MessagesModule } from 'primeng/messages';
 import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { httpInterceptorProviders } from './http-interceptors';
+import { DividerModule } from 'primeng/divider';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { httpInterceptorProviders } from './http-interceptors';
     MessagesModule,
     RouterOutlet,
     ToastModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    DividerModule
   ],
   providers: [
     httpInterceptorProviders
