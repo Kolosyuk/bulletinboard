@@ -15,12 +15,17 @@ import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { httpInterceptorProviders } from './http-interceptors';
 import { DividerModule } from 'primeng/divider';
+import { SearchNavigationComponent } from './components/search-navigation/search-navigation.component';
+import { TabViewModule } from 'primeng/tabview';
+import { InnerTabComponent } from './components/search-navigation/inner-tab/inner-tab.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     BreadcrumbsComponent,
+    SearchNavigationComponent,
+    InnerTabComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -34,7 +39,8 @@ import { DividerModule } from 'primeng/divider';
     RouterOutlet,
     ToastModule,
     BreadcrumbModule,
-    DividerModule
+    DividerModule,
+    TabViewModule
   ],
   providers: [
     httpInterceptorProviders

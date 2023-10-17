@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { LoginService } from '../../services/login.service'
+import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { LoginService } from '../../services/login.service';
+import { MenuService } from '../../services/menu.service';
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
 
@@ -9,7 +10,7 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./header.component.scss'],
   providers: [MessageService],
 })
-export class HeaderComponent implements OnInit, OnDestroy{
+export class HeaderComponent implements OnInit, OnDestroy, OnChanges{
   
   public menuItems: MenuItem[] = [
     {
@@ -25,19 +26,36 @@ export class HeaderComponent implements OnInit, OnDestroy{
       command: () => this.loginService.logout(),
       routerLink: '/'
     },
-  ]
+  ];
+
+  public isVisible: boolean = false;
 
   constructor (
     public loginService: LoginService,
     public messageService: MessageService,
-    public userService: UserService
+    public userService: UserService,
+    public menuService: MenuService,
     ) {}
     
     ngOnInit(): void {
       this.loginService.isAuthenticated.subscribe()
-    }
+    };
     
     ngOnDestroy(): void {
       this.loginService.isAuthenticated.unsubscribe()
-    }    
+    };
+
+    toggleMenu() {
+      if(this.menuService.isVisible$.getValue()){
+        this.menuService.close();
+        this.isVisible = false;
+        return
+      }
+      this.menuService.open();
+      this.isVisible = true;
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+      console.log(changes)
+    }
   }

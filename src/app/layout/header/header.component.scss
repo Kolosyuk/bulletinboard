@@ -1,5 +1,5 @@
 .header-top {
-    background: #1E293B;
+    background-color: #1E293B;
 
     .header-login {
         height: 44px;
@@ -10,22 +10,22 @@
         font-weight: 400;
         line-height: 20px;
 
-        background: transparent;
+        background-color: transparent;
         text-decoration: none;
         cursor: pointer;
 
         &:hover {
-            background: #6c9ae4;
+            background-color: #6c9ae4;
         }
     }
 
     .header-addAdvirtisment {
         height: 44px;
-        background: #3B82F6;
+        color: #FFF;
+        background-color: #3B82F6;
         text-decoration: none;
 
         span {
-            color: #FFF;
             font-family: Inter;
             font-size: 14px;
             font-style: normal;
@@ -34,12 +34,14 @@
         }
 
         &:hover {
-            background: #6c9ae4;
+            background-color: #6c9ae4;
         }
     }
 }
 
 .header-bottom {
+    background-color: #fff; 
+    
     .container {
         @media screen and (max-width: 800px) {
             padding-bottom: 0px;
@@ -75,7 +77,7 @@
 
         &:hover {
             color: #fff;
-            background: #6c9ae4;
+            background-color: #6c9ae4;
         }
     }
 
@@ -97,7 +99,7 @@
         gap: 8px;
         color: #eee;
         padding: 8px 12px;
-        background: #3B82F6;
+        background-color: #3B82F6;
         border: none;
         border-radius: 0px 4px 4px 0px;
         cursor: pointer;
@@ -111,7 +113,7 @@
         }
 
         &:hover {
-            background: #6c9ae4;
+            background-color: #6c9ae4;
         }
     }
 }
