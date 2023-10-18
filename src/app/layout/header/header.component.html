@@ -1,11 +1,11 @@
     <header>
     <div class="header-top pt-2 pb-2 relative z-2">
-        <div class="container flex justify-content-end gap-3">
+        <div class="container flex justify-content-end gap-3" >
             <ng-template [ngIf]="loginService.isAuthenticated | async" [ngIfElse]="noUser">
                 <div >
                     <p-toast></p-toast>
-                    <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active"></p-menu>
-                    <button 
+                    <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active" appendTo="body"></p-menu>
+                    <button                         
                         pButton
                         type="button"
                         (click)="menu.toggle($event)"
