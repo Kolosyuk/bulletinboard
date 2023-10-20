@@ -132,9 +132,9 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   submit() {
     const formData : FormData = this._buildFormData();
 
-    // this._advertService.postNewAdvert(formData).subscribe(() => {
-    //   this._router.navigate(['/personal'])
-    // })
+    this._advertService.postNewAdvert(formData).subscribe(() => {
+      this._router.navigate(['/personal'])
+    })
   };
 
   onAddFile(event: FileSelectEvent) {  
@@ -159,8 +159,6 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     const lastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-1];
     const preLastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-2];
     const address : Suggestion = this.newAdvertForm.get('location')?.value;
-    console.log('adress', address);
-    
        
     if (lastCategory['category']) {
       categoryId = lastCategory['category'];
