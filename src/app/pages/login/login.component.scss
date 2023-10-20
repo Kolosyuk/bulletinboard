@@ -5,12 +5,6 @@
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-  p-inputMask {
-    input {
-      width: 100% !important;
-    }
-  }
-
   .login-header {
     font-family: Inter;
     font-size: 24px;
@@ -49,8 +43,4 @@
     margin-bottom: 24px;
 
   }
-}   
-
-.alert {
-  border-color: #ff0000;
 }

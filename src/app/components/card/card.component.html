@@ -3,7 +3,7 @@
         <img [src]="mainImgSrc" class="card-image" alt="advirtisment image">
     </div>
     <h3 class="card-title w-full">{{ data.name }}</h3>
-    <p class="card-price w-full">{{ data.cost | currency: "RUB "}}</p>
+    <p class="card-price w-full">{{ data.cost | currency: "":''}}</p>
     <p class="card-address w-full">{{ data.location }}</p>
     <p class="card-date w-full">{{ data.createdAt | date:"MMM dd, yyyy 'at' hh:mm a" }}</p>
 </a>

@@ -21,6 +21,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public dropDownOptions : DropDownOption = {};
   public menuLevel = new BehaviorSubject(1);
   public  filteredAddress: Suggestion[];
+  public isInvalidCategoryForm: boolean = true;
   
   constructor(
     private _router: Router,
@@ -35,7 +36,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
 
   _createForm() {
     this.newAdvertForm = this._fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['', [Validators.required]],
       description: "",
       images: '',
       cost: [0, [Validators.required]],
@@ -57,6 +58,10 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public get categoryIds() {
     return <FormArray>this.newAdvertForm.get('categoryIds');
   };
+
+  getCategoryControls(): FormGroup[] {
+    return this.categoryIds.controls as FormGroup[];
+  }
 
   calculateLevel(level: number): string {
     return `level${level}`;
@@ -95,9 +100,12 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
       })
     ).subscribe( options => {
       if (options) {
-        this._setDropdown(this.menuLevel.getValue(), options)
+        this._setDropdown(this.menuLevel.getValue(), options);
       }
     });
+    this.newAdvertForm.markAllAsTouched();
+    this.newAdvertForm.controls['cost'].setErrors({cost: 'should be more then 0'});
+    console.log(this.newAdvertForm.controls['cost'].invalid && (this.newAdvertForm.controls['cost'].touched || this.newAdvertForm.controls['cost'].dirty));
   };
 
   ngOnDestroy(): void {
@@ -126,6 +134,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
         this.categoryIds.push(this._getCategoryControl());
         this._setDropdown(this.menuLevel.getValue(), newDropDownOPtions);
       };
+      this.isInvalidCategoryForm =this.getCategoryControls().some(item => item.invalid)
     });
   };
 

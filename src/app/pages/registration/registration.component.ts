@@ -13,11 +13,11 @@ export class RegistrationComponent {
     private _userService: UserService
   ) {}
 
-
   public registrationForm: FormGroup = new FormGroup({
     userPhone: new FormControl('', [
     Validators.required,
-    Validators.minLength(10)
+    Validators.minLength(4),
+    Validators.maxLength(64)
     ]),
     name: new FormControl('', [
       Validators.required,
@@ -25,7 +25,8 @@ export class RegistrationComponent {
       ]),
     userPass: new FormControl('', [
       Validators.required,
-      Validators.minLength(7)
+      Validators.minLength(8),
+      Validators.maxLength(50)
     ]),
   });
 
@@ -38,4 +39,4 @@ export class RegistrationComponent {
       password: this.registrationForm.value.userPass
     });
   };
-}
+};

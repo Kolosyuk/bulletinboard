@@ -1,6 +1,6 @@
 <div class="container flex justify-content-center align-items-center">
   <div class="registration">
-    <div class="registration-header flex justify-content-between align-items-center mb-4">
+    <div class="registration-header flex justify-content-between align-items-start mb-4">
       <h1>Регистрация</h1>
       <a routerLink="/"><i class="pi pi-times"></i></a>
     </div>
@@ -10,16 +10,15 @@
       (ngSubmit)="submit()">
       <p-inputMask 
         mask="+9-999-999-99-99" 
-        class="p-inputtext-lg mb-4 block w-full"
-        styleClass="w-full p-component p-inputwrapper"
+        class="p-inputtext-lg mb-3 block w-full"
+        styleClass="w-full"
         formControlName="userPhone"
         placeholder="+7-800-123-45-67">
       </p-inputMask>
-      <div
-        class="alert alert-danger mt-1 mb-1 w-full"
-          *ngIf="registrationForm.controls['userPhone'].invalid
-          && registrationForm.controls['userPhone'].touched">
-            Введите номер телефона
+      <div class="w-full mb-3 text-left"
+        *ngIf="registrationForm.controls['userPhone']?.invalid && 
+        (registrationForm.controls['userPhone'].touched || registrationForm.controls['userPhone'].dirty)">
+        <span class="text-red-600 w-full text-lg">Введите номер телефона</span>
       </div>
       <input 
         type="text"
@@ -27,24 +26,30 @@
         pInputText
         formControlName="name"
         placeholder="Имя"/>
+      <div class="w-full mb-3 text-left"
+        *ngIf="registrationForm.controls['name']?.invalid && 
+        (registrationForm.controls['name'].touched || registrationForm.controls['name'].dirty)">
+        <span *ngIf="registrationForm.controls['name']?.errors?.['required']" class="text-red-600 w-full text-lg">Введите имя</span>
+      </div>
       <p-password 
         class="p-inputtext-lg"
         formControlName="userPass"
-        styleClass="w-full p-component p-inputwrapper  p-password"
+        styleClass="w-full"
         inputStyleClass="w-full"
         placeholder="Пароль"
         [feedback]="false"
         [toggleMask]="true"></p-password>
       <div
-        class="alert alert-danger mt-1"
+        class="alert alert-danger mt-3 text-left"
         *ngIf="registrationForm.controls['userPass'].invalid
         && registrationForm.controls['userPass'].touched">
-          Минимальная длинна пароля 8 символов
+          <span class="text-red-600 w-full text-lg">Минимальная длинна пароля 8 символов</span>
       </div>
 
       <button 
         class="registration-btn"
-        (click)="submit()">
+        type="submit"
+        [disabled]="registrationForm.invalid">
         <span>Зарегистрироваться</span>
       </button>
     </form>
