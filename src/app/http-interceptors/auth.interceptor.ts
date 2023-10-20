@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
-  HttpInterceptor,
-  HttpErrorResponse,
-  HttpEvent
+  HttpInterceptor
 } from '@angular/common/http';
 import { LoginService } from '../services/login.service';
-import { Observable, catchError, tap } from 'rxjs';
+import { API_DADATA_KEY } from 'src/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,8 +16,14 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler){
 
-    const authToken = this._loginService.getAuthorizationToken();
+    if(request.url.match('dadata')) {
+      const authToken = API_DADATA_KEY;
+      const authReq = request.clone({ setHeaders: { Authorization: `Token ${authToken}` } });
 
+      return next.handle(authReq);
+    } 
+    
+    const authToken = this._loginService.getAuthorizationToken();
     const authReq = request.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });
 
     return next.handle(authReq);

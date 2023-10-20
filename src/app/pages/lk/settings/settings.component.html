@@ -21,12 +21,16 @@
       </p-inputMask>
     </div>
     <p class="settings-location mt-3 mb-2"> Адрес <span>(будет указываться в объявлениях по умолчанию)</span></p>
-    <input 
-      class="w-10 p-inputtext-lg mb-4"
-      type="text"
-      pInputText
-      formControlName="location"
-      placeholder="Не указан"/>
+    <p-autoComplete 
+        formControlName="location"
+        [suggestions]="filteredAddress"
+        (completeMethod)="filterAddress($event)"
+        field="value"
+        inputStyleClass="w-full p-inputtext-lg mb-4"
+        [minLength]="4"
+        styleClass="w-10"
+        placeholder="Не указан">
+      </p-autoComplete>
       <div class="flex ">
         <p-button class="mr-4" label="Сохранить" type="submit"></p-button>
         <p *ngIf="isVisibleConformation"

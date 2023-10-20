@@ -33,7 +33,15 @@
         formControlName="description"
         placeholder="Расскажите подробнее о товаре или услуге"></textarea>
       <p class="mt-2 mb-2">Адрес (место проведения сделки) *</p>
-      <input class="w-9 p-inputtext-lg" type="text" pInputText formControlName="location"/>
+      <p-autoComplete 
+        formControlName="location"
+        [suggestions]="filteredAddress"
+        (completeMethod)="filterAddress($event)"
+        field="value"
+        inputStyleClass="w-full p-inputtext-lg"
+        [minLength]="4"
+        styleClass="w-9">
+      </p-autoComplete>
       <p class="mt-2 mb-2">Введите номер телефона</p>
       <p-inputMask 
         mask="+9-999-999-99-99" 

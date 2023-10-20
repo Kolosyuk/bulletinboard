@@ -2,11 +2,14 @@ import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
 import { AdvertsService } from 'src/app/services/advert.service';
 import { Router } from '@angular/router';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { DadataService } from 'src/app/services/dadata.service';
+import { Suggestion } from 'src/app/model/dadata.interface';
 
 @Component({
   selector: 'app-add-advert',
@@ -17,13 +20,15 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public newAdvertForm : UntypedFormGroup;
   public dropDownOptions : DropDownOption = {};
   public menuLevel = new BehaviorSubject(1);
+  public  filteredAddress: Suggestion[];
   
   constructor(
     private _router: Router,
     private _fb: FormBuilder,
     private _categoryService: CategoryService,
     private elRef: ElementRef,
-    private _advertService: AdvertsService
+    private _advertService: AdvertsService,
+    private _dadateService: DadataService
   ) {
     this._createForm();   
   };
@@ -55,7 +60,15 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
 
   calculateLevel(level: number): string {
     return `level${level}`;
- };
+  };
+
+  filterAddress(event: AutoCompleteCompleteEvent ) {
+    this._dadateService.getSuggestion(event.query).subscribe( (value) => {
+      if(value) {
+        this.filteredAddress = value.suggestions
+      }
+    })
+  }
 
   _setDropdown(level: number, arrOfOptions: Options[]) {
     const key : string = `level${level}`;
@@ -85,9 +98,6 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
         this._setDropdown(this.menuLevel.getValue(), options)
       }
     });
-  };
-
-  ngAfterViewInit() {
   };
 
   ngOnDestroy(): void {
@@ -122,9 +132,9 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   submit() {
     const formData : FormData = this._buildFormData();
 
-    this._advertService.postNewAdvert(formData).subscribe(() => {
-      this._router.navigate(['/personal'])
-    })
+    // this._advertService.postNewAdvert(formData).subscribe(() => {
+    //   this._router.navigate(['/personal'])
+    // })
   };
 
   onAddFile(event: FileSelectEvent) {  
@@ -148,6 +158,9 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     const menuLevelDeep = this.newAdvertForm.get('categoryIds')?.value.length;
     const lastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-1];
     const preLastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-2];
+    const address : Suggestion = this.newAdvertForm.get('location')?.value;
+    console.log('adress', address);
+    
        
     if (lastCategory['category']) {
       categoryId = lastCategory['category'];
@@ -157,7 +170,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     fd.append('Name', this.newAdvertForm.get('name')?.value);
     fd.append('Description', this.newAdvertForm.get('description')?.value);
     fd.append('CategoryId', categoryId);
-    fd.append('Location', this.newAdvertForm.get('location')?.value);
+    fd.append('Location', address.value);
     fd.append('Phone', this.newAdvertForm.get('phone')?.value);
     fd.append('Email', this.newAdvertForm.get('email')?.value);
     fd.append('Cost', this.newAdvertForm.get('cost')?.value);

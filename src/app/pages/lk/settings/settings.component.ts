@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { Suggestion } from 'src/app/model/dadata.interface';
 import { LoginForm } from 'src/app/model/forms.interface';
+import { DadataService } from 'src/app/services/dadata.service';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -15,12 +18,15 @@ export class SettingsComponent {
   public newPasswordForm: UntypedFormGroup;
   public isVisibleConformation: boolean = false;
   public isVisiblePassConformation: boolean = false;
-  public isVisiblePassError: boolean = false;  
+  public isVisiblePassError: boolean = false;
+  public  filteredAddress: Suggestion[];  
+  
 
   constructor(
     private _fb:FormBuilder,
     private _userService: UserService,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _dadataService: DadataService,
   ){
     this._createSettingsForm();
     this._createNewPasswordForm();
@@ -40,6 +46,14 @@ export class SettingsComponent {
       newPassword: ['', [Validators.required, Validators.minLength(8)]]
     });
   };
+
+  filterAddress(event: AutoCompleteCompleteEvent ) {
+    this._dadataService.getSuggestion(event.query).subscribe( (value) => {
+      if(value) {
+        this.filteredAddress = value.suggestions
+      }
+    })
+  }
 
   _setVisibleConformation() {
     this.isVisibleConformation = true;
