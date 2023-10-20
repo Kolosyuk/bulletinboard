@@ -15,9 +15,6 @@ export class AdvirtismentComponent implements OnInit {
   public advert: Advert;
   private _id: number;
   public visible: boolean = false;
-  public imageIds: Array<string>
-  public mainImageId: string;
-  public imageSrc: string;
   public images: string[];
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
@@ -54,10 +51,11 @@ export class AdvirtismentComponent implements OnInit {
    this._advertsService.getAdvertById(this._id).pipe(
     tap(advert => {
       this.advert = advert;
-      this.imageIds = this.advert.imagesIds;
-      this.mainImageId = this.imageIds[0];
-      this.imageSrc = imageSrcCreator(this.mainImageId)
-      this.images = this.advert.imagesIds.map(imageSrcCreator);
+      if (this.advert.imagesIds.length) {
+        this.images = this.advert.imagesIds.map((id) => imageSrcCreator(id));
+      } else {
+        this.images = [imageSrcCreator()];
+      }
     }),
    )
    .subscribe();
