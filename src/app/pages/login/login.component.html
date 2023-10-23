@@ -41,7 +41,12 @@
         <a class="forgetPass" routerLink="#">Забыли пароль?</a>
       </div>
       <a class="registration block w-full" routerLink="/registration">Еще не зарегистрированы?</a>
-      <p-button label="Войти" type="submit" [disabled]="loginForm.invalid"></p-button>
+      <p-button 
+        class="login-btn"
+        type="submit"
+        [disabled]="loginForm.invalid">
+        <span>Войти</span>
+      </p-button>
     </form>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { Suggestion } from 'src/app/model/dadata.interface';
@@ -12,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
   public settingsForm: UntypedFormGroup;
   public newPasswordForm: UntypedFormGroup;
@@ -30,6 +30,11 @@ export class SettingsComponent {
   ){
     this._createSettingsForm();
     this._createNewPasswordForm();
+
+  };
+  
+  ngOnInit(): void {
+    this.settingsForm.patchValue({'name': this._userService.getName()})
   };
 
   _createSettingsForm() {
@@ -42,8 +47,8 @@ export class SettingsComponent {
 
   _createNewPasswordForm() {
     this.newPasswordForm = this._fb.group({
-      oldPassword: ['', [Validators.required, Validators.minLength(8)]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]]
+      oldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]]
     });
   };
 
@@ -94,6 +99,7 @@ export class SettingsComponent {
     const fd: FormData = this._createPasswordFD();
     this._userService.updateUserPassword(fd);
     this._loginService.setCredentials(newCredentials);
+    this.newPasswordForm.reset();
   };
 
   _createPasswordFD(): FormData {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,12 +7,12 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnChanges {
 
   constructor (
     private _userService: UserService
   ) {}
-
+  
   public registrationForm: FormGroup = new FormGroup({
     userPhone: new FormControl('', [
     Validators.required,
@@ -29,6 +29,11 @@ export class RegistrationComponent {
       Validators.maxLength(50)
     ]),
   });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.registrationForm.controls['name']?.errors);
+    
+  }
 
   submit() {
     //TODO crutch - server "login" -- design layout "phone number"

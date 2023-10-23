@@ -30,28 +30,30 @@
         *ngIf="registrationForm.controls['name']?.invalid && 
         (registrationForm.controls['name'].touched || registrationForm.controls['name'].dirty)">
         <span *ngIf="registrationForm.controls['name']?.errors?.['required']" class="text-red-600 w-full text-lg">Введите имя</span>
+        <span *ngIf="registrationForm.controls['name']?.errors?.['minlength']" class="text-red-600 w-full text-lg">Минимально 3 символа</span>
       </div>
       <p-password 
         class="p-inputtext-lg"
         formControlName="userPass"
-        styleClass="w-full"
+        styleClass="w-full mb-3"
         inputStyleClass="w-full"
         placeholder="Пароль"
         [feedback]="false"
         [toggleMask]="true"></p-password>
       <div
-        class="alert alert-danger mt-3 text-left"
+        class="mb-3 text-left"
         *ngIf="registrationForm.controls['userPass'].invalid
         && registrationForm.controls['userPass'].touched">
-          <span class="text-red-600 w-full text-lg">Минимальная длинна пароля 8 символов</span>
+          <span *ngIf="registrationForm.controls['userPass']?.errors?.['minlength']" class="text-red-600 w-full text-lg">Минимальная длинна пароля 8 символов</span>
+          <span *ngIf="registrationForm.controls['userPass']?.errors?.['maxlength']" class="text-red-600 w-full text-lg">Максимальная длинна пароля 50 символов</span>
       </div>
-
-      <button 
+      
+      <p-button
         class="registration-btn"
         type="submit"
         [disabled]="registrationForm.invalid">
         <span>Зарегистрироваться</span>
-      </button>
+      </p-button>
     </form>
   </div>
 </div>
