@@ -25,20 +25,25 @@ const routes: Routes = [
       {
         path: 'settings',
         title: 'Настройки',
-        loadChildren: () => import('./pages/lk/settings/settings.module').then(m => m.SettingsModule) 
+        loadChildren: () => import('./pages/lk/settings/settings.module').then(m => m.SettingsModule)
       },
     ] 
   },
   {
     path: `login`,
     title: 'Вход',
-    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)  
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule)
   },
   {
     path: `registration`,
     title: 'Регистрация',
-    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)  
+    loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)
   },
+  {
+    path: `not-found`,
+    title: 'Страница не найдена',
+    loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
+  },  
   {
     path: 'advert',
     children: [
