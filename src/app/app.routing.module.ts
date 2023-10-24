@@ -43,7 +43,12 @@ const routes: Routes = [
     path: `not-found`,
     title: 'Страница не найдена',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
-  },  
+  },
+  {
+    path: `error-page`,
+    title: 'Ошибка',
+    loadChildren: () => import('./pages/error-page/error-page.module').then(m => m.ErrorPageModule)
+  },   
   {
     path: 'advert',
     children: [

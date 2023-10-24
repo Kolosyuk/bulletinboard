@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-advirtisment',
@@ -58,7 +59,16 @@ export class AdvirtismentComponent implements OnInit {
       }
     }),
    )
-   .subscribe();
+   .subscribe(
+    {
+      error:(errorResponse: HttpErrorResponse) => { 
+        if (errorResponse.status === 404) {
+          this._router.navigate(['/not-found']);
+        } else {
+          this._router.navigate([`/error-page`], {queryParams: { errorMessage: errorResponse.message }});
+        }
+    }}
+   )
   };
 
   showDialog(): void {

@@ -7,7 +7,7 @@ import {
   HttpResponse,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, catchError, of, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -23,18 +23,21 @@ export class ErrInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         switch (error.status) {
+          case 400: 
+            return throwError(error);
+          case 401:
+            this._router.navigate(['/login']);
+            return throwError(error);
           case 404:
-            this._router.navigate(['/not-found'])
-            console.log('this', error.error)
-            return of(new HttpResponse({
-              body: error.error
-            }));            
+            this._router.navigate(['/not-found']);
+            return throwError(error);
         
           default:
-            return throwError('server error');
-        }
+            this._router.navigate([`/error-page`], {queryParams: { errorMessage: error.message }});
+            return throwError(error);
+        };
       })
-    );
-  }
-}
+    )
+  };
+};
 
