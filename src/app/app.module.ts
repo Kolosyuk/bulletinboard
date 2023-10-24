@@ -18,6 +18,7 @@ import { DividerModule } from 'primeng/divider';
 import { SearchNavigationComponent } from './components/search-navigation/search-navigation.component';
 import { TabViewModule } from 'primeng/tabview';
 import { InnerTabComponent } from './components/search-navigation/inner-tab/inner-tab.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { InnerTabComponent } from './components/search-navigation/inner-tab/inne
     TabViewModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    MessageService
   ],
   bootstrap: [AppComponent],
 })

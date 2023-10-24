@@ -1,5 +1,6 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -7,10 +8,11 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnChanges {
+export class RegistrationComponent{
 
   constructor (
-    private _userService: UserService
+    private _userService: UserService,
+    private _massageService: MessageService,
   ) {}
   
   public registrationForm: FormGroup = new FormGroup({
@@ -30,11 +32,6 @@ export class RegistrationComponent implements OnChanges {
     ]),
   });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.registrationForm.controls['name']?.errors);
-    
-  }
-
   submit() {
     //TODO crutch - server "login" -- design layout "phone number"
     const login = this.registrationForm.value.userPhone.replaceAll('-',"").replace('+','');
@@ -42,6 +39,6 @@ export class RegistrationComponent implements OnChanges {
       login: login,
       name: this.registrationForm.value.name,
       password: this.registrationForm.value.userPass
-    });
+    }, this._massageService);
   };
 };

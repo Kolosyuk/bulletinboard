@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { User } from '../model/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE } from '../../environment';
-import { RegistrationForm } from '../model/forms.interface';
+import { LoginForm, RegistrationForm } from '../model/forms.interface';
 import { BehaviorSubject } from 'rxjs';
 import { LoginService } from './login.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -38,9 +39,13 @@ export class UserService {
       })
   };
 
-  registrationNewUser(form: RegistrationForm){
-    this._http.post(`${API_BASE}/auth/register`, form)
-    .subscribe(() => this._loginService.login(form));
+  registrationNewUser(registrationForm: RegistrationForm, msgServiceInstance: MessageService){
+    const loginForm: LoginForm = {
+      login: registrationForm.login,
+      password: registrationForm.password
+    }
+    this._http.post(`${API_BASE}/auth/register`, registrationForm)
+    .subscribe(() => this._loginService.login(loginForm, false, msgServiceInstance));
   };
 
   updateUserPassword(form: FormData) {

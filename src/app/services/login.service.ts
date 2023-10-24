@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { API_BASE } from '../../environment';
 import { LoginForm } from '../model/forms.interface';
 import { BehaviorSubject, tap } from 'rxjs';
+import { MsgService } from './msg.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api/public_api';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,7 @@ export class LoginService {
 
   constructor(
     private _http: HttpClient,
+    private _msgService: MsgService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
   ) {
@@ -31,21 +34,33 @@ export class LoginService {
     return token
   };
 
-  login(form: LoginForm){
+  login(form: LoginForm, rememberMe = false, msgServiceInstance: MessageService){
     const redirection = this._activatedRoute.snapshot.queryParams['redirectTo'];
-    
-    this._http.post<string>(`${API_BASE}/auth/login`, form).pipe(
+    const loginForm: LoginForm = {
+      login: form.login,
+      password: form.password
+    };
+           
+    this._http.post<string>(`${API_BASE}/auth/login`, loginForm).pipe(
       tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);
-        this.setCredentials(form);
-        if (redirection) {
-          this._router.navigate([`${redirection}`]);
-        } else {
-          this._router.navigate(["/"]);
-        }
-      }
-    )).subscribe();
+        this.setCredentials(form);        
+      }))
+      .subscribe({
+        next: (res) => {
+          this.setRememberMe(rememberMe);
+          if (redirection) {
+            this._router.navigate([`${redirection}`]);
+          } else {
+            this._router.navigate(["/"]);
+          }
+        },
+        error:(errorResponse) => { 
+          const message = errorResponse.error?.errors
+          this._msgService.showError(message, msgServiceInstance);
+        },
+      })
   };
 
   setRememberMe(status: boolean) {

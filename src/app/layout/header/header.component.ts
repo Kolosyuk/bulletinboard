@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { MenuService } from '../../services/menu.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,7 +10,7 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./header.component.scss'],
   providers: [MessageService],
 })
-export class HeaderComponent implements OnInit, OnDestroy, OnChanges{
+export class HeaderComponent implements OnInit, OnDestroy{
   
   public menuItems: MenuItem[] = [
     {
@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges{
 
   constructor (
     public loginService: LoginService,
-    public messageService: MessageService,
     public userService: UserService,
     public menuService: MenuService,
     ) {}
@@ -53,9 +52,5 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges{
       }
       this.menuService.open();
       this.isVisible = true;
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-      console.log(changes)
-    }
+    };
   }

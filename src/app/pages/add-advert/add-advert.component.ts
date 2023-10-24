@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
 import { AdvertsService } from 'src/app/services/advert.service';
@@ -105,7 +105,6 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     });
     this.newAdvertForm.markAllAsTouched();
     this.newAdvertForm.controls['cost'].setErrors({cost: 'should be more then 0'});
-    console.log(this.newAdvertForm.controls['cost'].invalid && (this.newAdvertForm.controls['cost'].touched || this.newAdvertForm.controls['cost'].dirty));
   };
 
   ngOnDestroy(): void {
@@ -186,5 +185,5 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
       fd.append('Images', file);
     }
     return fd;
-  }
+  };
 };
