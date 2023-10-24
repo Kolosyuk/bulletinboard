@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { InputTextModule } from 'primeng/inputtext';
     PasswordModule,
     InputMaskModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
   ]
 })
 export class RegistrationModule { }

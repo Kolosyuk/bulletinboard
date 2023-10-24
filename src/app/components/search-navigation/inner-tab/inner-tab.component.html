@@ -1,0 +1,8 @@
+<ul>
+  <li *ngFor='let category of childCategories'>
+    <p>{{category.name}}</p>
+    <ng-template *ngIf="category.childs">
+      <p *ngFor="let child of category.childs">{{child.name}}</p>
+    </ng-template>
+  </li>
+</ul>

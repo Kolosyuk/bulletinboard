@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { Suggestion } from 'src/app/model/dadata.interface';
 import { LoginForm } from 'src/app/model/forms.interface';
+import { DadataService } from 'src/app/services/dadata.service';
 import { LoginService } from 'src/app/services/login.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,21 +12,29 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
   public settingsForm: UntypedFormGroup;
   public newPasswordForm: UntypedFormGroup;
   public isVisibleConformation: boolean = false;
   public isVisiblePassConformation: boolean = false;
-  public isVisiblePassError: boolean = false;  
+  public isVisiblePassError: boolean = false;
+  public  filteredAddress: Suggestion[];  
+  
 
   constructor(
     private _fb:FormBuilder,
     private _userService: UserService,
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _dadataService: DadataService,
   ){
     this._createSettingsForm();
     this._createNewPasswordForm();
+
+  };
+  
+  ngOnInit(): void {
+    this.settingsForm.patchValue({'name': this._userService.getName()})
   };
 
   _createSettingsForm() {
@@ -36,10 +47,18 @@ export class SettingsComponent {
 
   _createNewPasswordForm() {
     this.newPasswordForm = this._fb.group({
-      oldPassword: ['', [Validators.required, Validators.minLength(8)]],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]]
+      oldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]]
     });
   };
+
+  filterAddress(event: AutoCompleteCompleteEvent ) {
+    this._dadataService.getSuggestion(event.query).subscribe( (value) => {
+      if(value) {
+        this.filteredAddress = value.suggestions
+      }
+    })
+  }
 
   _setVisibleConformation() {
     this.isVisibleConformation = true;
@@ -80,6 +99,7 @@ export class SettingsComponent {
     const fd: FormData = this._createPasswordFD();
     this._userService.updateUserPassword(fd);
     this._loginService.setCredentials(newCredentials);
+    this.newPasswordForm.reset();
   };
 
   _createPasswordFD(): FormData {

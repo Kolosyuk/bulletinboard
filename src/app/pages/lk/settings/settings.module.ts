@@ -7,6 +7,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     InputTextModule,
     InputMaskModule,
     ButtonModule,
-    PasswordModule
+    PasswordModule,
+    AutoCompleteModule
   ]
 })
 export class SettingsModule { }

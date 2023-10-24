@@ -7,6 +7,8 @@ import { PasswordModule } from 'primeng/password';
 import { InputMaskModule } from 'primeng/inputmask';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,11 @@ import { ButtonModule } from 'primeng/button';
     PasswordModule,
     InputMaskModule,
     CheckboxModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService
   ]
 })
 export class LoginModule { }

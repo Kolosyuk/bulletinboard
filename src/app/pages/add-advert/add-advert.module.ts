@@ -10,6 +10,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { InputMaskModule } from 'primeng/inputmask';
     InputNumberModule,
     FileUploadModule,
     ButtonModule,
-    InputMaskModule
+    InputMaskModule,
+    AutoCompleteModule
   ]
 })
 export class AddAdvertModule { }

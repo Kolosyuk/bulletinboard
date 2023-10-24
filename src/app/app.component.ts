@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { LoginForm } from './model/forms.interface';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent implements OnInit{
   private credentials: LoginForm | null;
 
   constructor(
-    private _loginService: LoginService
+    private _loginService: LoginService,
+    private _messageService: MessageService
   ) {
     if (!!localStorage.getItem('remember-me')) {
       this.credentials = JSON.parse(localStorage.getItem('credentials')!);
@@ -20,7 +22,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
     if(this.credentials) {
-      this._loginService.login(this.credentials)
+      this._loginService.login(this.credentials, true, this._messageService)
     }
   }
 }

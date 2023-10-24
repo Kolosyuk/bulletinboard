@@ -1,0 +1,59 @@
+.search-navigation-body{
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #fff;
+  transition: transform 0.3s linear;
+  padding-bottom: 50px;
+}
+
+.nav-bar{
+  max-width: 306px;
+  flex-grow: 1;
+}
+
+.nav-body{
+  flex-grow: 4;
+  background: rgb(124, 218, 124);
+}
+
+:host ::ng-deep .p-tabview-panel{
+  color: #1E293B;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 48px;
+}
+
+
+:host ::ng-deep .p-tabview-panel>h3>span{
+  font-size: 24px;
+  line-height: 32px;
+}
+
+:host ::ng-deep .p-tabview-nav>li>a {
+  display: flex;
+  justify-content: space-between;
+  color: #1E293B;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+
+:host ::ng-deep .p-tabview {
+	display: flex;
+}
+:host ::ng-deep .p-tabview-nav-container {
+  width: 300px;
+}
+:host ::ng-deep .p-tabview-nav-container {
+  flex: 1;
+}
+:host ::ng-deep .p-tabview-nav {
+  width: 300px;
+	flex-direction: column;
+}

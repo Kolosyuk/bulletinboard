@@ -1,4 +1,6 @@
 <div class="container flex justify-content-center align-items-center">
+  <p-toast position="top-center"></p-toast>
+
   <div class="login">
     <div class="login-header flex justify-content-between align-items-center">
       <h1>Авторизация</h1>
@@ -7,26 +9,25 @@
     <form class="login-body w-full text-center" [formGroup]="loginForm" (ngSubmit)="submit()">
       <p-inputMask 
         mask="+9-999-999-99-99" 
-        class="p-inputtext-lg mb-4 block w-full"
-        styleClass="w-full p-component p-inputwrapper"
+        class="p-inputtext-lg block w-full"
+        styleClass="w-full"
         formControlName="userPhone"
         placeholder="+7-800-123-45-67">
       </p-inputMask>
-      <div
-        class="alert alert-danger mt-1 mb-1 w-full"
-          *ngIf="loginForm.controls['userPhone'].invalid
-          && loginForm.controls['userPhone'].touched">
+      <div *ngIf="loginForm.controls['userPhone'].invalid && loginForm.controls['userPhone'].touched"
+        class="mt-3 w-full text-red-600"
+          >
             Введите номер телефона
       </div>
       <p-password 
         class="p-inputtext-lg"
         formControlName="userPass"
-        styleClass="w-full p-component p-inputwrapper  p-password"
+        styleClass="w-full mt-3 mb-3"
         inputStyleClass="w-full"
         [feedback]="false"
         [toggleMask]="true"></p-password>
       <div
-        class="alert alert-danger mt-1"
+        class="text-red-600 mb-3"
         *ngIf="loginForm.controls['userPass'].invalid
         && loginForm.controls['userPass'].touched">
           Минимальная длинна пароля 8 символов
@@ -42,7 +43,12 @@
         <a class="forgetPass" routerLink="#">Забыли пароль?</a>
       </div>
       <a class="registration block w-full" routerLink="/registration">Еще не зарегистрированы?</a>
-      <p-button label="Войти" (click)="submit()"></p-button>
+      <p-button 
+        class="login-btn"
+        type="submit"
+        [disabled]="loginForm.invalid">
+        <span>Войти</span>
+      </p-button>
     </form>
   </div>
 </div>

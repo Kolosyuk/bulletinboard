@@ -14,12 +14,19 @@ import { MessagesModule } from 'primeng/messages';
 import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { httpInterceptorProviders } from './http-interceptors';
+import { DividerModule } from 'primeng/divider';
+import { SearchNavigationComponent } from './components/search-navigation/search-navigation.component';
+import { TabViewModule } from 'primeng/tabview';
+import { InnerTabComponent } from './components/search-navigation/inner-tab/inner-tab.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     BreadcrumbsComponent,
+    SearchNavigationComponent,
+    InnerTabComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -32,10 +39,13 @@ import { httpInterceptorProviders } from './http-interceptors';
     MessagesModule,
     RouterOutlet,
     ToastModule,
-    BreadcrumbModule
+    BreadcrumbModule,
+    DividerModule,
+    TabViewModule
   ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    MessageService
   ],
   bootstrap: [AppComponent],
 })

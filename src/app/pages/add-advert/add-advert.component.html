@@ -3,7 +3,7 @@
     <h2 class="addAdvert-title">Новое объявление</h2>
     <form *ngIf="dropDownOptions" class="addAdvert-body w-full" [formGroup]="newAdvertForm" (ngSubmit)="submit()">
       <p class="mt-2 mb-2"> Выберите категорию</p>
-      <div class="mt-2 mb-2" formArrayName="categoryIds" id="category-dynamic">
+      <div formArrayName="categoryIds">
         <div #menuSet *ngFor="let category of categoryIds.controls; let i = index" [formGroupName]="i" [attr.data-level]="i+1">
           <p-dropdown
           class=" p-inputtext-lg"
@@ -16,6 +16,9 @@
           (onChange)="onSelectCategory($event, i+1)"
           ></p-dropdown>
         </div>
+        <div *ngIf="isInvalidCategoryForm">
+          <span class="w-4 mt-2 mb-2 text-lg text-red-600">Выбор категории обязателен</span>
+        </div>
       </div>
       <p class="mt-2 mb-2"> Название объявления</p>
       <input 
@@ -24,6 +27,11 @@
         pInputText
         formControlName="name"
         placeholder="Что хотите продать?"/>
+      <div class="w-9 mt-2 mb-2"
+        *ngIf="newAdvertForm.controls['name']?.invalid && 
+        (newAdvertForm.controls['name'].touched || newAdvertForm.controls['name'].dirty)">
+        <span class="text-red-600 w-full text-lg">Название объявления обязателено</span>
+      </div>
       <p class="mt-2 mb-2"> Описание</p>
       <textarea
         class="w-9 p-inputtext-lg"
@@ -33,7 +41,20 @@
         formControlName="description"
         placeholder="Расскажите подробнее о товаре или услуге"></textarea>
       <p class="mt-2 mb-2">Адрес (место проведения сделки) *</p>
-      <input class="w-9 p-inputtext-lg" type="text" pInputText formControlName="location"/>
+      <p-autoComplete 
+        formControlName="location"
+        [suggestions]="filteredAddress"
+        (completeMethod)="filterAddress($event)"
+        field="value"
+        inputStyleClass="w-full p-inputtext-lg"
+        [minLength]="4"
+        styleClass="w-9">
+      </p-autoComplete>
+      <div class="w-9 mt-2 mb-2"
+        *ngIf="newAdvertForm.controls['location']?.invalid && 
+        (newAdvertForm.controls['location'].touched || newAdvertForm.controls['location'].dirty)">
+        <span class="text-red-600 w-full text-lg">Обязателеное поле</span>
+      </div>
       <p class="mt-2 mb-2">Введите номер телефона</p>
       <p-inputMask 
         mask="+9-999-999-99-99" 
@@ -42,6 +63,11 @@
         formControlName="phone"
         placeholder="+7-800-123-45-67">
       </p-inputMask>
+      <div class="w-9 mt-2 mb-2"
+        *ngIf="newAdvertForm.controls['phone']?.invalid && 
+        (newAdvertForm.controls['phone'].touched || newAdvertForm.controls['phone'].dirty)">
+        <span class="text-red-600 w-full text-lg">Телефон обязателен</span>
+      </div>
       <p class="mt-2 mb-2">Введите Ваш email</p>
       <input class="w-9 mt-2 mb-2 p-inputtext-lg" type="text" pInputText formControlName="email"/>
       <p-fileUpload 
@@ -56,9 +82,27 @@
         chooseLabel="Добавить картинки"
         accept="image/*" 
         (onRemove)="onDeleteFile($event)"
-        (onSelect)="onAddFile($event)"></p-fileUpload>
-      <p-inputNumber class=" p-inputtext-lg" styleClass="w-3 block mt-2 mb-2" mode="currency" currency="RUB" locale="en-US" formControlName="cost"> </p-inputNumber>
-      <p-button class="block mt-2 mb-2" label="Разместить объявление" (click)="submit()"></p-button>
+        (onSelect)="onAddFile($event)">
+        <ng-template pTemplate="toolbar">
+          <div class="inline-block pt-2 pb-2 ml-2 mb-1">Максимум 10 картинок в формате jpeg, png или heic</div>
+      </ng-template>
+      </p-fileUpload>
+      <input 
+        class="p-inputtext-lg w-9 block mt-3 mb-3" 
+        type="number" 
+        pInputText 
+        placeholder="0"
+        min="1"
+        formControlName="cost">
+      <div class="w-9 mt-3 mb-3"
+        *ngIf="newAdvertForm.controls['cost']?.invalid && (newAdvertForm.controls['cost'].touched || newAdvertForm.controls['cost'].dirty)">
+        <span class="text-red-600 w-full text-lg">Необходимо указать стоимость</span>
+      </div>
+      <p-button 
+        class="block mt-3 mb-3"
+        [disabled]="newAdvertForm.invalid"
+        label="Разместить объявление" 
+        (click)="submit()"></p-button>
       <p class="addAdvert-agreement">Нажимая кнопку «Разместить объявление»</p>
       <p class="addAdvert-agreement">Вы соглашаетесь с <span>правилами площадки</span></p>
     </form>

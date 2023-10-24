@@ -4,10 +4,15 @@
         <div class="cell-title col-8">{{ advert && advert.name }}</div>
         <div class="cell-price col-4">{{ advert && advert.cost }}</div>
        
-        <div class="cell-images col-8"  >
-          <p-galleria class="cell-images col-8" [value]="images" [containerStyle]="{ 'max-width': '856px' }" [numVisible]="5">
-            <ng-template pTemplate="item" let-item>
-                <img [src]="item" style="width: 100%;" />
+        <div class="cell-images col-8">
+          <p-galleria 
+            *ngIf="images"
+            [value]="images"
+            [numVisible]="5">
+            <ng-template 
+              pTemplate="item"
+              let-item>
+                <img [src]="item" style="height: 478px" />
             </ng-template>
             <ng-template pTemplate="thumbnail" let-item >
                 <div class="grid grid-nogutter justify-content-left">
