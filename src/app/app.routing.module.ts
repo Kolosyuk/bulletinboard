@@ -64,6 +64,7 @@ const routes: Routes = [
         children: [
           {
             path: '',
+            data: { id : `:id`},
             loadChildren: () => import('./pages/advert/advert.module').then(m => m.AdvertModule)
           },
           {

@@ -26,11 +26,15 @@ export class BreadcrumbsComponent {
       this.formBreadCrumbs(this._activatedRoute.children)
     })
   };
-
+  
   private formBreadCrumbs(children: ActivatedRoute[], path: string = '') {
     children.forEach((routes: ActivatedRoute) => {
       if(routes.routeConfig && routes.routeConfig.title) {
+        const id = routes.snapshot.params['id'];        
         path += `/${routes.parent?.routeConfig?.path}`;
+        if(id) {
+          path += `/${id}`;
+        }
         this.breadcrumbs.push({
           label: routes.routeConfig.title as string,
           routerLink: path

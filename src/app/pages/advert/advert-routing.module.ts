@@ -6,6 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: AdvertComponent
+  },
+  {
+    path: 'map',
+    title: 'Карта',
+    loadChildren: () => import('./map/map.module').then(m => m.MapModule)
   }
 ];
 
