@@ -22,8 +22,6 @@ export class MsgService {
   }
 
   showError(msg:string, instance: MessageService) {
-    console.log(instance);
-    
     instance.add({ severity: 'error', summary: 'Error', detail: msg });
   }
 }

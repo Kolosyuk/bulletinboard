@@ -7,3 +7,8 @@ export type Options = {
   name: string;
   value: string;
 };
+
+export type Coordinates = {
+  latitude: number;
+  longitude: number;
+}

@@ -22,5 +22,5 @@ export class DadataService {
     }
 
     return this._http.post<DadataSuggestDTO>(API_DADATA_SUGGESTION, body, options)
-  }
+  };
 }
