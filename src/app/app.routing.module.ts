@@ -61,7 +61,18 @@ const routes: Routes = [
       {
         path: `:id`,
         title: 'Объявление',
-        loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)  
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)
+          },
+          {
+            path: 'map',
+            title: 'Карта',
+            loadChildren: () => import('./pages/advirtisment/map/map.module').then(m => m.MapModule)
+          }
+        ]
+          
       },
     ],
   },

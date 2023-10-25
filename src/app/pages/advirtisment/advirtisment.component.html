@@ -2,7 +2,7 @@
   <div class="container">
       <div class="advirtisment-container grid">
         <div class="cell-title col-8">{{ advert && advert.name }}</div>
-        <div class="cell-price col-4">{{ advert && advert.cost }}</div>
+        <div class="cell-price col-4">{{ advert && advert.cost }} ₽</div>
        
         <div class="cell-images col-8">
           <p-galleria 
@@ -22,8 +22,9 @@
           </p-galleria>
         </div>
         <div class="col-4">
-          <div class="">
-            <p-button (click)="showDialog()" icon="pi pi-phone" label="Показать номер телефона"></p-button>
+          <div class="mb-5">
+            <p-button 
+              (click)="showDialog()" icon="pi pi-phone" label="Показать номер телефона"></p-button>
             <p-dialog [header]="advert && advert.user.name" [(visible)]="visible" [modal]="true" class="advert-dialog">
               <p class="phone">{{ advert && advert.phone }}</p>
               <p-divider></p-divider>
@@ -35,11 +36,17 @@
               </ul>
             </p-dialog>
           </div>
-          <div class="adress-title"> Адрес</div>
+          <div class="adress-title mb-2"> Адрес</div>
           <div class="cell-adress"> {{ advert && advert.location }}</div>
-          <div class=""> Показать на карте</div>
-          <div class=""> пункь</div>
-          <div class="cell-description-title"> Описание</div>
+          <a 
+            *ngIf="queryParams" 
+            [routerLink]="mapLink" 
+            [queryParams]="queryParams" 
+            class="map-link no-underline">
+            Показать на карте 
+            <i class="pi pi-map-marker"></i>
+          </a>
+          <div class="cell-description-title mt-5 mb-2"> Описание</div>
           <div class="cell-description">{{ advert && advert.description }}</div>
         </div>
       </div>
