@@ -9,11 +9,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { YamapsService } from 'src/app/services/yamaps.service';
 
 @Component({
-  selector: 'app-advirtisment',
-  templateUrl: './advirtisment.component.html',
-  styleUrls: ['./advirtisment.component.scss'],
+  selector: 'app-advert',
+  templateUrl: './advert.component.html',
+  styleUrls: ['./advert.component.scss'],
 })
-export class AdvirtismentComponent implements OnInit {
+export class AdvertComponent implements OnInit {
   public advert: Advert;
   private _id: number;
   public visible: boolean = false;

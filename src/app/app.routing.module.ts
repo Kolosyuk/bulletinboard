@@ -64,12 +64,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('./pages/advirtisment/advirtisment.module').then(m => m.AdvirtismentModule)
+            loadChildren: () => import('./pages/advert/advert.module').then(m => m.AdvertModule)
           },
           {
             path: 'map',
             title: 'Карта',
-            loadChildren: () => import('./pages/advirtisment/map/map.module').then(m => m.MapModule)
+            loadChildren: () => import('./pages/advert/map/map.module').then(m => m.MapModule)
           }
         ]
           
