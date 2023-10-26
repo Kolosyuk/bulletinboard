@@ -14,9 +14,9 @@ import { NgForOf, NgIf } from '@angular/common';
     CardNewAdvComponent,
     NgForOf,
     NgIf
-  ],
+  ]
 })
 export class CardListComponent{
   @Input()adverts: Advert[];
   @Input()personal: boolean;
-}
+};

@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
   };
 
   ngOnInit() {
-    this._yamaps.decodeCoordinates(this.address).subscribe((res : YamapsDTO) => {
+    this._yamaps.decodeCoordinates(this.address).subscribe((res: YamapsDTO) => {
       let long = '';
       let lat = '';
       const found:number = Number(res.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.found);
@@ -32,7 +32,7 @@ export class MapComponent implements OnInit {
         this.latitude = Number(lat);
       } else {
         this.noAddress = true
-      }
-    })
+      };
+    });
   };
 };

@@ -25,7 +25,7 @@ export class LoginService {
   ) {
   };
 
-  setToken(token: string) {
+  setToken(token: string):void {
     sessionStorage.setItem('auth-token', token)
   };
 
@@ -34,7 +34,7 @@ export class LoginService {
     return token
   };
 
-  login(form: LoginForm, rememberMe = false, msgServiceInstance: MessageService){
+  login(form: LoginForm, rememberMe = false, msgServiceInstance: MessageService):void{
     const redirection = this._activatedRoute.snapshot.queryParams['redirectTo'];
     const loginForm: LoginForm = {
       login: form.login,
@@ -42,14 +42,15 @@ export class LoginService {
     };
            
     this._http.post<string>(`${API_BASE}/auth/login`, loginForm).pipe(
-      tap((token) => {
+            tap((token) => {
         this.setToken(token);
         this.isAuthenticated.next(true);
+        // setRememberMe должен вызываться перед setCredentials
+        this.setRememberMe(rememberMe);
         this.setCredentials(form);        
       }))
       .subscribe({
         next: (res) => {
-          this.setRememberMe(rememberMe);
           if (redirection) {
             this._router.navigate([`${redirection}`]);
           } else {
@@ -63,7 +64,7 @@ export class LoginService {
       })
   };
 
-  setRememberMe(status: boolean) {
+  setRememberMe(status: boolean):void {
     this.rememberMe = status;
   };
 

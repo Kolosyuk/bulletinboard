@@ -15,5 +15,5 @@ function checkLogin(url: string): boolean {
 
   router.navigate([`/login`], {queryParams: {redirectTo: url}});
   return false;
-}
+};
 

@@ -6,7 +6,6 @@ import { filter, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 import { HttpErrorResponse } from '@angular/common/http';
-import { YamapsService } from 'src/app/services/yamaps.service';
 
 @Component({
   selector: 'app-advert',
@@ -25,20 +24,19 @@ export class AdvertComponent implements OnInit {
     {
       breakpoint: '1024px',
       numVisible: 5
-  },
-  {
+    },
+    {
       breakpoint: '768px',
       numVisible: 3
-  },
-  {
+    },
+    {
       breakpoint: '560px',
       numVisible: 1
-  }
+    }
   ];
   
   constructor(
     private _advertsService: AdvertsService,
-    private _yamaps: YamapsService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router
     ) {
@@ -55,8 +53,7 @@ export class AdvertComponent implements OnInit {
 
   ngOnInit(): void {
    this._advertsService.getAdvertById(this._id)
-   .subscribe(
-    {
+   .subscribe({
       next: (advert) => {
         this.advert = advert;
         this.queryParams = {
@@ -74,11 +71,8 @@ export class AdvertComponent implements OnInit {
         } else {
           this._router.navigate([`/error-page`], {queryParams: { errorMessage: errorResponse.message }});
         }
-      },
-
-    }
-   )
-
+      }
+    });
   };
 
   showDialog(): void {

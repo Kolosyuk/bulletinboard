@@ -24,8 +24,8 @@ export class AdvertsService {
     return this._httpClient.get<Advert>(`${API_BASE}/advert/${id}`);
   };
 
-  postNewAdvert(form: FormData) {
-    return this._httpClient.post(`${API_BASE}/advert`, form);
+  postNewAdvert(form: FormData): Observable<Advert> {
+    return this._httpClient.post<Advert>(`${API_BASE}/advert`, form);
 
   }; 
 };

@@ -9,7 +9,8 @@ import { AdvertsService } from 'src/app/services/advert.service';
 import { Router } from '@angular/router';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { DadataService } from 'src/app/services/dadata.service';
-import { Suggestion } from 'src/app/model/dadata.interface';
+import { DadataSuggestDTO, Suggestion } from 'src/app/model/dadata.interface';
+import { Category } from 'src/app/model/category.interface';
 
 @Component({
   selector: 'app-add-advert',
@@ -55,32 +56,34 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     });
   };
 
-  public get categoryIds() {
+  public get categoryIds(): FormArray<any> {
     return <FormArray>this.newAdvertForm.get('categoryIds');
   };
 
   getCategoryControls(): FormGroup[] {
     return this.categoryIds.controls as FormGroup[];
-  }
+  };
 
   calculateLevel(level: number): string {
     return `level${level}`;
   };
 
-  filterAddress(event: AutoCompleteCompleteEvent ) {
-    this._dadateService.getSuggestion(event.query).subscribe( (value) => {
-      if(value) {
-        this.filteredAddress = value.suggestions
+  filterAddress(event: AutoCompleteCompleteEvent): void {
+    this._dadateService.getSuggestion(event.query).subscribe({
+      next: (value: DadataSuggestDTO) => {
+        if(value) {
+          this.filteredAddress = value.suggestions
+        }
       }
-    })
-  }
-
-  _setDropdown(level: number, arrOfOptions: Options[]) {
-    const key : string = `level${level}`;
-    this.dropDownOptions[key] = arrOfOptions
+    });
   };
 
-  _patchDropdown(level: number) {
+  _setDropdown(level: number, arrOfOptions: Options[]): void {
+    const key : string = `level${level}`;
+    this.dropDownOptions[key] = arrOfOptions;
+  };
+
+  _patchDropdown(level: number): DropDownOption {
     const key : string = `level${level}`;
     const newOptionsList: DropDownOption = {};
     for (let i = 1; i <= level; i++) {
@@ -91,41 +94,42 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {    
     this._categoryService.rootCategory.pipe(
-      map(category => {
+      map((category: Category|null) => {
         if(category && category.childs) {
           return category.childs.map(childCategory => {
-            return {name: childCategory.name, value: childCategory.id}
+            return <Options>{name: childCategory.name, value: childCategory.id}
           })
         } else return null
       })
-    ).subscribe( options => {
-      if (options) {
-        this._setDropdown(this.menuLevel.getValue(), options);
+    ).subscribe({
+      next: (options: Options[]|null) => {
+        if (options) {
+          this._setDropdown(this.menuLevel.getValue(), options);
+        }
       }
     });
     this.newAdvertForm.markAllAsTouched();
-    this.newAdvertForm.controls['cost'].setErrors({cost: 'should be more then 0'});
   };
 
   ngOnDestroy(): void {
     this._categoryService.rootCategory.unsubscribe();
   };
 
-  onSelectCategory(event: DropdownChangeEvent, checkedLevel: number) {
-    let sumLevels : number = this.elRef.nativeElement.querySelectorAll(`[data-level]`).length;
-    const diff : number = sumLevels - checkedLevel;
+  onSelectCategory(event: DropdownChangeEvent, checkedLevel: number): void {
+    let sumLevels: number = this.elRef.nativeElement.querySelectorAll(`[data-level]`).length;
+    const diff: number = sumLevels - checkedLevel;
     const categoryId : string = event.value;
     if (diff >= 1) {
       for (let index = 1; index <= diff; index++) {
         this.categoryIds.removeAt(-1);
         this.menuLevel.next(--sumLevels);
       }
-      this.dropDownOptions = this._patchDropdown(checkedLevel)
+      this.dropDownOptions = this._patchDropdown(checkedLevel);
     };
     this._categoryService.getCategory(categoryId)
     .subscribe(cat => {
       if(cat.childs?.length) {
-        const newDropDownOPtions : Options[] = cat.childs.map(category => {
+        const newDropDownOPtions: Options[] = cat.childs.map(category => {
           return {name: category.name, value: category.id}
         })
           
@@ -137,28 +141,28 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     });
   };
 
-  submit() {
+  submit(): void {
     const formData : FormData = this._buildFormData();
 
-    this._advertService.postNewAdvert(formData).subscribe(() => {
-      this._router.navigate(['/personal'])
+    this._advertService.postNewAdvert(formData).subscribe({
+      complete: () => this._router.navigate(['/personal'])
     })
   };
 
-  onAddFile(event: FileSelectEvent) {  
+  onAddFile(event: FileSelectEvent): void {  
     this.newAdvertForm.patchValue({
       images: [...event.currentFiles]
     });
-  }
+  };
 
-  onDeleteFile(event: FileRemoveEvent) {
+  onDeleteFile(event: FileRemoveEvent): void {
     let images: File[] = this.newAdvertForm.get('images')?.value
     images = images.filter((image) => image.name !== event.file.name)
 
     this.newAdvertForm.patchValue({
       images: [...images]
     });
-  }
+  };
 
   _buildFormData(): FormData {
     const fd: FormData = new FormData();
@@ -166,13 +170,14 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
     const menuLevelDeep = this.newAdvertForm.get('categoryIds')?.value.length;
     const lastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-1];
     const preLastCategory = this.newAdvertForm.get('categoryIds')?.value[menuLevelDeep-2];
-    const address : Suggestion = this.newAdvertForm.get('location')?.value;
+    const address: Suggestion = this.newAdvertForm.get('location')?.value;
        
     if (lastCategory['category']) {
       categoryId = lastCategory['category'];
     } else {
       categoryId = preLastCategory['category'];
-    }
+    };
+
     fd.append('Name', this.newAdvertForm.get('name')?.value);
     fd.append('Description', this.newAdvertForm.get('description')?.value);
     fd.append('CategoryId', categoryId);

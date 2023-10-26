@@ -3,10 +3,6 @@ export type LoginForm = {
   password: string;
 };
 
-export interface loginDTO {
-  token: string
-};
-
 export interface RegistrationForm {
   name: string;
   login: string;

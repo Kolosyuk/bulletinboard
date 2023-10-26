@@ -21,11 +21,11 @@ export class AuthInterceptor implements HttpInterceptor {
       const authReq = request.clone({ setHeaders: { Authorization: `Token ${authToken}` } });
 
       return next.handle(authReq);
-    } 
+    };
     
     const authToken = this._loginService.getAuthorizationToken();
     const authReq = request.clone({ setHeaders: { Authorization: `Bearer ${authToken}` } });
 
     return next.handle(authReq);
-  }
-}
+  };
+};

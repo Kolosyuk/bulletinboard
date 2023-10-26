@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_DADATA_SUGGESTION } from 'src/environment';
 import { DadataSuggestDTO } from '../model/dadata.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class DadataService {
     private _http: HttpClient,
   ) { }
 
-  getSuggestion(query: string) {
+  getSuggestion(query: string): Observable<DadataSuggestDTO> {
     // count(необяз) - количество предположений, по умолчанию 10, макс 20
     const body = JSON.stringify({"query": query, "count": 20})
     

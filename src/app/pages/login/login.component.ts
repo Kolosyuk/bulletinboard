@@ -11,7 +11,6 @@ import { MessageService } from 'primeng/api';
   providers: [ MessageService ]
 })
 export class LoginComponent implements OnInit {
-
   public scrHeight: number;
   public  scrWidth: number;
   public loginForm: FormGroup = new FormGroup({
@@ -28,16 +27,16 @@ export class LoginComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   getScreenSize() {
-        this.scrHeight = window.innerHeight;
-        this.scrWidth = window.innerWidth;
-        console.log(this.scrHeight, this.scrWidth);
+    this.scrHeight = window.innerHeight;
+    this.scrWidth = window.innerWidth;
+    console.log(this.scrHeight, this.scrWidth);
   };
 
   constructor(
     private _loginService : LoginService,
     private _router: Router,
     private _messageService: MessageService
-    ) {};
+  ) {};
 
   ngOnInit(): void {
     this.getScreenSize();
@@ -49,7 +48,7 @@ export class LoginComponent implements OnInit {
   submit() {
     //TODO crutch - server "login" -- design layout "phone number"
     const login = this.loginForm.value.userPhone.replaceAll('-',"").replace('+','');
-    const rememberMe = this.loginForm.value.rememberMe
+    const rememberMe = this.loginForm.value.rememberMe;
 
     this._loginService.login({
       login: login,

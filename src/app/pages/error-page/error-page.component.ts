@@ -10,7 +10,7 @@ export class ErrorPageComponent implements OnInit{
   public massage: string
   constructor(
     private _activatedRoute: ActivatedRoute
-  ) {}
+  ){};
 
   ngOnInit(): void {
     this.massage = this._activatedRoute.snapshot.queryParams['errorMessage'];

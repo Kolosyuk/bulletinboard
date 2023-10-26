@@ -12,10 +12,9 @@ export class LkComponent {
 
   constructor(
     private _userService: UserService
-    ) {
-  }
+    ) {}
 
   ngOnInit(): void {
     this.adverts = this._userService.getAdvertisments()
   };
-}
+};

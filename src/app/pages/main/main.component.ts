@@ -12,9 +12,9 @@ export class MainComponent implements OnInit{
   public adverts: Advert[]
 
   constructor(private _advertService: AdvertsService) {
-  }
+  };
 
   ngOnInit(): void {
     this._advertService.getAdverts().subscribe(adverts => this.adverts = adverts) 
   };
-}
+};

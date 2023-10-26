@@ -7,11 +7,11 @@ import { BehaviorSubject } from 'rxjs';
 export class MenuService {
   isVisible$ = new BehaviorSubject<boolean>(false)
 
-  open() {
+  open():void {
     this.isVisible$.next(true)
-  }
+  };
 
-  close() {
+  close():void {
     this.isVisible$.next(false)
-  }
-}
+  };
+};
