@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE } from '../../environment';
 import { Advert } from '../model/advert.interface';
 import { Observable } from 'rxjs';
-import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,6 @@ import { LoginService } from './login.service';
 export class AdvertsService {
   constructor(
     private _httpClient: HttpClient,
-    private _loginService: LoginService
     ) { }
 
   getAdverts(): Observable<Advert[]> {
@@ -26,8 +24,8 @@ export class AdvertsService {
     return this._httpClient.get<Advert>(`${API_BASE}/advert/${id}`);
   };
 
-  postNewAdvert(form: FormData) {
-    return this._httpClient.post(`${API_BASE}/advert`, form);
+  postNewAdvert(form: FormData): Observable<Advert> {
+    return this._httpClient.post<Advert>(`${API_BASE}/advert`, form);
 
   }; 
 };

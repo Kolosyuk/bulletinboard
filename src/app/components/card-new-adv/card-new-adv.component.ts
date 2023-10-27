@@ -12,4 +12,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './card-new-adv.component.html',
   styleUrls: ['./card-new-adv.component.scss']
 })
-export class CardNewAdvComponent {}
+export class CardNewAdvComponent {
+
+};

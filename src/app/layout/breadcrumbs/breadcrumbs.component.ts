@@ -21,21 +21,27 @@ export class BreadcrumbsComponent {
   ) {
     this._router.events.pipe(
       filter((e) => e instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.breadcrumbs = [];
-      this.formBreadCrumbs(this._activatedRoute.children)
+    ).subscribe({
+      next: () => {
+        this.breadcrumbs = [];
+        this.formBreadCrumbs(this._activatedRoute.children);
+      }
     })
   };
-
+  
   private formBreadCrumbs(children: ActivatedRoute[], path: string = '') {
     children.forEach((routes: ActivatedRoute) => {
       if(routes.routeConfig && routes.routeConfig.title) {
+        const id: string = routes.snapshot.params['id'];        
         path += `/${routes.parent?.routeConfig?.path}`;
+        if(id) {
+          path += `/${id}`;
+        };
         this.breadcrumbs.push({
           label: routes.routeConfig.title as string,
           routerLink: path
-        })
-      }
+        });
+      };
 
       if(routes.children.length) {
         this.formBreadCrumbs(routes.children, path)
@@ -43,7 +49,7 @@ export class BreadcrumbsComponent {
         if(this.breadcrumbs.length >= 1) {
           this.breadcrumbs.at(-1)!.routerLink = null;
         }
-      }
-    })
-  }
-}
+      };
+    });
+  };
+};

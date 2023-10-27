@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
-import { Suggestion } from 'src/app/model/dadata.interface';
+import { DadataSuggestDTO, Suggestion } from 'src/app/model/dadata.interface';
 import { LoginForm } from 'src/app/model/forms.interface';
 import { DadataService } from 'src/app/services/dadata.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -13,14 +13,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-
   public settingsForm: UntypedFormGroup;
   public newPasswordForm: UntypedFormGroup;
   public isVisibleConformation: boolean = false;
   public isVisiblePassConformation: boolean = false;
   public isVisiblePassError: boolean = false;
   public  filteredAddress: Suggestion[];  
-  
 
   constructor(
     private _fb:FormBuilder,
@@ -30,14 +28,13 @@ export class SettingsComponent implements OnInit {
   ){
     this._createSettingsForm();
     this._createNewPasswordForm();
-
   };
   
   ngOnInit(): void {
     this.settingsForm.patchValue({'name': this._userService.getName()})
   };
 
-  _createSettingsForm() {
+  _createSettingsForm(): void {
     this.settingsForm = this._fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       phone: [''],
@@ -45,48 +42,50 @@ export class SettingsComponent implements OnInit {
     });
   };
 
-  _createNewPasswordForm() {
+  _createNewPasswordForm(): void {
     this.newPasswordForm = this._fb.group({
       oldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
       newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]]
     });
   };
 
-  filterAddress(event: AutoCompleteCompleteEvent ) {
-    this._dadataService.getSuggestion(event.query).subscribe( (value) => {
-      if(value) {
-        this.filteredAddress = value.suggestions
+  filterAddress(event: AutoCompleteCompleteEvent): void {
+    this._dadataService.getSuggestion(event.query).subscribe({
+      next: (value: DadataSuggestDTO) => {
+        if(value) {
+          this.filteredAddress = value.suggestions
+        }
       }
-    })
-  }
+    });
+  };
 
-  _setVisibleConformation() {
+  _setVisibleConformation(): void {
     this.isVisibleConformation = true;
     setTimeout(() => {
       this.isVisibleConformation = false;
     },2000)
   };
 
-  _setVisiblePassConformation() {
+  _setVisiblePassConformation(): void {
     this.isVisiblePassConformation = true;
     setTimeout(() => {
       this.isVisiblePassConformation = false;
     },2000)
   };
 
-  _setVisiblePassValidation() {
+  _setVisiblePassValidation(): void {
     this.isVisiblePassError = true;
     setTimeout(() => {
       this.isVisiblePassError = false;
     },2000)
   };
 
-  saveSettings() {
+  saveSettings(): void {
     console.log('settings saved');
     this._setVisibleConformation();    
   };
 
-  saveNewPassword() {
+  saveNewPassword(): void {
     if(!this._comparePasswords()) {
       this._setVisiblePassValidation();
       return
@@ -117,4 +116,4 @@ export class SettingsComponent implements OnInit {
     const confirmCurrentPassword = this.newPasswordForm.get('oldPassword')?.value
     return currentPassword === confirmCurrentPassword
   };
-}
+};

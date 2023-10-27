@@ -16,10 +16,12 @@ export class InnerTabComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this._categoryService.getCategory(this.category.id).subscribe(category => {
-      if(category.childs) {
-        this.childCategories = category.childs
+    this._categoryService.getCategory(this.category.id).subscribe({
+      next: (category: Category) => {
+        if(category.childs) {
+          this.childCategories = category.childs
+        }
       }
     });
-  }
-}
+  };
+};

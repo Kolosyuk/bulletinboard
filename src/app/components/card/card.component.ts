@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { imageSrcCreator } from '../../helpers/image-src-creator';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -21,10 +20,8 @@ export class CardComponent implements OnInit {
   public link: string;
   public mainImgSrc: string
 
-  constructor() {}
-
   ngOnInit() {
     this.link = `/advert/${this.data.id}`;
     this.mainImgSrc = imageSrcCreator(this.data.imagesIds[0]);
-  }
-}
+  };
+};

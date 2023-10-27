@@ -13,7 +13,7 @@ export class ImageService {
     private _http: HttpClient
   ){}
 
-  getImage(id: string) {
+  getImage(id: string): Observable<Image> {
     return this._http.get<Image>(`${API_BASE}/images/${id}`)
   }
 }

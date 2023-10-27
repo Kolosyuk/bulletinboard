@@ -10,8 +10,7 @@ import { MenuItem, MessageService } from 'primeng/api';
   styleUrls: ['./header.component.scss'],
   providers: [MessageService],
 })
-export class HeaderComponent implements OnInit, OnDestroy{
-  
+export class HeaderComponent implements OnInit, OnDestroy{  
   public menuItems: MenuItem[] = [
     {
       label: "Мои объявления",
@@ -44,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.loginService.isAuthenticated.unsubscribe()
     };
 
-    toggleMenu() {
+    toggleMenu(): void {
       if(this.menuService.isVisible$.getValue()){
         this.menuService.close();
         this.isVisible = false;
@@ -53,4 +52,4 @@ export class HeaderComponent implements OnInit, OnDestroy{
       this.menuService.open();
       this.isVisible = true;
     };
-  }
+  };

@@ -16,16 +16,18 @@ export class SearchNavigationComponent implements OnInit{
   constructor(
     public menuService: MenuService,
     public categoryService: CategoryService,
-  ) {}
+  ) {};
 
   ngOnInit() {
-    this.categoryService.rootCategory.subscribe( data => {
-      if(data) {
-        this.menuItems = data.childs as Category[]
+    this.categoryService.rootCategory.subscribe({
+      next: (data: Category|null) => {
+        if(data) {
+          this.menuItems = data.childs as Category[]
+        };
       }
     });
-    this.menuService.isVisible$.subscribe(status => {
-      this.classes = status ? 'translate-y-0' : '-translate-y-100' ;
-    })
+    this.menuService.isVisible$.subscribe({
+      next: (status: boolean) => this.classes = status ? 'translate-y-0' : '-translate-y-100'
+    });
   };
-}
+};

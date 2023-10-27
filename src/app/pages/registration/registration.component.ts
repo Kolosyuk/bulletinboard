@@ -9,7 +9,6 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent{
-
   constructor (
     private _userService: UserService,
     private _massageService: MessageService,
@@ -32,9 +31,9 @@ export class RegistrationComponent{
     ]),
   });
 
-  submit() {
+  submit():void {
     //TODO crutch - server "login" -- design layout "phone number"
-    const login = this.registrationForm.value.userPhone.replaceAll('-',"").replace('+','');
+    const login: string = this.registrationForm.value.userPhone.replaceAll('-',"").replace('+','');
     this._userService.registrationNewUser({
       login: login,
       name: this.registrationForm.value.name,

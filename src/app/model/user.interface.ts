@@ -6,4 +6,4 @@ export interface User {
   phone: number;
   adress: string;
   adverts: Advert[];
-}
+};

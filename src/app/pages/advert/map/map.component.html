@@ -1,0 +1,8 @@
+<div class="container">
+  <div class="mapContainer w-full">
+    <p *ngIf="noAddress" class="text-center text-3xl mt-4 text-red-600"> Позиция на карте не определена</p>
+    <ya-map *ngIf="latitude" [center]="[latitude, longitude]" [zoom]="13">
+      <ya-placemark [geometry]="[latitude, longitude]"></ya-placemark>
+    </ya-map>
+  </div>
+</div>

@@ -14,7 +14,7 @@ export interface Advert {
     location: string;
     createdAt: string;
     category: Category;
-}
+};
 
 export interface PostAdvertForm {
     name: string;
@@ -25,4 +25,4 @@ export interface PostAdvertForm {
     phone: string;
     location: string;
     category: Category;
-}
+};

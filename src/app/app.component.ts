@@ -18,11 +18,11 @@ export class AppComponent implements OnInit{
     if (!!localStorage.getItem('remember-me')) {
       this.credentials = JSON.parse(localStorage.getItem('credentials')!);
     }
-  }
+  };
 
-  ngOnInit() {
+  ngOnInit(): void {
     if(this.credentials) {
-      this._loginService.login(this.credentials, true, this._messageService)
+      this._loginService.login(this.credentials, true, this._messageService);
     }
-  }
-}
+  };
+};
