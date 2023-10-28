@@ -14,3 +14,9 @@ export interface ChangePasswordForm {
   login: string;
   password: string;
 };
+
+export interface SearchForm {
+  search: string,
+  showNonActive: boolean,
+  category: string | null
+};

@@ -19,6 +19,7 @@ import { SearchNavigationComponent } from './components/search-navigation/search
 import { TabViewModule } from 'primeng/tabview';
 import { InnerTabComponent } from './components/search-navigation/inner-tab/inner-tab.component';
 import { MessageService } from 'primeng/api';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,9 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     BreadcrumbModule,
     DividerModule,
-    TabViewModule
+    TabViewModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     httpInterceptorProviders,

@@ -1,0 +1,5 @@
+<div class="container py-4 text-center">
+  <p *ngIf="nothingFound" class="empty-search ">По вашему запросу ничего не найдено</p>
+  <p *ngIf="!nothingFound" class="empty-search">Объявления по запросу "{{searchString}}"</p>
+  <app-card-list [adverts]="adverts"></app-card-list>
+</div>

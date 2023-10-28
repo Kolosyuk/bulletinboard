@@ -40,18 +40,24 @@
                 ></i>
                 <span> Все категории</span>
             </div>
-            <input type="text" class="header-search" placeholder="Поиск по объявлениям">
-            <button 
-                class="header-searchBtn flex justify-content-center align-items-center"
-                >
-                <span>Найти</span>
-                <i 
-                class="pi pi-search"></i>
-            </button>
+            <form class="flex-grow-1 flex" [formGroup]="searchForm" (ngSubmit)="search()">
+                <input 
+                    formControlName="search" 
+                    type="text" 
+                    class="header-search" 
+                    placeholder="Поиск по объявлениям">
+                <button 
+                    type="submit"
+                    class="header-searchBtn flex justify-content-center align-items-center">
+                    <span>Найти</span>
+                    <i 
+                    class="pi pi-search"></i>
+                </button>
+            </form>
+            <app-search-navigation class="search-navigation relative z-1 right-100"></app-search-navigation>
         </div>
         <div class="container">
             <p-divider></p-divider>
         </div>
     </div>
-    <app-search-navigation class="relative z-1"></app-search-navigation>
 </header>

@@ -1,4 +1,4 @@
-<div class="search-navigation">
+<div *ngIf="menuService.isVisible$ | async">
   <div class="container relative">
     <div class="search-navigation-body flex absolute z-5"
      [ngClass]='classes'>
@@ -10,7 +10,7 @@
         </ng-template>
         <h3><span>{{item.name}}</span>
           <i class="pi pi-angle-right"></i></h3>
-        <app-inner-tab [category]="item"></app-inner-tab>
+        <app-inner-tab [category]="item" class="block w-full"></app-inner-tab>
       </p-tabPanel>
     </p-tabView>
   </div>

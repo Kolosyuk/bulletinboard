@@ -3,6 +3,9 @@ import { LoginService } from '../../services/login.service';
 import { MenuService } from '../../services/menu.service';
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
+import { SearchService } from 'src/app/services/search.service';
+import { Router } from '@angular/router';
+import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -26,14 +29,26 @@ export class HeaderComponent implements OnInit, OnDestroy{
       routerLink: '/'
     },
   ];
-
+  public searchForm: UntypedFormGroup;
   public isVisible: boolean = false;
 
   constructor (
     public loginService: LoginService,
     public userService: UserService,
     public menuService: MenuService,
-    ) {}
+    private _searchService: SearchService,
+    private _router: Router,
+    private _fb: FormBuilder
+    ) {
+      this._createSearchForm();
+    }
+
+    _createSearchForm(): void {
+      this.searchForm = this._fb.group({
+        search: [''],
+        category: [''],
+      })
+    };
     
     ngOnInit(): void {
       this.loginService.isAuthenticated.subscribe()
@@ -51,5 +66,13 @@ export class HeaderComponent implements OnInit, OnDestroy{
       }
       this.menuService.open();
       this.isVisible = true;
+    };
+
+    search(): void {
+      const searchQuery: string = this.searchForm.get('search')?.value;
+      this._searchService.setSearchQuery(searchQuery.toLocaleLowerCase());
+      this._searchService.search();
+      if (this._router.url === '/search') return;
+      this._router.navigate(['/search']);
     };
   };
