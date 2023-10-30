@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       next: (adverts: Advert[]) => {
         this.nothingFound = false;
         this.adverts = adverts;
-        this.searchString = this._searchService.form.search
+        this.searchString = this._searchService.form.search;
         if(!adverts.length) {
           this.nothingFound = true;
         }

@@ -31,7 +31,7 @@ export class SearchService {
   resetForm(): void {
     this.form.search = '';
     this.form.category = null;
-  }
+  };
 
   search(): void {
     console.log(this.form);
@@ -41,6 +41,6 @@ export class SearchService {
       next: (adverts) => this.searchResult.next(adverts),
       error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
       complete: () => this.resetForm()
-    })
+    });
   };
 };

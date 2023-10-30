@@ -5,12 +5,14 @@
                 <div >
                     <p-toast></p-toast>
                     <p-menu #menu [model]="menuItems" [popup]="true" routerLinkActive="active" appendTo="body"></p-menu>
-                    <button                         
+                    <button
+                        class="header-login"                         
                         pButton
                         type="button"
                         (click)="menu.toggle($event)"
-                        icon="pi pi-angle-down"
-                        [label]="userService.getName()!">
+                        icon="pi pi-angle-down"> 
+                        <span class="ml-2"></span>
+                        {{userService.userName | async}}
                     </button>
                 </div>
               </ng-template>

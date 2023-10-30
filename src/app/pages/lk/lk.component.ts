@@ -8,13 +8,16 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./lk.component.scss'],
 })
 export class LkComponent {
-  public adverts: Advert[] | undefined;
+  public adverts: Advert[] | null;
 
   constructor(
     private _userService: UserService
     ) {}
 
   ngOnInit(): void {
-    this.adverts = this._userService.getAdvertisments()
+    this._userService.getCurrentUser();
+    this._userService.userAdverts.subscribe((adverts: Advert[]|null) => {
+        this.adverts = adverts
+    });
   };
 };

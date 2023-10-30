@@ -1,4 +1,4 @@
-<a class="card block" routerLink="{{link}}">
+<a #card class="card block" routerLink="{{link}}">
     <div class="card-imgContainer">
         <img [src]="mainImgSrc" class="card-image" alt="advirtisment image">
     </div>
@@ -7,3 +7,9 @@
     <p class="card-address w-full">{{ data.location }}</p>
     <p class="card-date w-full">{{ data.createdAt | date:"MMM dd, yyyy 'at' hh:mm a" }}</p>
 </a>
+<ng-container *ngIf="personal">
+    <p-contextMenu 
+        [target]="card"
+        [model]="menuOptions"
+        ></p-contextMenu>
+</ng-container>

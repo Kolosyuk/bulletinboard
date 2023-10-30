@@ -31,7 +31,7 @@ export class SettingsComponent implements OnInit {
   };
   
   ngOnInit(): void {
-    this.settingsForm.patchValue({'name': this._userService.getName()})
+    this._userService.userName.subscribe(name => this.settingsForm.patchValue({'name': name}));
   };
 
   _createSettingsForm(): void {
@@ -105,7 +105,7 @@ export class SettingsComponent implements OnInit {
     const fd = new FormData();
     const login = this._loginService.credentials.login;
     const password = this.newPasswordForm.get('newPassword')?.value
-    fd.append('Name', this._userService.getName()!);
+    this._userService.userName.subscribe(name => fd.append('Name', name!))
     fd.append('Login', login);
     fd.append('Password', password);
     return fd;

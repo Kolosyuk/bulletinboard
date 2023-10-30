@@ -12,7 +12,9 @@ import { Advert } from '../model/advert.interface';
   providedIn: 'root'
 })
 export class UserService {
-  public user = new BehaviorSubject<User|null>(null);;
+  public userName: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
+  public userAdverts: BehaviorSubject<Advert[]|null> = new BehaviorSubject<Advert[]|null>(null);
+  public userId: string|null;
 
   constructor(
     private _http: HttpClient,
@@ -28,14 +30,18 @@ export class UserService {
   };
 
   clearUser():void {
-    this.user.next(null);
+    this.userId = null;
+    this.userName.next(null);
+    this.userAdverts.next(null);
   };
 
   getCurrentUser(): void {
     this._http.get<User>(`${API_BASE}/users/current`)
       .subscribe( user => {
-        this.setUser(user);
-      })
+        this.userId = user.id;
+        this.userName.next(user.name);
+        this.userAdverts.next(user.adverts);
+    })
   };
 
   registrationNewUser(registrationForm: RegistrationForm, msgServiceInstance: MessageService):void{
@@ -48,46 +54,7 @@ export class UserService {
   };
 
   updateUserPassword(form: FormData):void {
-    this._http.put(`${API_BASE}/Users/${this.getId()}`, form)
+    this._http.put(`${API_BASE}/Users/${this.userId}`, form)
     .subscribe((data) => console.log(data));
-  };
-
-  setUser(user : User):void {
-    this.user.next(user)
-  };
-
-  getId(): string | undefined {
-    if(this.user) {
-      return this.user.getValue()?.id;
-    }
-    return undefined
-  };
-
-  getName(): string | undefined {
-    if(this.user) {
-      return this.user.getValue()?.name;
-    }
-    return ''
-  };
-
-  getPhone(): number | undefined {
-    if(this.user) {
-      return this.user.getValue()?.phone;
-    }
-    return undefined
-  };
-
-  getAdress(): string | undefined {
-    if(this.user) {
-      return this.user.getValue()?.adress;
-    }
-    return undefined
-  };
-
-  getAdvertisments():Advert[] | undefined {
-    if(this.user) {
-      return this.user.getValue()?.adverts;
-    }
-    return undefined
   };
 };
