@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     };
     
     ngOnDestroy(): void {
-      this.loginService.isAuthenticated.unsubscribe()
+      this.loginService.isAuthenticated.unsubscribe();
     };
 
     toggleMenu(): void {
@@ -71,9 +71,14 @@ export class HeaderComponent implements OnInit, OnDestroy{
     search(): void {
       const searchQuery: string = this.searchForm.get('search')?.value;
       this._searchService.setSearchQuery(searchQuery.toLocaleLowerCase());
-      this._searchService.search();
-      this.toggleMenu();
-      this.searchForm.reset();
+      this._searchService.search().subscribe({
+        error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
+        complete: () => {
+          this._searchService.resetForm()
+          this.menuService.close();
+          this.searchForm.reset();
+        }
+      });
       if (this._router.url === '/search') return;
       this._router.navigate(['/search']);
     };

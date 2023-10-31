@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SearchForm } from '../model/forms.interface';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Advert } from '../model/advert.interface';
 import { API_BASE } from '../../environment';
@@ -33,12 +33,9 @@ export class SearchService {
     this.form.category = null;
   };
 
-  search(): void {
-    this._http.post<Advert[]>(`${API_BASE}/advert/search`, this.form)
-    .subscribe({
-      next: (adverts) => this.searchResult.next(adverts),
-      error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
-      complete: () => this.resetForm()
-    });
+  search(): Observable<Advert[]> {
+    return this._http.post<Advert[]>(`${API_BASE}/advert/search`, this.form).pipe(
+      tap((adverts) => this.searchResult.next(adverts))
+    )
   };
 };
