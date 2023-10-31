@@ -34,8 +34,6 @@ export class SearchService {
   };
 
   search(): void {
-    console.log(this.form);
-    
     this._http.post<Advert[]>(`${API_BASE}/advert/search`, this.form)
     .subscribe({
       next: (adverts) => this.searchResult.next(adverts),

@@ -1,0 +1,5 @@
+<ul class="flex flex-column">
+  <li *ngFor="let category of childCategories | orderBy:'name'">
+    <p class="mr-3 cell-item mb-2" (click)="checked(category.id)">{{category.name}}</p>
+  </li>
+</ul>

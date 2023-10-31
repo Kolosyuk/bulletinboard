@@ -29,7 +29,6 @@ export class AdvertsService {
   };
 
   deleteAdvertById(id: number): Observable<Object> {
-    console.log("advert service, id:", id)
     return this._httpClient.delete(`${API_BASE}/advert/${id}`);
   };
 };

@@ -72,6 +72,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
       const searchQuery: string = this.searchForm.get('search')?.value;
       this._searchService.setSearchQuery(searchQuery.toLocaleLowerCase());
       this._searchService.search();
+      this.toggleMenu();
       this.searchForm.reset();
       if (this._router.url === '/search') return;
       this._router.navigate(['/search']);
