@@ -5,5 +5,5 @@
     >
     <p class="mr-3 cell-item mb-2" (click)="checked(category.id)">{{category.name}}</p>
   </li>
-  <p class="cell-item" *ngIf="longMenu" (click)="openMenu($event)">Ещё {{ childCategories.length - 6}}</p>
+  <p class="cell-item" *ngIf="longMenu" (click)="openMenu($event)">Ещё {{ childCategories.length - 5}}</p>
 </ul>
