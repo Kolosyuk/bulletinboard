@@ -1,6 +1,6 @@
 <ul class="flex flex-wrap">
-  <li *ngFor="let category of childCategories | orderBy:'name'"  >
-    <p class="mr-3 mb-3 cell-title" (click)="checked(category.id)">{{category.name}}</p>
+  <li class="li-item" *ngFor="let category of childCategories | orderBy:'name'" >
+    <p class="mr-3 mt-2 mb-3 cell-title" (click)="checked(category.id)">{{category.name}}</p>
     <app-inner-tab-cell [category]="category"></app-inner-tab-cell>
   </li>
 </ul>

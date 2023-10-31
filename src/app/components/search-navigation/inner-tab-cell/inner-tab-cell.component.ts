@@ -12,6 +12,7 @@ import { SearchService } from 'src/app/services/search.service';
 export class InnerTabCellComponent implements OnInit{
   @Input() category: Category;
   public childCategories: Category[];
+  public longMenu: boolean;
 
   constructor(
     private _categoryService: CategoryService,
@@ -22,7 +23,8 @@ export class InnerTabCellComponent implements OnInit{
     this._categoryService.getCategory(this.category.id).subscribe({
       next: (category: Category) => {
         if(category.childs) {
-          this.childCategories = category.childs
+          this.childCategories = category.childs;
+          this.longMenu = this.childCategories.length > 6 ? true : false;
         }
       }
     });
@@ -30,5 +32,9 @@ export class InnerTabCellComponent implements OnInit{
 
   checked(id: string):void {
     this._searchService.setSearchCategory(id);
-  }
+  };
+
+  openMenu(event: MouseEvent): void {
+    this.longMenu = false;
+  };
 };

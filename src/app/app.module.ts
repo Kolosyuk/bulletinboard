@@ -22,6 +22,7 @@ import { InnerTabCellComponent } from './components/search-navigation/inner-tab-
 import { MessageService } from 'primeng/api';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { MenuItemViewPipe } from './pipes/menu-item-view.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { OrderByPipe } from './pipes/order-by.pipe';
     SearchNavigationComponent,
     InnerTabComponent,
     InnerTabCellComponent,
-    OrderByPipe
+    OrderByPipe,
+    MenuItemViewPipe
   ],
   imports: [
     AppRoutingModule,
