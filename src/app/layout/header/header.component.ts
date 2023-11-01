@@ -6,6 +6,7 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { SearchService } from 'src/app/services/search.service';
 import { Router } from '@angular/router';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ];
   public searchForm: UntypedFormGroup;
   public isVisible: boolean = false;
+  private destroy$ = new Subject();
 
   constructor (
     public loginService: LoginService,
@@ -51,11 +53,12 @@ export class HeaderComponent implements OnInit, OnDestroy{
     };
     
     ngOnInit(): void {
-      this.loginService.isAuthenticated.subscribe();
+      this.loginService.isAuthenticated.pipe(takeUntil(this.destroy$)).subscribe();
     };
     
     ngOnDestroy(): void {
-      this.loginService.isAuthenticated.unsubscribe();
+      this.destroy$.next('stop');
+      this.destroy$.complete();
     };
 
     toggleMenu(): void {
@@ -71,11 +74,15 @@ export class HeaderComponent implements OnInit, OnDestroy{
     search(): void {
       const searchQuery: string = this.searchForm.get('search')?.value;
       this._searchService.setSearchQuery(searchQuery.toLocaleLowerCase());
-      this._searchService.search().subscribe({
+      this._searchService.search().pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
         error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
         complete: () => {
-          this._searchService.resetForm()
+          this._searchService.resetForm();
           this.menuService.close();
+          this.isVisible = false;
           this.searchForm.reset();
         }
       });

@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { FileRemoveEvent, FileSelectEvent } from 'primeng/fileupload';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, Subject, map, takeUntil } from 'rxjs';
 import { DropDownOption, Options } from 'src/app/model/types';
 import { CategoryService } from 'src/app/services/category.service';
 import { AdvertsService } from 'src/app/services/advert.service';
@@ -23,6 +23,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   public menuLevel = new BehaviorSubject(1);
   public  filteredAddress: Suggestion[];
   public isInvalidCategoryForm: boolean = true;
+  private destroy$ = new Subject();
   
   constructor(
     private _router: Router,
@@ -69,7 +70,10 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   };
 
   filterAddress(event: AutoCompleteCompleteEvent): void {
-    this._dadateService.getSuggestion(event.query).subscribe({
+    this._dadateService.getSuggestion(event.query).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       next: (value: DadataSuggestDTO) => {
         if(value) {
           this.filteredAddress = value.suggestions
@@ -94,6 +98,7 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {    
     this._categoryService.rootCategory.pipe(
+      takeUntil(this.destroy$),
       map((category: Category|null) => {
         if(category && category.childs) {
           return category.childs.map(childCategory => {
@@ -112,7 +117,8 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
   };
 
   ngOnDestroy(): void {
-    this._categoryService.rootCategory.unsubscribe();
+    this.destroy$.next('stop');
+    this.destroy$.complete();
   };
 
   onSelectCategory(event: DropdownChangeEvent, checkedLevel: number): void {
@@ -126,25 +132,32 @@ export class AddAdvertComponent implements OnInit, OnDestroy {
       }
       this.dropDownOptions = this._patchDropdown(checkedLevel);
     };
-    this._categoryService.getCategory(categoryId)
-    .subscribe(cat => {
-      if(cat.childs?.length) {
-        const newDropDownOPtions: Options[] = cat.childs.map(category => {
-          return {name: category.name, value: category.id}
-        })
-          
-        this.menuLevel.next(++sumLevels);
-        this.categoryIds.push(this._getCategoryControl());
-        this._setDropdown(this.menuLevel.getValue(), newDropDownOPtions);
-      };
-      this.isInvalidCategoryForm =this.getCategoryControls().some(item => item.invalid)
+    this._categoryService.getCategory(categoryId).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
+      next: (cat) => {
+        if(cat.childs?.length) {
+          const newDropDownOPtions: Options[] = cat.childs.map(category => {
+            return {name: category.name, value: category.id}
+          })
+            
+          this.menuLevel.next(++sumLevels);
+          this.categoryIds.push(this._getCategoryControl());
+          this._setDropdown(this.menuLevel.getValue(), newDropDownOPtions);
+        };
+        this.isInvalidCategoryForm =this.getCategoryControls().some(item => item.invalid)
+      }
     });
   };
 
   submit(): void {
     const formData : FormData = this._buildFormData();
 
-    this._advertService.postNewAdvert(formData).subscribe({
+    this._advertService.postNewAdvert(formData).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       complete: () => this._router.navigate(['/personal'])
     })
   };

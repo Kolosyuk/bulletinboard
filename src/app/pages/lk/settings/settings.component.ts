@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { Subject, takeUntil } from 'rxjs';
 import { DadataSuggestDTO, Suggestion } from 'src/app/model/dadata.interface';
 import { LoginForm } from 'src/app/model/forms.interface';
 import { DadataService } from 'src/app/services/dadata.service';
@@ -12,13 +13,14 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   public settingsForm: UntypedFormGroup;
   public newPasswordForm: UntypedFormGroup;
   public isVisibleConformation: boolean = false;
   public isVisiblePassConformation: boolean = false;
   public isVisiblePassError: boolean = false;
-  public  filteredAddress: Suggestion[];  
+  public filteredAddress: Suggestion[];
+  private destroy$ = new Subject();
 
   constructor(
     private _fb:FormBuilder,
@@ -31,7 +33,15 @@ export class SettingsComponent implements OnInit {
   };
   
   ngOnInit(): void {
-    this._userService.userName.subscribe(name => this.settingsForm.patchValue({'name': name}));
+    this._userService.userName.pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe(name => this.settingsForm.patchValue({'name': name}));
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
   };
 
   _createSettingsForm(): void {
@@ -50,7 +60,10 @@ export class SettingsComponent implements OnInit {
   };
 
   filterAddress(event: AutoCompleteCompleteEvent): void {
-    this._dadataService.getSuggestion(event.query).subscribe({
+    this._dadataService.getSuggestion(event.query).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       next: (value: DadataSuggestDTO) => {
         if(value) {
           this.filteredAddress = value.suggestions
@@ -105,7 +118,7 @@ export class SettingsComponent implements OnInit {
     const fd = new FormData();
     const login = this._loginService.credentials.login;
     const password = this.newPasswordForm.get('newPassword')?.value
-    this._userService.userName.subscribe(name => fd.append('Name', name!))
+    this._userService.userName.pipe(takeUntil(this.destroy$)).subscribe(name => fd.append('Name', name!));
     fd.append('Login', login);
     fd.append('Password', password);
     return fd;

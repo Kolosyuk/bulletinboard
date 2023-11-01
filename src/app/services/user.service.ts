@@ -3,7 +3,7 @@ import { User } from '../model/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE } from '../../environment';
 import { LoginForm, RegistrationForm } from '../model/forms.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { LoginService } from './login.service';
 import { MessageService } from 'primeng/api';
 import { Advert } from '../model/advert.interface';

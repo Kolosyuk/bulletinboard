@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Advert } from '../../model/advert.interface';
 import { RouterModule } from '@angular/router';
 import { imageSrcCreator } from '../../helpers/image-src-creator';
@@ -7,6 +7,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { MenuItem } from 'primeng/api';
 import { AdvertsService } from 'src/app/services/advert.service';
 import { UserService } from 'src/app/services/user.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -21,7 +22,7 @@ import { UserService } from 'src/app/services/user.service';
     ContextMenuModule
   ]
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnDestroy {
   @Input() data: Advert;
   @Input() personal: boolean;
   public link: string;
@@ -32,6 +33,7 @@ export class CardComponent implements OnInit {
       command: () => this.delete(),
     },
   ];
+  private destroy$ = new Subject();
 
   constructor(
     private _advertService: AdvertsService,
@@ -43,8 +45,16 @@ export class CardComponent implements OnInit {
     this.mainImgSrc = imageSrcCreator(this.data.imagesIds[0]);
   };
 
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
+  };
+
   delete() {
-    this._advertService.deleteAdvertById(this.data.id).subscribe({
+    this._advertService.deleteAdvertById(this.data.id).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       error: (err) => console.log('Ошибка при удалении объявления', err),
       complete: () => this._userService.getCurrentUser()
     });

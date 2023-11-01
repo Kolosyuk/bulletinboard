@@ -1,5 +1,6 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/model/category.interface';
 import { CategoryService } from 'src/app/services/category.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -9,10 +10,11 @@ import { SearchService } from 'src/app/services/search.service';
   templateUrl: './inner-tab-cell.component.html',
   styleUrls: ['./inner-tab-cell.component.scss']
 })
-export class InnerTabCellComponent implements OnInit{
+export class InnerTabCellComponent implements OnInit, OnDestroy{
   @Input() category: Category;
   public childCategories: Category[];
   public longMenu: boolean;
+  private destroy$ = new Subject();
 
   constructor(
     private _categoryService: CategoryService,
@@ -20,7 +22,10 @@ export class InnerTabCellComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this._categoryService.getCategory(this.category.id).subscribe({
+    this._categoryService.getCategory(this.category.id).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       next: (category: Category) => {
         if(category.childs) {
           this.childCategories = category.childs;
@@ -28,6 +33,11 @@ export class InnerTabCellComponent implements OnInit{
         }
       }
     });
+  };
+
+  ngOnDestroy(): void {
+      this.destroy$.next('stop');
+      this.destroy$.complete();
   };
 
   checked(id: string):void {

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { YamapsDTO } from 'src/app/model/yamaps.interface';
 import { YamapsService } from 'src/app/services/yamaps.service';
 
@@ -8,11 +9,12 @@ import { YamapsService } from 'src/app/services/yamaps.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
   public address: string;
   public longitude: number;
   public latitude: number;
   public noAddress: boolean;
+  private destroy$ = new Subject();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -22,7 +24,10 @@ export class MapComponent implements OnInit {
   };
 
   ngOnInit() {
-    this._yamaps.decodeCoordinates(this.address).subscribe((res: YamapsDTO) => {
+    this._yamaps.decodeCoordinates(this.address).pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe((res: YamapsDTO) => {
       let long = '';
       let lat = '';
       const found:number = Number(res.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.found);
@@ -35,4 +40,9 @@ export class MapComponent implements OnInit {
       };
     });
   };
+
+  ngOnDestroy(): void {
+      this.destroy$.next('stop');
+      this.destroy$.complete;
+  }
 };

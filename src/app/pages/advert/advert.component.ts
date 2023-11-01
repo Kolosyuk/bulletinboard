@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdvertsService } from '../../services/advert.service';
 import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { filter, tap } from 'rxjs';
+import { Subject, filter, takeUntil, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,6 +19,7 @@ export class AdvertComponent implements OnInit {
   public images: string[];
   public mapLink: string;
   public queryParams: Params;
+  private destroy$ = new Subject();
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -40,8 +41,8 @@ export class AdvertComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: Router
     ) {
-      this._router.events
-      .pipe(
+      this._router.events.pipe(
+        takeUntil(this.destroy$),
         filter(e => e instanceof NavigationEnd),
         tap( event => {
           this._id = this._activatedRoute.snapshot.params['id'];
@@ -52,7 +53,9 @@ export class AdvertComponent implements OnInit {
   };
 
   ngOnInit(): void {
-   this._advertsService.getAdvertById(this._id)
+   this._advertsService.getAdvertById(this._id).pipe(
+    takeUntil(this.destroy$)
+   )
    .subscribe({
       next: (advert) => {
         this.advert = advert;
@@ -73,6 +76,11 @@ export class AdvertComponent implements OnInit {
         }
       }
     });
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
   };
 
   showDialog(): void {
