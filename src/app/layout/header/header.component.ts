@@ -4,9 +4,9 @@ import { MenuService } from '../../services/menu.service';
 import { UserService } from 'src/app/services/user.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { SearchService } from 'src/app/services/search.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ];
   public searchForm: UntypedFormGroup;
   public isVisible: boolean = false;
+  private currentUrl: string;
   private destroy$ = new Subject();
 
   constructor (
@@ -40,10 +41,21 @@ export class HeaderComponent implements OnInit, OnDestroy{
     public menuService: MenuService,
     private _searchService: SearchService,
     private _router: Router,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
     ) {
       this._createSearchForm();
-    }
+      this._router.events.pipe(
+        takeUntil(this.destroy$),
+        filter(e => e instanceof NavigationEnd),
+        tap((res) => {
+          if(this.currentUrl !== this._router.url) {
+            if(this.isVisible) this.toggleMenu();
+            this.currentUrl = this._router.url;
+          }
+        })
+      )
+      .subscribe();
+    };
 
     _createSearchForm(): void {
       this.searchForm = this._fb.group({
@@ -54,6 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     
     ngOnInit(): void {
       this.loginService.isAuthenticated.pipe(takeUntil(this.destroy$)).subscribe();
+      this.currentUrl = this._router.url;
     };
     
     ngOnDestroy(): void {
@@ -62,7 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
     };
 
     toggleMenu(): void {
-      if(this.menuService.isVisible$.getValue()){
+      if(this.isVisible){
         this.menuService.close();
         this.isVisible = false;
         return
@@ -81,8 +94,6 @@ export class HeaderComponent implements OnInit, OnDestroy{
         error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
         complete: () => {
           this._searchService.resetForm();
-          this.menuService.close();
-          this.isVisible = false;
           this.searchForm.reset();
         }
       });
