@@ -1,3 +1,7 @@
 <div class="container">
-  <app-card-list *ngIf="adverts" [adverts]="adverts" [personal]="true"></app-card-list>
+  <app-card-list
+  [adverts]="adverts"
+  [personal]="true"
+  [loading]="loading"
+  ></app-card-list>
 </div>

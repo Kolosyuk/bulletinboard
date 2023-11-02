@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, delay, takeUntil, tap } from 'rxjs';
 import { Advert } from 'src/app/model/advert.interface';
 import { SearchService } from 'src/app/services/search.service';
 
@@ -13,6 +13,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public nothingFound: boolean;
   public searchString: string;
   private destroy$: Subject<unknown> = new Subject();
+  public loading: boolean = true;
 
   constructor(
     private _searchService: SearchService,
@@ -20,12 +21,16 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._searchService.searchResult.pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
+      tap(() => {
+        this.searchString = this._searchService.form.search;
+        this.nothingFound = false;
+      }),
+      delay(1500)
     ).subscribe({
       next: (adverts: Advert[]) => {
-        this.nothingFound = false;
-        this.adverts = adverts;
-        this.searchString = this._searchService.form.search;
+        this.loading = false
+        this.adverts = adverts;        
         if(!adverts.length) {
           this.nothingFound = true;
         }

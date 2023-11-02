@@ -13,7 +13,7 @@ import { Advert } from '../model/advert.interface';
 })
 export class UserService {
   public userName: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
-  public userAdverts: BehaviorSubject<Advert[]|null> = new BehaviorSubject<Advert[]|null>(null);
+  public userAdverts: BehaviorSubject<Advert[]> = new BehaviorSubject<Advert[]>([]);
   public userId: string|null;
 
   constructor(
@@ -32,7 +32,7 @@ export class UserService {
   clearUser():void {
     this.userId = null;
     this.userName.next(null);
-    this.userAdverts.next(null);
+    this.userAdverts.next([]);
   };
 
   getCurrentUser(): void {

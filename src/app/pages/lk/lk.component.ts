@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, delay, takeUntil } from 'rxjs';
 import { Advert } from 'src/app/model/advert.interface';
 import { UserService } from 'src/app/services/user.service';
 
@@ -9,8 +9,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./lk.component.scss'],
 })
 export class LkComponent implements OnInit, OnDestroy {
-  public adverts: Advert[] | null;
+  public adverts: Advert[];
   private destroy$ = new Subject();
+  public loading: boolean = true;
 
   constructor(
     private _userService: UserService
@@ -19,10 +20,14 @@ export class LkComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._userService.getCurrentUser();
     this._userService.userAdverts.pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this.destroy$),
+      delay(1500)
     )
-    .subscribe((adverts: Advert[]|null) => {
-        this.adverts = adverts
+    .subscribe({
+      next: adverts => {
+        this.adverts = adverts;
+        this.loading = false;
+      }
     });
   };
 
