@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdvertsService } from '../../services/advert.service';
 import { Advert } from 'src/app/model/advert.interface';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { Subject, filter, takeUntil, tap } from 'rxjs';
+import { Subject, delay, filter, takeUntil, tap } from 'rxjs';
 import { GalleriaResponsiveOptions } from 'primeng/galleria';
 import { imageSrcCreator } from 'src/app/helpers/image-src-creator';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,6 +20,7 @@ export class AdvertComponent implements OnInit {
   public mapLink: string;
   public queryParams: Params;
   private destroy$ = new Subject();
+  public loading: boolean = true;
 
   public responsiveOptions: GalleriaResponsiveOptions[] = [
     {
@@ -54,7 +55,8 @@ export class AdvertComponent implements OnInit {
 
   ngOnInit(): void {
    this._advertsService.getAdvertById(this._id).pipe(
-    takeUntil(this.destroy$)
+    takeUntil(this.destroy$),
+    delay(1500)
    )
    .subscribe({
       next: (advert) => {
@@ -74,7 +76,8 @@ export class AdvertComponent implements OnInit {
         } else {
           this._router.navigate([`/error-page`], {queryParams: { errorMessage: errorResponse.message }});
         }
-      }
+      },
+      complete: () => this.loading = false
     });
   };
 
