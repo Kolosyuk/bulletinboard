@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registration/registration.module').then(m => m.RegistrationModule)
   },
   {
+    path: `search`,
+    title: 'Поиск',
+    loadChildren: () => import('./pages/search/search.module').then(m => m.SearchModule)
+  },
+  {
     path: `not-found`,
     title: 'Страница не найдена',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)

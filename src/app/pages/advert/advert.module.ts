@@ -6,6 +6,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DividerModule } from 'primeng/divider';
     GalleriaModule,
     ButtonModule,
     DialogModule,
-    DividerModule
+    DividerModule,
+    SkeletonModule
   ],
 })
 export class AdvertModule {}

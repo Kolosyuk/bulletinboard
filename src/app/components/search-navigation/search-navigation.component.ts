@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { Category } from 'src/app/model/category.interface';
 import { CategoryService } from 'src/app/services/category.service';
 import { MenuService } from 'src/app/services/menu.service';
@@ -8,10 +9,11 @@ import { MenuService } from 'src/app/services/menu.service';
   templateUrl: './search-navigation.component.html',
   styleUrls: ['./search-navigation.component.scss']
 })
-export class SearchNavigationComponent implements OnInit{
+export class SearchNavigationComponent implements OnInit, OnDestroy{
   public isVisible: boolean;
   public menuItems: Category[];
   public classes: string = '';
+  private destroy$ = new Subject();
 
   constructor(
     public menuService: MenuService,
@@ -19,15 +21,26 @@ export class SearchNavigationComponent implements OnInit{
   ) {};
 
   ngOnInit() {
-    this.categoryService.rootCategory.subscribe({
+    this.categoryService.rootCategory.pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       next: (data: Category|null) => {
         if(data) {
           this.menuItems = data.childs as Category[]
         };
       }
     });
-    this.menuService.isVisible$.subscribe({
+    this.menuService.isVisible$.pipe(
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
       next: (status: boolean) => this.classes = status ? 'translate-y-0' : '-translate-y-100'
     });
   };
+
+  ngOnDestroy(): void {
+      this.destroy$.next('stop');
+      this.destroy$.complete();
+  }
 };

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, delay, takeUntil } from 'rxjs';
 import { Advert } from 'src/app/model/advert.interface';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,14 +8,31 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './lk.component.html',
   styleUrls: ['./lk.component.scss'],
 })
-export class LkComponent {
-  public adverts: Advert[] | undefined;
+export class LkComponent implements OnInit, OnDestroy {
+  public adverts: Advert[];
+  private destroy$ = new Subject();
+  public loading: boolean = true;
 
   constructor(
     private _userService: UserService
-    ) {}
+  ) {}
 
   ngOnInit(): void {
-    this.adverts = this._userService.getAdvertisments()
+    this._userService.getCurrentUser();
+    this._userService.userAdverts.pipe(
+      takeUntil(this.destroy$),
+      delay(1500)
+    )
+    .subscribe({
+      next: adverts => {
+        this.adverts = adverts;
+        this.loading = false;
+      }
+    });
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
   };
 };

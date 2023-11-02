@@ -1,16 +1,16 @@
-<div class="search-navigation">
+<div *ngIf="menuService.isVisible$ | async">
   <div class="container relative">
     <div class="search-navigation-body flex absolute z-5"
      [ngClass]='classes'>
-    <p-tabView styleClass="tabview-custom">
-      <p-tabPanel *ngFor="let item of menuItems">
+    <p-tabView styleClass="tabview-custom" class="w-full bg-white">
+      <p-tabPanel *ngFor="let item of menuItems | orderBy:'name'">
         <ng-template pTemplate="header" class="menuItem flex justify-content-between align-items-center">
           <span>{{item.name}}</span>
           <i class="pi pi-angle-right"></i>
         </ng-template>
         <h3><span>{{item.name}}</span>
           <i class="pi pi-angle-right"></i></h3>
-        <app-inner-tab [category]="item"></app-inner-tab>
+          <app-inner-tab [category]="item" ></app-inner-tab>
       </p-tabPanel>
     </p-tabView>
   </div>

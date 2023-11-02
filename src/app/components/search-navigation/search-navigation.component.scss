@@ -1,10 +1,27 @@
 .search-navigation-body{
-  left: 0;
-  right: 0;
-  top: 0;
-  background-color: #fff;
+  width: 320px;
   transition: transform 0.3s linear;
   padding-bottom: 50px;
+
+  @media (min-width: 575.98px) { 
+    width: 576px;
+  }
+  
+  @media (min-width: 767.98px) {
+    width: 768px;
+  }
+  
+  @media (min-width: 991.98px) {
+    width: 992px;
+  }
+  
+  @media (min-width: 1199.98px) {
+    width: 1200px;
+  }
+  
+  @media (min-width: 1399.98px) {
+    width: 1296px;
+  }
 }
 
 .nav-bar{
@@ -47,13 +64,22 @@
 :host ::ng-deep .p-tabview {
 	display: flex;
 }
+
 :host ::ng-deep .p-tabview-nav-container {
-  width: 300px;
+  // width: 300px;
 }
-:host ::ng-deep .p-tabview-nav-container {
-  flex: 1;
-}
+// :host ::ng-deep .p-tabview-nav-container {
+//   flex: 1;
+// }
 :host ::ng-deep .p-tabview-nav {
   width: 300px;
 	flex-direction: column;
+}
+
+:host ::ng-deep .p-tabview-panels {
+  flex-grow: 1;
+  // flex-basis: 100%;
+
+  // display: flex;
+  // flex-wrap: wrap;
 }

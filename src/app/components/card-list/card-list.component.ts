@@ -2,7 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Advert } from 'src/app/model/advert.interface';
 import { CardComponent } from '../card/card.component';
 import { CardNewAdvComponent } from '../card-new-adv/card-new-adv.component';
-import { NgForOf, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-card-list',
@@ -12,11 +13,13 @@ import { NgForOf, NgIf } from '@angular/common';
   imports: [
     CardComponent,
     CardNewAdvComponent,
-    NgForOf,
-    NgIf
+    CommonModule,
+    SkeletonModule
   ]
 })
 export class CardListComponent{
   @Input()adverts: Advert[];
   @Input()personal: boolean;
+  @Input()loading: boolean;
+  public mockArr: number[] = new Array(12).fill(1);
 };

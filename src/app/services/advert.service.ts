@@ -26,6 +26,9 @@ export class AdvertsService {
 
   postNewAdvert(form: FormData): Observable<Advert> {
     return this._httpClient.post<Advert>(`${API_BASE}/advert`, form);
+  };
 
-  }; 
+  deleteAdvertById(id: number): Observable<Object> {
+    return this._httpClient.delete(`${API_BASE}/advert/${id}`);
+  };
 };

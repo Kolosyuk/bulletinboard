@@ -1,6 +1,28 @@
 <main>
   <div class="container">
-      <div class="advirtisment-container grid">
+    <ng-container *ngIf="loading"  class="mb-4 border-round-sm">
+      <div class="grid">
+        <div class="col-8 mb-3">
+          <p-skeleton width="20rem" height="1.5rem"></p-skeleton>
+        </div>
+        <div Class="col-4 mb-3">
+          <p-skeleton width="10rem" height="1.5rem"></p-skeleton>
+        </div>
+        <div class="col-8 flex justify-content-center">
+          <p-skeleton size="35rem"></p-skeleton>
+        </div>
+        <div Class="col-4">
+          <p-button icon="pi pi-phone" label="Показать номер телефона" styleClass="mb-3"></p-button>
+          <p-skeleton width="10rem" height="2rem" styleClass="mb-2"></p-skeleton>
+          <p-skeleton width="20rem" height="1rem" styleClass="mb-1"></p-skeleton>
+          <p-skeleton width="20rem" height="1rem" styleClass="mb-3"></p-skeleton>
+          <p-skeleton width="10rem" height="2rem" styleClass="mb-2"></p-skeleton>
+          <p-skeleton width="20rem" height="150px" styleClass="mb-2"></p-skeleton>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container #content *ngIf="!loading">
+      <div class="grid">
         <div class="cell-title col-8">{{ advert && advert.name }}</div>
         <div class="cell-price col-4">{{ advert && advert.cost }} ₽</div>
        
@@ -50,5 +72,6 @@
           <div class="cell-description">{{ advert && advert.description }}</div>
         </div>
       </div>
+    </ng-container>  
   </div>
 </main>

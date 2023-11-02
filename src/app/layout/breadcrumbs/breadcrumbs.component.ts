@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { filter } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent {
+export class BreadcrumbsComponent implements OnDestroy {
   public home: MenuItem = {
     label: '',
     routerLink: '/main'
   }
   public breadcrumbs: MenuItem[];
+  private destroy$ = new Subject();
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _router: Router
   ) {
     this._router.events.pipe(
+      takeUntil(this.destroy$),
       filter((e) => e instanceof NavigationEnd)
     ).subscribe({
       next: () => {
@@ -27,6 +29,11 @@ export class BreadcrumbsComponent {
         this.formBreadCrumbs(this._activatedRoute.children);
       }
     })
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
   };
   
   private formBreadCrumbs(children: ActivatedRoute[], path: string = '') {
