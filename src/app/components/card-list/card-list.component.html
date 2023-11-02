@@ -2,7 +2,7 @@
     <li *ngIf="personal" class="mb-4 border-round-sm">
         <app-card-new-adv>link to new</app-card-new-adv>
     </li>
-    <ng-container *ngIf="loading; than content"  class="mb-4 border-round-sm">
+    <ng-container *ngIf="loading"  class="mb-4 border-round-sm">
         <li *ngFor="let items of mockArr">
             <p-skeleton width="19rem" height="15rem" styleClass="mb-3"></p-skeleton>
             <p-skeleton styleClass="mb-2"></p-skeleton>
@@ -11,7 +11,7 @@
             <p-skeleton height="0.5rem" styleClass="mb-2"></p-skeleton>
         </li>
     </ng-container>
-    <ng-container #content>
+    <ng-container *ngIf="!loading">
     <li *ngFor="let advert of adverts" class="mb-4 border-round-sm">
         <app-card [data]="advert" [personal]="personal"></app-card>
     </li>
