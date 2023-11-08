@@ -13,13 +13,8 @@
 
 .card-table {
     li {
-        // box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         overflow: hidden;
     }
-
-    li:not(:nth-child(4n)) {
-        margin-right: 24px;
-      }
 
     @media screen and (max-width: 1295px) {
         justify-content: space-around;

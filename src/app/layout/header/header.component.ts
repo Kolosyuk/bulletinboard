@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
           this._searchService.resetForm();
           this.searchForm.patchValue({
             search: ''
-          });
+          }, {emitEvent: false});
         }
       });
       if (this._router.url === '/search') return;

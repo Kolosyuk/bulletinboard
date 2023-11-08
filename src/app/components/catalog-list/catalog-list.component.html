@@ -1,0 +1,5 @@
+<ul *ngIf="root && root.childs">
+  <li *ngFor="let category of root.childs | orderBy:'name'">
+    <app-catalog-list-item [item]="category"></app-catalog-list-item>
+  </li>
+</ul>

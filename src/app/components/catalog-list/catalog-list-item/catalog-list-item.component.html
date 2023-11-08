@@ -1,0 +1,12 @@
+<p (click)="selectionFn(item.id)" class="mb-2">
+  <span *ngIf="hasChild && isRolledUp" class="pi pi-chevron-right listItem-icon"></span>
+  <span *ngIf="hasChild && !isRolledUp" class="pi pi-chevron-down listItem-icon"></span>
+  <span *ngIf="isChecked" class="listItem-title item--checked">{{item.name}}</span>
+  <span *ngIf="!isChecked" class="listItem-title">{{item.name}}</span>
+</p>
+  <ul *ngIf="hasChild && !isRolledUp" class="ml-4">
+    <li *ngFor="let node of item.childs | orderBy:'name'">
+      <app-catalog-list-item  [item]="node"></app-catalog-list-item>
+    </li>
+  </ul>
+ 
