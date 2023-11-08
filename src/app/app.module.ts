@@ -21,8 +21,7 @@ import { InnerTabComponent } from './components/search-navigation/inner-tab/inne
 import { InnerTabCellComponent } from './components/search-navigation/inner-tab-cell/inner-tab-cell.component';
 import { MessageService } from 'primeng/api';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { OrderByPipe } from './pipes/order-by.pipe';
-import { MenuItemViewPipe } from './pipes/menu-item-view.pipe';
+import { CustomPipesModule } from './pipes/custom-pipes.module';
 
 @NgModule({
   declarations: [
@@ -31,9 +30,7 @@ import { MenuItemViewPipe } from './pipes/menu-item-view.pipe';
     BreadcrumbsComponent,
     SearchNavigationComponent,
     InnerTabComponent,
-    InnerTabCellComponent,
-    OrderByPipe,
-    MenuItemViewPipe
+    InnerTabCellComponent
   ],
   imports: [
     AppRoutingModule,
@@ -50,7 +47,8 @@ import { MenuItemViewPipe } from './pipes/menu-item-view.pipe';
     DividerModule,
     TabViewModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CustomPipesModule
   ],
   providers: [
     httpInterceptorProviders,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SearchForm } from '../model/forms.interface';
-import { Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Advert } from '../model/advert.interface';
 import { API_BASE } from '../../environment';
@@ -9,6 +9,10 @@ import { API_BASE } from '../../environment';
   providedIn: 'root'
 })
 export class SearchService {
+  public searchCategory: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
+  public categoryName: string = '';
+  public searchQuery: string = '';
+
   public form: SearchForm = {
     search: '',
     showNonActive: true,
@@ -21,19 +25,22 @@ export class SearchService {
   ) { }
 
   setSearchQuery(query: string): void {
-    this.form.search = query;
+    this.searchQuery = query;
   };
 
-  setSearchCategory(category: string): void {
-    this.form.category = category;
+  setSearchCategory(categoryId: string, categoryName: string = ''): void {
+    this.categoryName = categoryName;
+    this.searchCategory.next(categoryId);
   };
 
   resetForm(): void {
-    this.form.search = '';
-    this.form.category = null;
+    this.searchQuery = '';
+    this.searchCategory.next(null);
   };
 
   search(): Observable<Advert[]> {
+    this.form.search = this.searchQuery;
+    this.searchCategory.subscribe( x=> this.form.category = x);
     return this._http.post<Advert[]>(`${API_BASE}/advert/search`, this.form).pipe(
       tap((adverts) => this.searchResult.next(adverts))
     )

@@ -94,7 +94,9 @@ export class HeaderComponent implements OnInit, OnDestroy{
         error: (err) => console.log(`При поиске произошла ошибка: ${err}`),
         complete: () => {
           this._searchService.resetForm();
-          this.searchForm.reset();
+          this.searchForm.patchValue({
+            search: ''
+          }, {emitEvent: false});
         }
       });
       if (this._router.url === '/search') return;
