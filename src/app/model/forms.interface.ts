@@ -9,12 +9,6 @@ export interface RegistrationForm {
   password: string;
 };
 
-export interface ChangePasswordForm {
-  name: string;
-  login: string;
-  password: string;
-};
-
 export interface SearchForm {
   search: string,
   showNonActive: boolean,
