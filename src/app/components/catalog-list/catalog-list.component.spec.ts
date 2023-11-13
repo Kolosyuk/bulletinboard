@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CatalogListComponent } from './catalog-list.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('CatalogListComponent', () => {
   let component: CatalogListComponent;
@@ -8,7 +10,11 @@ describe('CatalogListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CatalogListComponent]
+      imports: [CatalogListComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ]
     });
     fixture = TestBed.createComponent(CatalogListComponent);
     component = fixture.componentInstance;
