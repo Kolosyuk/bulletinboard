@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CatalogListItemComponent } from './catalog-list-item.component';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { mockCategory } from 'src/test-enviroments';
 
 describe('CatalogListItemComponent', () => {
   let component: CatalogListItemComponent;
@@ -13,11 +12,11 @@ describe('CatalogListItemComponent', () => {
       imports: [CatalogListItemComponent],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting(),
       ]
     });
     fixture = TestBed.createComponent(CatalogListItemComponent);
     component = fixture.componentInstance;
+    component.item = mockCategory
     fixture.detectChanges();
   });
 

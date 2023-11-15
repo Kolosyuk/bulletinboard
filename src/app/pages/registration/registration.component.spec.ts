@@ -13,12 +13,11 @@ import { ToastModule } from 'primeng/toast';
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
+  let messageServiceSpy: jasmine.Spy
 
-  beforeEach(() => {
-    //нужно править спуСервис, что бы возвращал обсервейбл
-    const messageServiceSpy = jasmine.createSpyObj('MessageService', ['add']);
+  beforeEach(async () => {
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [RegistrationComponent],
       imports: [
         RouterTestingModule,
@@ -27,16 +26,15 @@ describe('RegistrationComponent', () => {
         ButtonModule,
         FormsModule,
         ReactiveFormsModule,
-        ToastModule
+        ToastModule,        
       ],
       
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        {provide: MessageService, useValue: messageServiceSpy}
+        MessageService
       ],
-      
-    });
+    }).compileComponents();
     fixture = TestBed.createComponent(RegistrationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
