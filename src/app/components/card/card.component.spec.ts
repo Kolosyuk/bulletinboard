@@ -8,6 +8,10 @@ import { mockAdvert as data } from 'src/test-enviroments';
 describe('CardComponent', () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
+  let cardTitle: HTMLElement;
+  let cardPrice: HTMLElement;
+  let cardAddress: HTMLElement;
+  let cardDate: HTMLElement;
 
   beforeEach(async () => {
     const advertServiceSpy = jasmine.createSpyObj('AdvertsService', ['getAdvertById']);
@@ -23,13 +27,16 @@ describe('CardComponent', () => {
         {provide: ActivatedRoute,
         useValue: {
           params: of({id: 123})
-        }}
-        
+        }},
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
-    component.data = data
+    component.data = data;
+    cardTitle = fixture.nativeElement.querySelector('.card-title');
+    cardPrice = fixture.nativeElement.querySelector('.card-price');
+    cardAddress = fixture.nativeElement.querySelector('.card-address');
+    cardDate = fixture.nativeElement.querySelector('.card-date');
     fixture.detectChanges();
   })
   ;
@@ -44,5 +51,24 @@ describe('CardComponent', () => {
 
   it('should set src to main image', () => {
     expect(component.mainImgSrc).toEqual(`http://194.87.237.48:5000/images/1234-1234`);
+  });
+
+  describe('testing HTML markup', () => {
+
+    it('should display original title `test advert` after detectChanges()', () => {
+      expect(cardTitle.textContent).toContain('test advert');
+    });
+
+    it('should display `100` in cost after detectChanges()', () => {
+      expect(cardPrice.textContent).toContain('100');
+    });
+
+    it('should display `test location` in address after detectChanges()', () => {
+      expect(cardAddress.textContent).toContain('test location');
+    });
+
+    it('should display date `Nov 01, 2023 at 03:00 AM` after detectChanges()', () => {
+      expect(cardDate.textContent).toContain('Nov 01, 2023 at 03:00 AM');
+    });
   });
 });

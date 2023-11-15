@@ -1,18 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdvertComponent } from './advert.component';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkeletonModule } from 'primeng/skeleton';
 import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
+import { mockAdvert } from 'src/test-enviroments';
 
 describe('AdvertComponent', () => {
   let component: AdvertComponent;
   let fixture: ComponentFixture<AdvertComponent>;
+  let advertTitle: HTMLElement;
+  let advertPrice: HTMLElement;
+  let advertLocation: HTMLElement;
+  let advertPhone: HTMLElement;
+  let advertDescrition: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,19 +28,49 @@ describe('AdvertComponent', () => {
         GalleriaModule,
         ButtonModule,
         DialogModule,
-        DividerModule
+        DividerModule,
+        BrowserAnimationsModule
       ],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting(),
       ]
     });
     fixture = TestBed.createComponent(AdvertComponent);
     component = fixture.componentInstance;
+    component.advert = mockAdvert;
+    component.loading = false;    
     fixture.detectChanges();
+    
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display title `test advert` after detectChanges()', () => {
+    advertTitle = fixture.nativeElement.querySelector('.cell-title');
+    expect(advertTitle.textContent).toContain('test advert');
+  });
+
+  it('should display `100` in cost after detectChanges()', () => {
+    advertPrice = fixture.nativeElement.querySelector('.cell-price');
+    expect(advertPrice.textContent).toContain('100');
+  });
+
+  it('should display `test location` in address after detectChanges()', () => {
+    advertLocation = fixture.nativeElement.querySelector('.cell-adress');
+    expect(advertLocation.textContent).toContain('test location');
+  });
+
+  it('should display phone `8-800-888-88-88` after detectChanges()', () => {
+    component.visible = true;
+    fixture.detectChanges();
+    advertPhone = fixture.nativeElement.querySelector('.phone');
+    expect(advertPhone.textContent).toContain('8-800-888-88-88');
+  });
+
+  it('should display test description after detectChanges()', () => {
+    advertDescrition = fixture.nativeElement.querySelector('.cell-description');
+    expect(advertDescrition.textContent).toContain('description for stub advert');
   });
 });

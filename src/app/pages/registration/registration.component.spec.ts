@@ -13,34 +13,33 @@ import { ToastModule } from 'primeng/toast';
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
-  let messageServiceSpy: jasmine.Spy
 
-  beforeEach(async () => {
+  describe('creation', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        declarations: [RegistrationComponent],
+        imports: [
+          RouterTestingModule,
+          PasswordModule,
+          InputMaskModule,
+          ButtonModule,
+          FormsModule,
+          ReactiveFormsModule,
+          ToastModule,        
+        ],        
+        providers: [
+          provideHttpClient(),
+          provideHttpClientTesting(),
+          MessageService
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(RegistrationComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-    await TestBed.configureTestingModule({
-      declarations: [RegistrationComponent],
-      imports: [
-        RouterTestingModule,
-        PasswordModule,
-        InputMaskModule,
-        ButtonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ToastModule,        
-      ],
-      
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-        MessageService
-      ],
-    }).compileComponents();
-    fixture = TestBed.createComponent(RegistrationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
   });
 });
