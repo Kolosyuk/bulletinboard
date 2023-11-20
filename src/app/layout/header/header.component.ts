@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy{
   ];
   public searchForm: UntypedFormGroup;
   public isVisible: boolean = false;
+  public userName: string;
   private currentUrl: string;
   private destroy$ = new Subject();
 
@@ -65,8 +66,14 @@ export class HeaderComponent implements OnInit, OnDestroy{
     };
     
     ngOnInit(): void {
-      this.loginService.isAuthenticated.pipe(takeUntil(this.destroy$)).subscribe();
+      this.loginService.isAuthenticated.pipe(
+        takeUntil(this.destroy$)
+      ).subscribe();
       this.currentUrl = this._router.url;
+      this.userService.userName$.pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(name => this.userName = name ? name : '');
     };
     
     ngOnDestroy(): void {

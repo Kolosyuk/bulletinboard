@@ -8,16 +8,20 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { Component } from '@angular/core';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
   let fixture: ComponentFixture<RegistrationComponent>;
+  const messageServiceSpy = jasmine.createSpyObj('MessageService', ['add']);
 
   describe('creation', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [RegistrationComponent],
+        declarations: [
+          RegistrationComponent,
+          ToastComponentStub
+        ],
         imports: [
           RouterTestingModule,
           PasswordModule,
@@ -25,12 +29,12 @@ describe('RegistrationComponent', () => {
           ButtonModule,
           FormsModule,
           ReactiveFormsModule,
-          ToastModule,        
+          
         ],        
         providers: [
           provideHttpClient(),
           provideHttpClientTesting(),
-          MessageService
+          {provide: MessageService, useValue: messageServiceSpy}
         ],
       }).compileComponents();
       fixture = TestBed.createComponent(RegistrationComponent);
@@ -43,3 +47,7 @@ describe('RegistrationComponent', () => {
     });
   });
 });
+
+@Component({selector: 'p-toast', template: ''})
+    class ToastComponentStub {
+}

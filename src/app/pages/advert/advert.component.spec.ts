@@ -47,29 +47,29 @@ describe('AdvertComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display title `test advert` after detectChanges()', () => {
+  it('should display title `test advert` with obtained advert object', () => {
     advertTitle = fixture.nativeElement.querySelector('.cell-title');
     expect(advertTitle.textContent).toContain('test advert');
   });
 
-  it('should display `100` in cost after detectChanges()', () => {
+  it('should display `100` in cost with obtained advert object', () => {
     advertPrice = fixture.nativeElement.querySelector('.cell-price');
     expect(advertPrice.textContent).toContain('100');
   });
 
-  it('should display `test location` in address after detectChanges()', () => {
+  it('should display `test location` in address with obtained advert object', () => {
     advertLocation = fixture.nativeElement.querySelector('.cell-adress');
     expect(advertLocation.textContent).toContain('test location');
   });
 
-  it('should display phone `8-800-888-88-88` after detectChanges()', () => {
+  it('should display phone `8-800-888-88-88` with obtained advert object', () => {
     component.visible = true;
     fixture.detectChanges();
     advertPhone = fixture.nativeElement.querySelector('.phone');
     expect(advertPhone.textContent).toContain('8-800-888-88-88');
   });
 
-  it('should display test description after detectChanges()', () => {
+  it('should display test description with obtained advert object', () => {
     advertDescrition = fixture.nativeElement.querySelector('.cell-description');
     expect(advertDescrition.textContent).toContain('description for stub advert');
   });

@@ -10,6 +10,7 @@ import { BreadcrumbsComponent } from './layout/breadcrumbs/breadcrumbs.component
 import { SearchNavigationComponent } from './components/search-navigation/search-navigation.component';
 import { DividerModule } from 'primeng/divider';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { Component } from '@angular/core';
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -21,17 +22,16 @@ describe('AppComponent', () => {
       AppComponent,
       HeaderComponent,
       BreadcrumbsComponent,
-      SearchNavigationComponent
+      SearchNavigationComponent,
+      ToastComponentStub
     ],
     imports: [
       RouterTestingModule,
-      ToastModule,
       DividerModule,
       BreadcrumbModule
     ],
     providers: [
       provideHttpClient(),
-      provideHttpClientTesting(),
       {provide: MessageService, useValue: messageServiceSpy}
     ]
   })
@@ -42,17 +42,8 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
-  // it(`should have as title 'bulletin-board'`, () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app.title).toEqual('bulletin-board');
-  // });
-
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement as HTMLElement;
-  //   expect(compiled.querySelector('.content span')?.textContent).toContain('bulletin-board app is running!');
-  // });
 });
+
+@Component({selector: 'p-toast', template: ''})
+    class ToastComponentStub {
+}

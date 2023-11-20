@@ -1,5 +1,6 @@
 import { Advert } from './app/model/advert.interface';
 import { Category } from './app/model/category.interface';
+import { User } from './app/model/user.interface';
 
 export const mockCategory: Category = {
   id: '1234-12345-1234-12345',
@@ -32,4 +33,12 @@ export const mockAdvert: Advert = {
     name: '',
     childs: []
   }
+};
+
+export const mockUser: User = {
+  adverts: [],
+  id: '1234-123456-1234',
+  name: 'test name',
+  registeredTime: '',
+  role: 'USER'
 }

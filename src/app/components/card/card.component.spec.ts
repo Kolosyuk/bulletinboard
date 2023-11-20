@@ -53,21 +53,21 @@ describe('CardComponent', () => {
     expect(component.mainImgSrc).toEqual(`http://194.87.237.48:5000/images/1234-1234`);
   });
 
-  describe('testing HTML markup', () => {
+  describe('testing HTML markup with obtained advert object', () => {
 
-    it('should display original title `test advert` after detectChanges()', () => {
+    it('should display original title `test advert`', () => {
       expect(cardTitle.textContent).toContain('test advert');
     });
 
-    it('should display `100` in cost after detectChanges()', () => {
+    it('should display `100` in cost', () => {
       expect(cardPrice.textContent).toContain('100');
     });
 
-    it('should display `test location` in address after detectChanges()', () => {
+    it('should display `test location` in address', () => {
       expect(cardAddress.textContent).toContain('test location');
     });
 
-    it('should display date `Nov 01, 2023 at 03:00 AM` after detectChanges()', () => {
+    it('should display date `Nov 01, 2023 at 03:00 AM`', () => {
       expect(cardDate.textContent).toContain('Nov 01, 2023 at 03:00 AM');
     });
   });
