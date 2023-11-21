@@ -12,9 +12,9 @@ import { Advert } from '../model/advert.interface';
   providedIn: 'root'
 })
 export class UserService {
-  public userName: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
-  public userAdverts: BehaviorSubject<Advert[]> = new BehaviorSubject<Advert[]>([]);
-  public userId: string|null;
+  private _userName$: BehaviorSubject<string|null> = new BehaviorSubject<string|null>(null);
+  private _userAdverts$: BehaviorSubject<Advert[]> = new BehaviorSubject<Advert[]>([]);
+  private _userId: string|null;
 
   constructor(
     private _http: HttpClient,
@@ -29,18 +29,34 @@ export class UserService {
     });
   };
 
+  setUserAdverts(userAdverts: Advert[]) {
+    this._userAdverts$.next(userAdverts);
+  }
+  
+  get userAdverts$() {
+    return this._userAdverts$.asObservable();
+  }
+
+  setUserName(name: string) {
+    this._userName$.next(name);
+  }
+  
+  get userName$() {
+    return this._userName$.asObservable();
+  }
+
   clearUser():void {
-    this.userId = null;
-    this.userName.next(null);
-    this.userAdverts.next([]);
+    this._userId = null;
+    this._userName$.next(null);
+    this._userAdverts$.next([]);
   };
 
   getCurrentUser(): void {
     this._http.get<User>(`${API_BASE}/users/current`)
       .subscribe( user => {
-        this.userId = user.id;
-        this.userName.next(user.name);
-        this.userAdverts.next(user.adverts);
+        this._userId = user.id;
+        this.setUserName(user.name);
+        this.setUserAdverts(user.adverts);
     })
   };
 
@@ -54,7 +70,7 @@ export class UserService {
   };
 
   updateUserPassword(form: FormData):void {
-    this._http.put(`${API_BASE}/Users/${this.userId}`, form)
+    this._http.put(`${API_BASE}/Users/${this._userId}`, form)
     .subscribe((data) => console.log(data));
   };
 };

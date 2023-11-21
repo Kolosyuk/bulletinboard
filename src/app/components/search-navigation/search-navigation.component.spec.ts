@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchNavigationComponent } from './search-navigation.component';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('SearchNavigationComponent', () => {
   let component: SearchNavigationComponent;
@@ -8,7 +10,11 @@ describe('SearchNavigationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchNavigationComponent]
+      declarations: [SearchNavigationComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ]
     });
     fixture = TestBed.createComponent(SearchNavigationComponent);
     component = fixture.componentInstance;

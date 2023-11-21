@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   };
   
   ngOnInit(): void {
-    this._userService.userName.pipe(
+    this._userService.userName$.pipe(
       takeUntil(this.destroy$)
     )
     .subscribe(name => this.settingsForm.patchValue({'name': name}));
@@ -118,7 +118,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     const fd = new FormData();
     const login = this._loginService.credentials.login;
     const password = this.newPasswordForm.get('newPassword')?.value
-    this._userService.userName.pipe(takeUntil(this.destroy$)).subscribe(name => fd.append('Name', name!));
+    this._userService.userName$.pipe(takeUntil(this.destroy$)).subscribe(name => fd.append('Name', name!));
     fd.append('Login', login);
     fd.append('Password', password);
     return fd;

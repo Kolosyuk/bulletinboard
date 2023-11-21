@@ -19,7 +19,16 @@ export class LkComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._userService.getCurrentUser();
-    this._userService.userAdverts.pipe(
+    this.getAdverts();
+  };
+
+  ngOnDestroy(): void {
+    this.destroy$.next('stop');
+    this.destroy$.complete();
+  };
+
+  getAdverts() {
+    this._userService.userAdverts$.pipe(
       takeUntil(this.destroy$),
       delay(1500)
     )
@@ -29,10 +38,5 @@ export class LkComponent implements OnInit, OnDestroy {
         this.loading = false;
       }
     });
-  };
-
-  ngOnDestroy(): void {
-    this.destroy$.next('stop');
-    this.destroy$.complete();
-  };
+  }
 };
